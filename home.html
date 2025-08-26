@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dat Truong - My Profile</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
+                    <ul class="nav-links">
+                        <li><a href="#" onclick="showPage('projects')" id="nav-publications">Projects</a></li>
+                    </ul>
+                </div>
+                <div class="search-container">
+                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="toggleSearch()">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <div class="search-box" id="searchBox">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm..." oninput="performSearch(this.value)" onkeydown="handleSearchKeydown(event)">
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Home Page -->
+            <div id="home-page" class="page active">
+                <section class="profile-section">
+                    <div class="profile-info">
+                        <h1 style="font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; color: #333;">
+                            Dat <span style="color: #999;">Truong</span>
+                        </h1>
+                        <div class="tags">
+                            <button class="tag" onclick="window.open('https://www.linkedin.com/in/đạt-trương-14233729a', '_blank')">LinkedIn</button>
+                            <button class="tag" onclick="window.open('https://github.com/datweb07', '_blank')">GitHub</button>
+                        </div>
+                        <p>I am currently studying Information Technology (IT) at the <a href="https://www.ueh.edu.vn/" target="_blank" style="font-weight: 500;">University of Economics Ho Chi Minh City (UEH)</a>. My career goal is to become a Fullstack .NET Developer. I am building a strong foundation in C#, ASP.NET Core, and SQL Server for backend development, while also strengthening my skills in HTML, CSS, JavaScript, and React for frontend development. Beyond academics, I actively seek opportunities to join real-world projects to enhance my problem-solving, systematic thinking, and teamwork abilities. For collaboration or inquiries, feel free to reach out to me via <a href="mailto:dat82770@gmail.com" style="font-weight: 500;">email</a>.</p>
+                    </div>
+                    <div class="profile-image"></div>
+                </section>
+
+                <section class="section">
+                    <h2 class="section-title">Learning Journey</h2>
+                    <div class="news-item">
+                        <div class="news-date">Aug 2021 - Jun 2024 </div>
+                        <div class="news-content">Learning at <a href="#">THPT Đong Phu</a> with a strong focus on Mathematics.</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">Aug 2024 - Present</div>
+                        <div class="news-content">Pursuing a Bachelor's degree in Information Technology at <a href="https://www.ueh.edu.vn/" target="_blank">UEH University</a>.</div>
+                    </div>
+                </section>
+            </div>
+
+            
+
+            <!-- Projects Page -->
+<div id="projects-page" class="page">
+    <section class="section">
+        <h2 class="section-title">Projects</h2>
+        <ul class="projects-list">
+            <li class="project-item">
+                <h3 class="project-title">
+                    <a href="https://github.com/datweb07/File_System.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                        Smart File System Simulator
+                    </a>
+                </h3>
+                <p class="project-desc">
+                    A Windows Forms application simulating FAT and Inode-based file systems, supporting file creation, deletion, read/write operations, and memory visualization.
+                </p>
+                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms</p>
+            </li>
+
+            <li class="project-item">
+                <h3 class="project-title">
+                    <a href="https://github.com/datweb07/App.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                        Accessible Chat Application
+                    </a>
+                </h3>
+                <p class="project-desc">
+                    A cross-platform Flutter app designed to support visually impaired students with screen reader support, voice commands, and real-time messaging.
+                </p>
+                <p class="project-tech"><strong>Technologies:</strong> Flutter, Firebase</p>
+            </li>
+
+            <li class="project-item">
+                <h3 class="project-title">
+                    <a href="https://github.com/datweb07/DSA_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                        Calculator Simulator
+                    </a>
+                </h3>
+                <p class="project-desc">
+                    The WinForms project simulates a computer program that works by converting a infix expression to a postfix, using a <strong>Data Structure and Algorithm</strong> focus.
+                </p>
+                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, DSA</p>
+            </li>
+
+             <li class="project-item">
+                <h3 class="project-title">
+                    <a href="https://github.com/datweb07/OOP_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                        Supermarket Sales Management
+                    </a>
+                </h3>
+                <p class="project-desc">
+                    The WinForms project simulates supermarket sales management, focusing on the use of 4 properties of <strong>Object-Oriented Programming</strong>.
+                </p>
+                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, OOP</p>
+            </li>
+        </ul>
+    </section>
+</div>
+
+        </div>
+    </main>
+    <script src="./main.js"></script>
+</body>
+</html>
