@@ -13,7 +13,7 @@
                 <div class="nav-left">
                     <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
                     <ul class="nav-links">
-                        <li><a href="#" onclick="showPage('projects')" id="nav-publications">Projects</a></li>
+                        <li><a href="#" onclick="showPage('projects')">Projects</a></li>
                     </ul>
                 </div>
                 <div class="search-container">
@@ -27,6 +27,7 @@
                 </div>
             </nav>
         </div>
+        <div class="scroll-progress"></div>
     </header>
 
     <main class="main-content">
@@ -51,7 +52,7 @@
                     <h2 class="section-title">Learning Journey</h2>
                     <div class="news-item">
                         <div class="news-date">Aug 2021 - Jun 2024 </div>
-                        <div class="news-content">Learning at <a href="#">THPT Đong Phu</a> with a strong focus on Mathematics.</div>
+                        <div class="news-content">Learning at <a href="http://thptdongphu.edu.vn/" target="_blank">THPT Đong Phu</a> with a strong focus on Mathematics.</div>
                     </div>
                     <div class="news-item">
                         <div class="news-date">Aug 2024 - Present</div>
@@ -60,63 +61,61 @@
                 </section>
             </div>
 
-            
-
             <!-- Projects Page -->
-<div id="projects-page" class="page">
-    <section class="section">
-        <h2 class="section-title">Projects</h2>
-        <ul class="projects-list">
-            <li class="project-item">
-                <h3 class="project-title">
-                    <a href="https://github.com/datweb07/File_System.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                        Smart File System Simulator
-                    </a>
-                </h3>
-                <p class="project-desc">
-                    A Windows Forms application simulating FAT and Inode-based file systems, supporting file creation, deletion, read/write operations, and memory visualization.
-                </p>
-                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms</p>
-            </li>
+            <div id="projects-page" class="page">
+                <section class="section">
+                    <h2 class="section-title">Small Projects</h2>
+                    <ul class="projects-list">
+                        <li class="project-item">
+                            <h3 class="project-title">
+                                <a href="https://github.com/datweb07/File_System.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                                    Smart File System Simulator
+                                </a>
+                            </h3>
+                            <p class="project-desc">
+                                A Windows Forms application simulating FAT and Inode-based file systems, supporting file creation, deletion, read/write operations, and memory visualization.
+                            </p>
+                            <p class="project-tech"><strong>Technologies:</strong> C#, WinForms</p>
+                        </li>
 
-            <li class="project-item">
-                <h3 class="project-title">
-                    <a href="https://github.com/datweb07/App.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                        Accessible Chat Application
-                    </a>
-                </h3>
-                <p class="project-desc">
-                    A cross-platform Flutter app designed to support visually impaired students with screen reader support, voice commands, and real-time messaging.
-                </p>
-                <p class="project-tech"><strong>Technologies:</strong> Flutter, Firebase</p>
-            </li>
+                        <li class="project-item">
+                            <h3 class="project-title">
+                                <a href="https://github.com/datweb07/App.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                                    Accessible Chat Application
+                                </a>
+                            </h3>
+                            <p class="project-desc">
+                                A cross-platform Flutter app designed to support visually impaired students with screen reader support, voice commands, and real-time messaging.
+                            </p>
+                            <p class="project-tech"><strong>Technologies:</strong> Flutter, Firebase</p>
+                        </li>
 
-            <li class="project-item">
-                <h3 class="project-title">
-                    <a href="https://github.com/datweb07/DSA_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                        Calculator Simulator
-                    </a>
-                </h3>
-                <p class="project-desc">
-                    The WinForms project simulates a computer program that works by converting a infix expression to a postfix, using a <strong>Data Structure and Algorithm</strong> focus.
-                </p>
-                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, DSA</p>
-            </li>
+                        <li class="project-item">
+                            <h3 class="project-title">
+                                <a href="https://github.com/datweb07/DSA_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                                    Calculator Simulator
+                                </a>
+                            </h3>
+                            <p class="project-desc">
+                                The WinForms project simulates a computer program that works by converting a infix expression to a postfix, using a <strong>Data Structure and Algorithm</strong> focus.
+                            </p>
+                            <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, DSA</p>
+                        </li>
 
-             <li class="project-item">
-                <h3 class="project-title">
-                    <a href="https://github.com/datweb07/OOP_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                        Supermarket Sales Management
-                    </a>
-                </h3>
-                <p class="project-desc">
-                    The WinForms project simulates supermarket sales management, focusing on the use of 4 properties of <strong>Object-Oriented Programming</strong>.
-                </p>
-                <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, OOP</p>
-            </li>
-        </ul>
-    </section>
-</div>
+                         <li class="project-item">
+                            <h3 class="project-title">
+                                <a href="https://github.com/datweb07/OOP_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
+                                    Supermarket Sales Management
+                                </a>
+                            </h3>
+                            <p class="project-desc">
+                                The WinForms project simulates supermarket sales management, focusing on the use of 4 properties of <strong>Object-Oriented Programming</strong>.
+                            </p>
+                            <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, OOP</p>
+                        </li>
+                    </ul>
+                </section>
+            </div>
 
         </div>
     </main>
