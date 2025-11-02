@@ -8,27 +8,18 @@
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="nav-left">
-                    <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
-                    <ul class="nav-links">
-                        <li><a href="#" onclick="showPage('projects')">Projects</a></li>
-                    </ul>
-                </div>
-                <div class="search-container">
-                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" onclick="toggleSearch()">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <div class="search-box" id="searchBox">
-                        <input type="text" class="search-input" placeholder="Tìm kiếm..." oninput="performSearch(this.value)" onkeydown="handleSearchKeydown(event)">
-                        <div class="search-results" id="searchResults"></div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-        <div class="scroll-progress"></div>
-    </header>
+    <div class="container">
+        <nav class="nav">
+            <div class="nav-left">
+                <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="scroll-progress"></div>
+</header>
 
     <main class="main-content">
         <div class="container">

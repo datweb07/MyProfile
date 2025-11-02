@@ -68,100 +68,6 @@ body {
   color: #007bff;
 }
 
-.search-container {
-  position: relative;
-}
-
-.search-box {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1001;
-  min-width: 300px;
-  margin-top: 0.5rem;
-}
-
-.search-box.active {
-  display: block;
-}
-
-.search-input {
-  width: 100%;
-  border: none;
-  outline: none;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 4px;
-}
-
-.search-results {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 0.5rem;
-}
-
-.search-result {
-  padding: 0.75rem;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-
-.search-result:hover {
-  background-color: #f8f9fa;
-}
-
-.search-result:last-child {
-  border-bottom: none;
-}
-
-.search-result-title {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.25rem;
-}
-
-.search-result-excerpt {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.4;
-}
-
-.search-result-type {
-  font-size: 0.8rem;
-  color: #007bff;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.highlight {
-  background-color: #ffeb3b;
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-.no-results {
-  padding: 1rem;
-  text-align: center;
-  color: #666;
-  font-style: italic;
-}
-
-.search-icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.search-icon:hover {
-  color: #007bff;
-}
-
 .scroll-progress {
   position: absolute;
   bottom: 0;
@@ -178,11 +84,6 @@ body {
 }
 
 .profile-section {
-  /* background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
   display: grid;
   grid-template-columns: 1fr 200px;
   gap: 2rem;
@@ -207,7 +108,6 @@ body {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   background-color: #666;
   background-image: url("./pictures/avatar.jpg");
   background-size: cover;
@@ -248,17 +148,8 @@ body {
 .tag:hover {
   border-color: #007bff;
   color: #007bff;
-  background: #e9ecef; /* Giữ màu nền cũ */
-  transform: translateY(-1px);
+  background: #e9ecef;
 }
-
-/* .section {
-  background: white;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-} */
 
 .section-title {
   font-size: 1.8rem;
@@ -272,7 +163,6 @@ body {
   gap: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  /* border-bottom: 1px solid #eee; */
   align-items: flex-start;
 }
 
@@ -318,9 +208,6 @@ body {
   padding: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.project-item:hover {
 }
 
 .project-item:last-child {
@@ -442,7 +329,6 @@ body {
   color: #333;
   font-size: 1.2rem;
   padding-bottom: 0.5rem;
-  /* border-bottom: 2px solid #007bff; */
 }
 
 .strengths-list,
@@ -476,7 +362,6 @@ body {
   font-weight: bold;
 }
 
-/* Work Experience Section Styles */
 .news-content h4 {
   margin: 0 0 0.5rem 0;
   color: #333;
@@ -488,7 +373,6 @@ body {
   color: #666;
 }
 
-/* Responsive Design for new sections */
 @media (max-width: 768px) {
   .strengths-weaknesses-container {
     grid-template-columns: 1fr;
