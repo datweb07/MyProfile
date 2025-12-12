@@ -8,18 +8,22 @@
 </head>
 <body>
     <header class="header">
-    <div class="container">
-        <nav class="nav">
-            <div class="nav-left">
-                <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showPage('projects')">Projects</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <div class="scroll-progress"></div>
-</header>
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
+                    <ul class="nav-links">
+                        <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                    </ul>
+                </div>
+                <button class="theme-toggle" onclick="toggleDarkMode()">
+                    <span id="theme-icon">🌙</span>
+                    <span id="theme-text">Dark Mode</span>
+                </button>
+            </nav>
+        </div>
+        <div class="scroll-progress"></div>
+    </header>
 
     <main class="main-content">
         <div class="container">

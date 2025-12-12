@@ -1,3 +1,24 @@
+// Dark mode toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
+  document.getElementById("theme-text").textContent = isDark
+    ? "Light Mode"
+    : "Dark Mode";
+  localStorage.setItem("darkMode", isDark);
+}
+
+// Load dark mode preference
+window.addEventListener("load", function () {
+  const darkMode = localStorage.getItem("darkMode") === "true";
+  if (darkMode) {
+    document.body.classList.add("dark-mode");
+    document.getElementById("theme-icon").textContent = "☀️";
+    document.getElementById("theme-text").textContent = "Light Mode";
+  }
+});
+
 function showPage(page) {
   document
     .querySelectorAll(".page")

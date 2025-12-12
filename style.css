@@ -10,6 +10,12 @@ body {
   line-height: 1.6;
   color: #333;
   background-color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
 }
 
 .container {
@@ -25,6 +31,12 @@ body {
   width: 100%;
   top: 0;
   z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .header {
+  background: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .nav {
@@ -46,6 +58,11 @@ body {
   color: #333;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .logo {
+  color: #e0e0e0;
 }
 
 .logo:hover {
@@ -62,9 +79,38 @@ body {
   text-decoration: none;
   color: #666;
   font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .nav-links a {
+  color: #b0b0b0;
 }
 
 .nav-links a:hover {
+  color: #007bff;
+}
+
+.theme-toggle {
+  background: #e9ecef;
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+body.dark-mode .theme-toggle {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.theme-toggle:hover {
+  border-color: #007bff;
   color: #007bff;
 }
 
@@ -90,9 +136,34 @@ body {
   align-items: start;
 }
 
+.profile-info h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .profile-info h1 {
+  color: #e0e0e0;
+}
+
+.profile-info h1 span {
+  color: #999;
+}
+
+body.dark-mode .profile-info h1 span {
+  color: #888;
+}
+
 .profile-info p {
   color: #666;
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .profile-info p {
+  color: #b0b0b0;
 }
 
 .profile-info a {
@@ -108,13 +179,12 @@ body {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #666;
-  background-image: url("./pictures/avatar.jpg");
+  background-image: url("./pictures/avatar-2.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   justify-self: center;
-  align-self: start;
+  align-self: center;
 }
 
 .thin-line {
@@ -123,6 +193,11 @@ body {
   background-color: #aaaaaa;
   margin: 1.5rem 0;
   width: 78%;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .thin-line {
+  background-color: #555;
 }
 
 .tags {
@@ -145,10 +220,19 @@ body {
   transition: all 0.3s ease;
 }
 
+body.dark-mode .tag {
+  background: #3d3d3d;
+  color: #b0b0b0;
+  border-color: #555;
+}
+
 .tag:hover {
   border-color: #007bff;
   color: #007bff;
-  background: #e9ecef;
+}
+
+body.dark-mode .tag:hover {
+  background: #4d4d4d;
 }
 
 .section-title {
@@ -156,6 +240,11 @@ body {
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: #333;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .section-title {
+  color: #e0e0e0;
 }
 
 .news-item {
@@ -176,10 +265,20 @@ body {
   font-weight: 600;
   color: #333;
   min-width: 150px;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .news-date {
+  color: #e0e0e0;
 }
 
 .news-content {
   color: #666;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .news-content {
+  color: #b0b0b0;
 }
 
 .news-content a {
@@ -190,6 +289,26 @@ body {
 
 .news-content a:hover {
   text-decoration: underline;
+}
+
+.news-content h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .news-content h4 {
+  color: #e0e0e0;
+}
+
+.news-content p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+body.dark-mode .news-content p {
+  color: #b0b0b0;
 }
 
 #projects-page {
@@ -208,6 +327,12 @@ body {
   padding: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .project-item {
+  background: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .project-item:last-child {
@@ -236,6 +361,11 @@ body {
   line-height: 1.6;
   margin: 0 0 1.2rem 0;
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .project-desc {
+  color: #b0b0b0;
 }
 
 .project-tech {
@@ -243,11 +373,21 @@ body {
   font-size: 0.9rem;
   color: #666;
   line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .project-tech {
+  color: #a0a0a0;
 }
 
 .project-tech strong {
   color: #333;
   font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .project-tech strong {
+  color: #e0e0e0;
 }
 
 .page {
@@ -256,6 +396,77 @@ body {
 
 .page.active {
   display: block;
+}
+
+.strengths-weaknesses-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.strengths-container,
+.weaknesses-container {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .strengths-container,
+body.dark-mode .weaknesses-container {
+  background: #2d2d2d;
+}
+
+.strengths-container h3,
+.weaknesses-container h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
+  padding-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .strengths-container h3,
+body.dark-mode .weaknesses-container h3 {
+  color: #e0e0e0;
+}
+
+.strengths-list,
+.weaknesses-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.strengths-list li,
+.weaknesses-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .strengths-list li,
+body.dark-mode .weaknesses-list li {
+  color: #b0b0b0;
+}
+
+.strengths-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.weaknesses-list li::before {
+  content: "✗";
+  position: absolute;
+  left: 0;
+  color: #ff0707;
+  font-weight: bold;
 }
 
 .character-container {
@@ -282,7 +493,6 @@ body {
 .character {
   width: 100%;
   height: 100%;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
   border-radius: 50%;
   position: relative;
@@ -395,7 +605,6 @@ body {
   position: absolute;
   width: 25px;
   height: 25px;
-  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
   border-radius: 50%;
   top: -5px;
@@ -431,7 +640,7 @@ body {
   }
 }
 
-.character-container:not(dragging) {
+.character-container:not(.dragging) {
   animation: float 3s ease-in-out infinite;
 }
 
@@ -481,6 +690,11 @@ body {
   .project-tech {
     font-size: 0.85rem;
   }
+
+  .strengths-weaknesses-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -490,85 +704,5 @@ body {
 
   .project-title {
     font-size: 1.1rem;
-  }
-}
-
-.strengths-weaknesses-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  margin-top: 1rem;
-}
-
-.strengths-container,
-.weaknesses-container {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-}
-
-.strengths-container h3,
-.weaknesses-container h3 {
-  margin: 0 0 1rem 0;
-  color: #333;
-  font-size: 1.2rem;
-  padding-bottom: 0.5rem;
-}
-
-.strengths-list,
-.weaknesses-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.strengths-list li,
-.weaknesses-list li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: #555;
-}
-
-.strengths-list li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #28a745;
-  font-weight: bold;
-}
-
-.weaknesses-list li::before {
-  content: "✗";
-  position: absolute;
-  left: 0;
-  color: #ff0707;
-  font-weight: bold;
-}
-
-.news-content h4 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
-  font-size: 1.1rem;
-}
-
-.news-content p {
-  margin: 0.5rem 0;
-  color: #666;
-}
-
-@media (max-width: 768px) {
-  .strengths-weaknesses-container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .hobby-item {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hobby-icon {
-    align-self: center;
   }
 }
