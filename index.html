@@ -1,210 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dat Truong - My Profile</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
     <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="nav-left">
-                    <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
-                    <ul class="nav-links">
-                        <li><a href="#" onclick="showPage('projects')">Projects</a></li>
-                    </ul>
-                </div>
-                <button class="theme-toggle" onclick="toggleDarkMode()">
-                    <span id="theme-icon">🌙</span>
-                    <span id="theme-text">Dark Mode</span>
-                </button>
-            </nav>
-        </div>
-        <div class="scroll-progress"></div>
+      <div class="container">
+        <nav class="nav">
+          <div class="nav-left">
+            <a href="#" class="logo" onclick="showPage('home')">Dat Truong</a>
+            <ul class="nav-links">
+              <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+            </ul>
+          </div>
+          <button class="theme-toggle" onclick="toggleDarkMode()">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </nav>
+      </div>
+      <div class="scroll-progress"></div>
     </header>
 
     <main class="main-content">
-        <div class="container">
-
-            <!-- Home Page -->
-            <div id="home-page" class="page active">
-                <section class="profile-section">
-                    <div class="profile-info">
-                        <h1 style="font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; color: #333;">
-                            Dat <span style="color: #999;">Truong</span>
-                        </h1>
-                        <div class="tags">
-                            <button class="tag" onclick="window.open('https://www.linkedin.com/in/đạt-trương-14233729a', '_blank')">LinkedIn</button>
-                            <button class="tag" onclick="window.open('https://github.com/datweb07', '_blank')">GitHub</button>
-                        </div>
-                        <hr class="thin-line">
-                        <p>I am currently studying Information Technology (IT) at the <a href="https://www.ueh.edu.vn/" target="_blank" style="font-weight: 500;">University of Economics Ho Chi Minh City (UEH)</a>. My career goal is to become a SE. I am learning with C#, ASP.NET MVC, SQL Server, MySQL for backend development, and HTML5, CSS3, Tailwind, JavaScript, and ReactJs for frontend development. I always looking opportunities to join real projects to enhance my problem-solving, critical thinking, and teamwork abilities. For collaboration or inquiries, feel free to reach out to me via <a href="mailto:dat82770@gmail.com" style="font-weight: 500;">email</a>.</p>
-                    </div>
-                    <div class="profile-image"></div>
-                </section>
-
-                <br>
-                <br>
-                
-                <!-- Learning Journey Section -->
-                <section class="section">
-                    <h2 class="section-title">Learning Journey</h2>
-                    <hr class="thin-line">
-                    <div class="news-item">
-                        <div class="news-date">Aug 2021 - Jun 2024 </div>
-                        <div class="news-content">Learning at <a href="http://thptdongphu.edu.vn/" target="_blank">THPT Đong Phu</a> with a strong focus on Mathematics.</div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-date">Aug 2024 - Present</div>
-                        <div class="news-content">Pursuing a Bachelor's degree in Information Technology at <a href="https://www.ueh.edu.vn/" target="_blank">UEH University</a>.</div>
-                    </div>
-                </section>
-
-                <br>
-                <br>
-
-                <!-- Strengths & Weaknesses Section -->
-                <section class="section">
-                    <h2 class="section-title">Strengths & Weaknesses</h2>
-                    <hr class="thin-line">
-                    <div class="strengths-weaknesses-container">
-                        <div class="strengths-container">
-                            <h3>Strengths</h3>
-                            <ul class="strengths-list">
-                                <li>Good logic thinking and problem-solving</li>
-                                <li>Eager to learn, not afraid of new challenges</li>
-                                <li>Ability to self-learn new technologies</li>
-                                <li>Ability to work effectively in teams</li>
-                            </ul>
-                        </div>
-                        <div class="weaknesses-container">
-                            <h3>Weaknesses</h3>
-                            <ul class="weaknesses-list">
-                                <li>Too perfectionist, lead to spend lot of time</li>
-                                <li>Enhance public presentation skills</li>
-                                <li>Sometimes have trouble in manage time</li>
-                                <li>Need to develop more communication skills with customers</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <br>
-                <br>
-
-                <!-- Work Experience Section -->
-                <section class="section">
-                    <h2 class="section-title">Learning Experience (Updating)</h2>
-                    <hr class="thin-line">
-                    <div class="news-item">
-                        <div class="news-date">Oct 23, 2025 - Present</div>
-                        <div class="news-content">
-                            <h4>Main Developer</h4>
-                            <p><a href="https://github.com/datweb07/guestbook_php.git" target="_blank">GitHub</a></p>
-                            <p>Developed and maintained a user interface that enables users to view, write, and store personal messages. The project is built primarily with PHP, along with HTML5, CSS3, and MySQL for database management.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-date">Oct 23, 2025 - Present</div>
-                        <div class="news-content">
-                            <h4>Project Team Leader</h4>
-                            <p><a href="https://github.com/datweb07/OOP_final_Project.git" target="_blank">GitHub</a></p>
-                            <p>Develop supermarket management applications using C# and WinForms. Apply the principles of object-oriented programming and SQL Server database design.</p>
-                        </div>
-                    </div>
-                    <div class="news-item">
-                        <div class="news-date">Mar 6, 2025 - May 18, 2025</div>
-                        <div class="news-content">
-                            <h4>Project Team Leader</h4>
-                            <p><a href="https://github.com/datweb07/DSA_final_Project.git" target="_blank">GitHub</a></p>
-                            <p>The main developer of the project implemented the data structure and algorithm (DSA) components. The project uses the Stack data structure and the Shunting Yard Algorithm (for infix-to-postfix conversion) to perform expression evaluation.</p>
-                        </div>
-                    </div>
-                </section>
+      <div class="container">
+        <div id="home-page" class="page active">
+          <section class="profile-section reveal">
+            <div class="profile-info">
+              <h1
+                style="
+                  font-size: 2.5rem;
+                  font-weight: 300;
+                  margin-bottom: 1rem;
+                  color: #333;
+                "
+              >
+                Dat <span style="color: #999">Truong</span>
+              </h1>
+              <div class="tags">
+                <button
+                  class="tag"
+                  onclick="
+                    window.open(
+                      'https://www.linkedin.com/in/đạt-trương-14233729a',
+                      '_blank',
+                    )
+                  "
+                >
+                  LinkedIn
+                </button>
+                <button
+                  class="tag"
+                  onclick="window.open('https://github.com/datweb07', '_blank')"
+                >
+                  GitHub
+                </button>
+              </div>
+              <hr class="thin-line" />
+              <p>
+                I am currently studying Information Technology (IT) at the
+                <a
+                  href="https://www.ueh.edu.vn/"
+                  target="_blank"
+                  style="font-weight: 500"
+                  >University of Economics Ho Chi Minh City (UEH)</a
+                >. My career goal is to become a SE. I am learning with C#,
+                ASP.NET MVC, SQL Server, MySQL for backend development, and
+                HTML5, CSS3, Tailwind, JavaScript, and ReactJs for frontend
+                development. I always looking opportunities to join real
+                projects to enhance my problem-solving, critical thinking, and
+                teamwork abilities. For collaboration or inquiries, feel free to
+                reach out to me via
+                <a href="mailto:dat82770@gmail.com" style="font-weight: 500"
+                  >email</a
+                >.
+              </p>
             </div>
+            <div class="profile-image"></div>
+          </section>
 
-            <!-- Projects Page -->
-            <div id="projects-page" class="page">
-                <section class="section">
-                    <h2 class="section-title">Small Projects</h2>
-                    <ul class="projects-list">
+          <br /><br />
 
-                        <li class="project-item">
-                            <h3 class="project-title">
-                                <a href="https://github.com/datweb07/MyProfile.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                                    My Profile
-                                </a>
-                            </h3>
-                            <p class="project-desc">
-                                The page introduces myself such as: personal information, strengths, weaknesses, learning experience, and a few small projects.
-                            </p>
-                            <p class="project-tech"><strong>Technologies:</strong> HTML5, CSS3, JavaScript</p>
-                        </li>
-
-                        <li class="project-item">
-                            <h3 class="project-title">
-                                <a href="https://github.com/datweb07/guestbook_php.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                                    Guest Book App
-                                </a>
-                            </h3>
-                            <p class="project-desc">
-                                Allows users to write, read, and store messages in realtime.
-                            </p>
-                            <p class="project-tech"><strong>Technologies:</strong> PHP, HTML5, CSS3, MySQL</p>
-                        </li>
-
-                         <li class="project-item">
-                            <h3 class="project-title">
-                                <a href="https://github.com/datweb07/OOP_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                                    Supermarket Sales Management
-                                </a>
-                            </h3>
-                            <p class="project-desc">
-                                The WinForms project simulates supermarket sales management, focusing on the use of 4 properties of <strong>Object-Oriented Programming</strong>.
-                            </p>
-                            <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, OOP</p>
-                        </li>
-
-                        <li class="project-item">
-                            <h3 class="project-title">
-                                <a href="https://github.com/datweb07/DSA_final_Project.git" target="_blank" style="color: #007bff; text-decoration: none;">
-                                    Calculator Simulator
-                                </a>
-                            </h3>
-                            <p class="project-desc">
-                                The WinForms project simulates a computer program that works by converting a infix expression to a postfix, using a <strong>Data Structure and Algorithm</strong> focus.
-                            </p>
-                            <p class="project-tech"><strong>Technologies:</strong> C#, WinForms, DSA</p>
-                        </li>
-                    </ul>
-                </section>
+          <section class="section reveal">
+            <h2 class="section-title">Learning Journey</h2>
+            <hr class="thin-line" />
+            <div class="news-item reveal">
+              <div class="news-date">Aug 2021 - Jun 2024</div>
+              <div class="news-content">
+                Learning at
+                <a href="http://thptdongphu.edu.vn/" target="_blank"
+                  >THPT Đong Phu</a
+                >
+                with a strong focus on Mathematics.
+              </div>
             </div>
+            <div class="news-item reveal">
+              <div class="news-date">Aug 2024 - Present</div>
+              <div class="news-content">
+                Pursuing a Bachelor's degree in Information Technology at
+                <a href="https://www.ueh.edu.vn/" target="_blank"
+                  >UEH University</a
+                >.
+              </div>
+            </div>
+          </section>
 
+          <br /><br />
+
+          <section class="section reveal">
+            <h2 class="section-title">Strengths & Weaknesses</h2>
+            <hr class="thin-line" />
+            <div class="strengths-weaknesses-container">
+              <div class="strengths-container reveal">
+                <h3>Strengths</h3>
+                <ul class="strengths-list">
+                  <li>Good logic thinking and problem-solving</li>
+                  <li>Eager to learn, not afraid of new challenges</li>
+                  <li>Ability to self-learn new technologies</li>
+                  <li>Ability to work effectively in teams</li>
+                </ul>
+              </div>
+              <div class="weaknesses-container reveal">
+                <h3>Weaknesses</h3>
+                <ul class="weaknesses-list">
+                  <li>Too perfectionist, lead to spend lot of time</li>
+                  <li>Enhance public presentation skills</li>
+                  <li>Sometimes have trouble in manage time</li>
+                  <li>
+                    Need to develop more communication skills with customers
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <br /><br />
+
+          <section class="section reveal">
+            <h2 class="section-title">Learning Experience (Updating)</h2>
+            <hr class="thin-line" />
+            <div class="news-item reveal">
+              <div class="news-date">Oct 23, 2025 - Present</div>
+              <div class="news-content">
+                <h4>Main Developer</h4>
+                <p>
+                  <a
+                    href="https://github.com/datweb07/guestbook_php.git"
+                    target="_blank"
+                    >GitHub</a
+                  >
+                </p>
+                <p>
+                  Developed and maintained a user interface that enables users
+                  to view, write, and store personal messages. The project is
+                  built primarily with PHP, along with HTML5, CSS3, and MySQL
+                  for database management.
+                </p>
+              </div>
+            </div>
+            <div class="news-item reveal">
+              <div class="news-date">Oct 23, 2025 - Present</div>
+              <div class="news-content">
+                <h4>Project Team Leader</h4>
+                <p>
+                  <a
+                    href="https://github.com/datweb07/OOP_final_Project.git"
+                    target="_blank"
+                    >GitHub</a
+                  >
+                </p>
+                <p>
+                  Develop supermarket management applications using C# and
+                  WinForms. Apply the principles of object-oriented programming
+                  and SQL Server database design.
+                </p>
+              </div>
+            </div>
+            <div class="news-item reveal">
+              <div class="news-date">Mar 6, 2025 - May 18, 2025</div>
+              <div class="news-content">
+                <h4>Project Team Leader</h4>
+                <p>
+                  <a
+                    href="https://github.com/datweb07/DSA_final_Project.git"
+                    target="_blank"
+                    >GitHub</a
+                  >
+                </p>
+                <p>
+                  The main developer of the project implemented the data
+                  structure and algorithm (DSA) components. The project uses the
+                  Stack data structure and the Shunting Yard Algorithm (for
+                  infix-to-postfix conversion) to perform expression evaluation.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
+
+        <div id="projects-page" class="page">
+          <section class="section">
+            <h2 class="section-title reveal">Small Projects</h2>
+            <ul class="projects-list">
+              <li class="project-item reveal">
+                <h3 class="project-title">
+                  <a
+                    href="https://github.com/datweb07/MyProfile.git"
+                    target="_blank"
+                    style="color: #007bff; text-decoration: none"
+                  >
+                    My Profile
+                  </a>
+                </h3>
+                <p class="project-desc">
+                  The page introduces myself such as: personal information,
+                  strengths, weaknesses, learning experience, and a few small
+                  projects.
+                </p>
+                <p class="project-tech">
+                  <strong>Technologies:</strong> HTML5, CSS3, JavaScript
+                </p>
+              </li>
+
+              <li class="project-item reveal">
+                <h3 class="project-title">
+                  <a
+                    href="https://github.com/datweb07/guestbook_php.git"
+                    target="_blank"
+                    style="color: #007bff; text-decoration: none"
+                  >
+                    Guest Book App
+                  </a>
+                </h3>
+                <p class="project-desc">
+                  Allows users to write, read, and store messages in realtime.
+                </p>
+                <p class="project-tech">
+                  <strong>Technologies:</strong> PHP, HTML5, CSS3, MySQL
+                </p>
+              </li>
+
+              <li class="project-item reveal">
+                <h3 class="project-title">
+                  <a
+                    href="https://github.com/datweb07/OOP_final_Project.git"
+                    target="_blank"
+                    style="color: #007bff; text-decoration: none"
+                  >
+                    Supermarket Sales Management
+                  </a>
+                </h3>
+                <p class="project-desc">
+                  The WinForms project simulates supermarket sales management,
+                  focusing on the use of 4 properties of
+                  <strong>Object-Oriented Programming</strong>.
+                </p>
+                <p class="project-tech">
+                  <strong>Technologies:</strong> C#, WinForms, OOP
+                </p>
+              </li>
+
+              <li class="project-item reveal">
+                <h3 class="project-title">
+                  <a
+                    href="https://github.com/datweb07/DSA_final_Project.git"
+                    target="_blank"
+                    style="color: #007bff; text-decoration: none"
+                  >
+                    Calculator Simulator
+                  </a>
+                </h3>
+                <p class="project-desc">
+                  The WinForms project simulates a computer program that works
+                  by converting a infix expression to a postfix, using a
+                  <strong>Data Structure and Algorithm</strong> focus.
+                </p>
+                <p class="project-tech">
+                  <strong>Technologies:</strong> C#, WinForms, DSA
+                </p>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
     </main>
-
-    <!-- Interactive character -->
-    <div class="character-container" id="character">
-        <div class="character">
-
-            <div class="character-eye-left">
-                <div class="character-pupil-left"></div>
-            </div>
-
-            <div class="character-eye-right">
-                <div class="character-pupil-right"></div>
-            </div>
-
-            <div class="character-cheek-left"></div>
-            <div class="character-cheek-right"></div>
-
-            <div class="character-mouth"></div>
-
-            <div class="character-hand"></div>
-        </div>
-    </div>
     <script src="./main.js"></script>
-</body>
+  </body>
 </html>
