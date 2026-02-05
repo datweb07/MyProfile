@@ -543,3 +543,29 @@ body.dark-mode .weaknesses-list li {
         font-size: 1.1rem;
     }
 }
+
+/* --- TYPEWRITER CURSOR --- */
+.cursor {
+    display: inline-block;
+    width: 3px;
+    animation: blink 1s infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* --- 3D TILT EFFECT CHO PROJECT CARDS --- */
+.project-item {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease, box-shadow 0.3s ease; 
+}
+
+.project-item:hover .project-title,
+.project-item:hover .project-desc,
+.project-item:hover .project-tech {
+    transform: translateZ(20px); 
+}
