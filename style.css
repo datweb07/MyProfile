@@ -561,7 +561,7 @@ body.dark-mode .weaknesses-list li {
 .project-item {
     perspective: 1000px;
     transform-style: preserve-3d;
-    transition: transform 0.1s ease, box-shadow 0.3s ease; 
+    transition: transform 0.5s ease, box-shadow 0.3s ease; 
 }
 
 .project-item:hover .project-title,
