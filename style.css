@@ -405,77 +405,6 @@ body.dark-mode .project-tech strong {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.strengths-weaknesses-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 1rem;
-}
-
-.strengths-container,
-.weaknesses-container {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-body.dark-mode .strengths-container,
-body.dark-mode .weaknesses-container {
-    background: #2d2d2d;
-}
-
-.strengths-container h3,
-.weaknesses-container h3 {
-    margin: 0 0 1rem 0;
-    color: #333;
-    font-size: 1.2rem;
-    padding-bottom: 0.5rem;
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .strengths-container h3,
-body.dark-mode .weaknesses-container h3 {
-    color: #e0e0e0;
-}
-
-.strengths-list,
-.weaknesses-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.strengths-list li,
-.weaknesses-list li {
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    color: #555;
-    transition: color 0.3s ease;
-}
-
-body.dark-mode .strengths-list li,
-body.dark-mode .weaknesses-list li {
-    color: #b0b0b0;
-}
-
-.strengths-list li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #28a745;
-    font-weight: bold;
-}
-
-.weaknesses-list li::before {
-    content: "✗";
-    position: absolute;
-    left: 0;
-    color: #ff0707;
-    font-weight: bold;
-}
-
 .reveal {
     opacity: 0;
     transform: translateY(50px);
@@ -528,10 +457,6 @@ body.dark-mode .weaknesses-list li {
         font-size: 0.85rem;
     }
 
-    .strengths-weaknesses-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
 }
 
 @media (max-width: 480px) {
