@@ -1,53 +1,37 @@
-// dark mode toggle
+// --- 1. DARK MODE TOGGLE ---
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
-    document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
-    document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
+    
+    // Đổi icon và text
+    const icon = document.getElementById("theme-icon");
+    const text = document.getElementById("theme-text");
+    if(icon) icon.textContent = isDark ? "☀️" : "🌙";
+    if(text) text.textContent = isDark ? "Light Mode" : "Dark Mode";
+    
+    // Lưu vào localStorage
     localStorage.setItem("darkMode", isDark);
 }
 
-
+// Chạy ngay khi load trang để lấy setting cũ
 window.addEventListener("load", function () {
-    // Load trạng thái Dark Mode cũ
     const darkMode = localStorage.getItem("darkMode") === "true";
     if (darkMode) {
         document.body.classList.add("dark-mode");
-        document.getElementById("theme-icon").textContent = "☀️";
-        document.getElementById("theme-text").textContent = "Light Mode";
+        const icon = document.getElementById("theme-icon");
+        const text = document.getElementById("theme-text");
+        if(icon) icon.textContent = "☀️";
+        if(text) text.textContent = "Light Mode";
     }
 
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0); 
     
-    const scrollProgress = document.querySelector(".scroll-progress");
-    if(scrollProgress) {
-        scrollProgress.style.width = "0%";
-    }
-
-    // Kích hoạt animation 
     triggerScrollAnimation();
 });
 
-
-function showPage(page) {
-    document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
-    document.getElementById(page + "-page").classList.add("active");
-    
-    window.scrollTo({ top: 0, behavior: "auto" }); 
-    
-    const scrollProgress = document.querySelector(".scroll-progress");
-    if(scrollProgress) {
-        scrollProgress.style.width = "0%";
-    }
-    
-    // Reset animation cho trang mới
-    setTimeout(triggerScrollAnimation, 100);
-}
-
-// SCROLL PROGRESS
+// --- 2. SCROLL PROGRESS BAR ---
 window.addEventListener("scroll", function () {
     const scrollProgress = document.querySelector(".scroll-progress");
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -61,7 +45,7 @@ window.addEventListener("scroll", function () {
     }
 });
 
-//SCROLL REVEAL
+// --- 3. SCROLL REVEAL (Intersection Observer) ---
 function triggerScrollAnimation() {
     const reveals = document.querySelectorAll(".reveal");
 
@@ -72,7 +56,8 @@ function triggerScrollAnimation() {
             }
         });
     }, {
-        threshold: 0.1 
+        threshold: 0.15, // Đợi hiện ra 15% mới chạy animation
+        rootMargin: "0px 0px -50px 0px" 
     });
 
     reveals.forEach((element) => {
@@ -80,11 +65,11 @@ function triggerScrollAnimation() {
     });
 }
 
-
- // TYPEWRITER EFFECT 
+// --- 4. TYPEWRITER EFFECT ---
 const textsToType = [
     "Tech Enthusiast",
-    "UEH Student"
+    "IT Student at UEH",
+    "Future Software Engineer"
 ];
 let textIndex = 0;
 let charIndex = 0;
@@ -100,11 +85,9 @@ function typeWriter() {
     const currentText = textsToType[textIndex];
 
     if (isDeleting) {
-        // Đang xóa chữ
         typeSpan.textContent = currentText.substring(0, charIndex - 1);
         charIndex--;
     } else {
-        // Đang gõ chữ
         typeSpan.textContent = currentText.substring(0, charIndex + 1);
         charIndex++;
     }
@@ -112,53 +95,55 @@ function typeWriter() {
     let nextSpeed = isDeleting ? deleteSpeed : typeSpeed;
 
     if (!isDeleting && charIndex === currentText.length) {
-        // Gõ xong 1 câu, dừng lại chút
         nextSpeed = pauseTime;
         isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
-        // Xóa xong, chuyển sang câu tiếp theo
         isDeleting = false;
         textIndex = (textIndex + 1) % textsToType.length;
         nextSpeed = 500;
     }
 
+    // Thêm con trỏ nhấp nháy ảo bằng CSS
+    typeSpan.innerHTML = typeSpan.textContent + `<span style="border-right: 2px solid var(--accent-color); animation: blink 1s infinite;">&nbsp;</span>`;
+
     setTimeout(typeWriter, nextSpeed);
 }
 
-// Khởi chạy khi load trang
 document.addEventListener('DOMContentLoaded', typeWriter);
 
-
-
-   // 3D TILT EFFECT 
-
-const cards = document.querySelectorAll('.project-item');
+// --- 5. 3D TILT EFFECT MƯỢT MÀ HƠN ---
+const cards = document.querySelectorAll('.card-3d, .project-card');
 
 cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        // Tính toán vị trí chuột so với trung tâm thẻ
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        // Góc xoay tối đa (chia càng lớn xoay càng ít)
-        const rotateX = ((y - centerY) / centerY) * -10; // Đảo ngược trục Y
-        const rotateY = ((x - centerX) / centerX) * 10;
+        // Cường độ nghiêng (chia càng nhỏ, góc nghiêng càng lớn)
+        const rotateX = ((y - centerY) / centerY) * -5; 
+        const rotateY = ((x - centerX) / centerX) * 5;
 
-        // Áp dụng transform
+        // Nội dung bên trong cũng nổi lên một chút (Parallax)
+        const children = card.children;
+        for(let i = 0; i < children.length; i++) {
+            children[i].style.transform = `translateZ(30px)`;
+            children[i].style.transition = `transform 0.1s ease-out`;
+        }
+
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        
-        // Hiệu ứng bóng đổ theo hướng chuột
-        card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(0,0,0,0.1)`;
     });
 
-    // Reset về vị trí cũ khi chuột rời khỏi thẻ
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        card.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
+        
+        const children = card.children;
+        for(let i = 0; i < children.length; i++) {
+            children[i].style.transform = `translateZ(0px)`;
+            children[i].style.transition = `transform 0.3s ease-out`;
+        }
     });
 });
-
