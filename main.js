@@ -37,12 +37,34 @@ window.addEventListener("load", function () {
 });
 
 // --- 2. SCROLL PROGRESS BAR ---
+function updateSideNav() {
+    const sections = document.querySelectorAll("section[id]");
+    const navDots = document.querySelectorAll(".side-nav-dot");
+    
+    let current = "";
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - 300) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navDots.forEach((dot) => {
+        dot.classList.remove("active");
+        if (dot.getAttribute("href") === `#${current}`) {
+            dot.classList.add("active");
+        }
+    });
+}
+
 window.addEventListener("scroll", function () {
     const scrollProgress = document.querySelector(".scroll-progress");
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     scrollProgress.style.width = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 + "%" : "0%";
+    
     updateBackToTop();
+    updateSideNav();
 });
 
 // --- 3. BACK TO TOP ---

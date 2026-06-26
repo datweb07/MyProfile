@@ -11,16 +11,13 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <!-- Custom Cursor Elements -->
     <div class="cursor-dot" id="cursorDot"></div>
     <div class="cursor-outline" id="cursorOutline"></div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Back to Top Button -->
     <button
-      class="back-to-top"
+      class="back-to-top hover-target"
       id="backToTop"
       onclick="scrollToTop()"
       title="Back to top"
@@ -28,11 +25,67 @@
       ↑
     </button>
 
-    <!-- Project Detail Modal -->
+    <button class="fab hover-target" id="fab" title="Contact Me">
+      <span class="fab-icon">Ừ</span>
+    </button>
+
+    <div class="side-nav d-none-mobile">
+      <a href="#home" class="side-nav-dot hover-target active" title="Home"></a>
+
+      <a href="#journey" class="side-nav-dot hover-target" title="Journey"></a>
+      <a
+        href="#projects"
+        class="side-nav-dot hover-target"
+        title="Projects"
+      ></a>
+    </div>
+
     <div class="modal-overlay" id="projectModal">
       <div class="modal-content card-3d">
-        <button class="modal-close" onclick="closeProjectModal()">✕</button>
+        <button class="modal-close hover-target" onclick="closeProjectModal()">
+          ✕
+        </button>
         <div id="projectModalContent"></div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+      <div class="modal-content card-3d">
+        <button class="modal-close hover-target" onclick="closeContactModal()">
+          ✕
+        </button>
+        <h2
+          style="font-size: 2rem; margin-bottom: 1rem; color: var(--brand-dark)"
+        >
+          chào nhé!
+        </h2>
+        <p style="margin-bottom: 1.5rem">
+          chào bạn gì đó nha, nếu bạn muốn liên hệ với mình thì hãy điền thông
+          tin vào form bên dưới nhé!
+        </p>
+        <form id="contactForm" onsubmit="submitContactForm(event)">
+          <input
+            type="text"
+            class="form-input"
+            placeholder="tên bạn"
+            required
+          />
+          <input
+            type="email"
+            class="form-input"
+            placeholder="email của bạn"
+            required
+          />
+          <textarea
+            class="form-input"
+            rows="4"
+            placeholder="nói gì thi nói"
+            required
+          ></textarea>
+          <button type="submit" class="btn-brutal w-100 hover-target">
+            rồi bấm vào đây nè
+          </button>
+        </form>
       </div>
     </div>
 
@@ -40,14 +93,10 @@
       <div class="container">
         <nav class="nav">
           <div class="nav-left">
-            <a href="#home" class="logo">Dat Truong</a>
-            <ul class="nav-links">
-              <li><a href="#journey">Journey</a></li>
-              <li><a href="#projects">Projects</a></li>
-            </ul>
+            <a href="#home" class="logo hover-target">Dat Truong</a>
           </div>
           <button
-            class="theme-toggle"
+            class="theme-toggle hover-target"
             onclick="toggleDarkMode()"
             id="themeToggle"
           >
@@ -74,7 +123,7 @@
             <a
               href="https://www.ueh.edu.vn/"
               target="_blank"
-              class="chonky_underline"
+              class="chonky_underline hover-target"
               style="--underline-color: var(--accent-color)"
               >UEH University</a
             >. My career goal is to become a Software Engineer. I specialize in
@@ -83,7 +132,7 @@
 
           <div class="tags">
             <button
-              class="btn-brutal"
+              class="btn-brutal hover-target"
               onclick="
                 window.open(
                   'https://www.linkedin.com/in/đạt-trương-14233729a',
@@ -95,21 +144,21 @@
               LinkedIn
             </button>
             <button
-              class="btn-brutal outline"
+              class="btn-brutal outline hover-target"
               onclick="window.open('https://github.com/datweb07', '_blank')"
               title="Check out my GitHub"
             >
               GitHub
             </button>
             <button
-              class="btn-brutal text-only"
+              class="btn-brutal text-only hover-target"
               onclick="copyEmail()"
               title="Click to copy email"
             >
               Email Me ↗
             </button>
             <button
-              class="btn-brutal icon-only reaction-btn"
+              class="btn-brutal icon-only reaction-btn hover-target"
               id="reactionBtn"
               onclick="addReaction()"
             >
@@ -130,8 +179,15 @@
             >Learning Journey</span
           >
         </h2>
-
         <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Aug 2021 - Jun 2024</div>
+            <div class="timeline-content card-3d">
+              <h4>THPT Đồng Phú</h4>
+              <p>Learning with a strong focus on Mathematics.</p>
+            </div>
+          </div>
           <div class="timeline-item reveal">
             <div class="timeline-dot"></div>
             <div class="timeline-date">Aug 2024 - Present</div>
@@ -143,10 +199,10 @@
           </div>
           <div class="timeline-item reveal">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">Aug 2021 - Jun 2024</div>
+            <div class="timeline-date">Jun 2026 - Present</div>
             <div class="timeline-content card-3d">
-              <h4>THPT Đồng Phú</h4>
-              <p>Learning with a strong focus on Mathematics.</p>
+              <h4>UEH - Institute of Smart City and Management</h4>
+              <p>IT Intern</p>
             </div>
           </div>
         </div>
@@ -162,19 +218,31 @@
         </h2>
 
         <div class="tabs">
-          <button class="tab-btn active" onclick="filterProjects('all', this)">
+          <button
+            class="tab-btn active hover-target"
+            onclick="filterProjects('all', this)"
+          >
             All
           </button>
-          <button class="tab-btn" onclick="filterProjects('backend', this)">
+          <button
+            class="tab-btn hover-target"
+            onclick="filterProjects('backend', this)"
+          >
             Backend
           </button>
-          <button class="tab-btn" onclick="filterProjects('frontend', this)">
+          <button
+            class="tab-btn hover-target"
+            onclick="filterProjects('frontend', this)"
+          >
             Frontend
           </button>
         </div>
 
         <div class="projects-grid">
-          <div class="project-item project-card" data-category="backend">
+          <div
+            class="project-item project-card hover-target"
+            data-category="backend"
+          >
             <h3 class="project-title">
               <a href="#" onclick="openProjectDetail(event, 'supermarket')"
                 >Supermarket Management</a
@@ -188,14 +256,18 @@
               <span>C#</span><span>WinForms</span><span>OOP</span>
             </div>
             <button
-              class="btn-brutal outline small"
+              class="btn-brutal outline small hover-target"
               onclick="openProjectDetail(event, 'supermarket')"
+              style="margin-top: 1rem"
             >
               Details
             </button>
           </div>
 
-          <div class="project-item project-card" data-category="backend">
+          <div
+            class="project-item project-card hover-target"
+            data-category="backend"
+          >
             <h3 class="project-title">
               <a href="#" onclick="openProjectDetail(event, 'calculator')"
                 >Calculator Simulator</a
@@ -207,14 +279,18 @@
             </p>
             <div class="project-tech-tags"><span>C#</span><span>DSA</span></div>
             <button
-              class="btn-brutal outline small"
+              class="btn-brutal outline small hover-target"
               onclick="openProjectDetail(event, 'calculator')"
+              style="margin-top: 1rem"
             >
               Details
             </button>
           </div>
 
-          <div class="project-item project-card" data-category="frontend">
+          <div
+            class="project-item project-card hover-target"
+            data-category="frontend"
+          >
             <h3 class="project-title">
               <a href="#" onclick="openProjectDetail(event, 'guestbook')"
                 >Guest Book App</a
@@ -228,14 +304,18 @@
               <span>PHP</span><span>MySQL</span><span>HTML/CSS</span>
             </div>
             <button
-              class="btn-brutal outline small"
+              class="btn-brutal outline small hover-target"
               onclick="openProjectDetail(event, 'guestbook')"
+              style="margin-top: 1rem"
             >
               Details
             </button>
           </div>
 
-          <div class="project-item project-card" data-category="frontend">
+          <div
+            class="project-item project-card hover-target"
+            data-category="frontend"
+          >
             <h3 class="project-title">
               <a href="#" onclick="openProjectDetail(event, 'myprofile')"
                 >My Profile</a
@@ -249,8 +329,9 @@
               <span>HTML5</span><span>CSS3</span><span>JS</span>
             </div>
             <button
-              class="btn-brutal outline small"
+              class="btn-brutal outline small hover-target"
               onclick="openProjectDetail(event, 'myprofile')"
+              style="margin-top: 1rem"
             >
               Details
             </button>

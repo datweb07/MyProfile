@@ -793,10 +793,11 @@ body.dark-mode .toast {
 }
 
 /* --- BACK TO TOP & FAB --- */
+/* --- BACK TO TOP & FAB --- */
 .back-to-top {
   position: fixed;
   bottom: 30px;
-  right: 30px;
+  right: 35px; /* Đã điều chỉnh: (55px - 45px)/2 = 5px.  30px + 5px = 35px */
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -824,7 +825,7 @@ body.dark-mode .toast {
 .fab {
   position: fixed;
   bottom: 90px;
-  right: 30px;
+  right: 30px; /* Giữ nguyên ở mức 30px */
   width: 55px;
   height: 55px;
   background: var(--brand-dark);
@@ -840,7 +841,6 @@ body.dark-mode .toast {
 }
 
 body.dark-mode .fab { border-color: var(--accent-color); }
-.fab:hover { transform: scale(1.1); }
 .fab-icon { font-size: 1.5rem; color: #fff; }
 
 /* --- REVEAL ANIMATION --- */
@@ -880,4 +880,67 @@ body.dark-mode .fab { border-color: var(--accent-color); }
   .timeline-item:nth-child(odd) .timeline-dot,
   .timeline-item:nth-child(even) .timeline-dot { left: 21px; }
   .tabs { flex-wrap: wrap; }
+}
+
+/* --- SIDE NAV (SCROLL SPY) --- */
+.side-nav {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.side-nav-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: none;
+  position: relative;
+}
+
+body.dark-mode .side-nav-dot {
+  border-color: var(--text-primary);
+}
+
+.side-nav-dot::after {
+  content: attr(title);
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+body.dark-mode .side-nav-dot::after {
+  background: var(--accent-color);
+  color: #1a191d;
+}
+
+.side-nav-dot:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+.side-nav-dot.active {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: scale(1.3);
+  box-shadow: 0 0 10px var(--accent-color);
 }
