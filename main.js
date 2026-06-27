@@ -563,6 +563,40 @@ function toggleAccordion(header) {
     requestAnimationFrame(animateParticles);
   }
 
+
+function openImageModal() {
+  const modal = document.getElementById('imageModal');
+  const fullImg = document.getElementById('fullImage');
+  const profileImg = document.querySelector('.profile-image');
+  if (!profileImg || !modal) return;
+
+  const bgStyle = getComputedStyle(profileImg).backgroundImage;
+  const url = bgStyle.slice(5, -2); 
+  fullImg.src = url;
+
+  modal.classList.add('show');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const profileImg = document.querySelector('.profile-image');
+  if (profileImg) {
+    profileImg.style.cursor = 'pointer';
+    profileImg.addEventListener('click', openImageModal);
+  }
+});
+
+function closeImageModal() {
+  document.getElementById('imageModal').classList.remove('show');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const profileImg = document.querySelector('.profile-image');
+  if (profileImg) {
+    profileImg.style.cursor = 'pointer';
+    profileImg.addEventListener('click', openImageModal);
+  }
+});
+
   window.addEventListener('resize', () => {
     resize();
     createParticles(Math.floor((width * height) / 15000));

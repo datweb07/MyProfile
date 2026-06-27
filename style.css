@@ -1131,3 +1131,29 @@ body.dark-mode .side-nav-dot::after {
     flex-wrap: wrap;
   }
 }
+
+.image-modal-content {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  max-width: 300px;       
+  max-height: 300px;
+  width: 70vw;            
+  height: 70vw;
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      
+  border-radius: 50%;
+  border: 4px solid var(--bg-primary); 
+}

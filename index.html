@@ -369,6 +369,15 @@
 
     <canvas id="particleCanvas" class="particle-canvas"></canvas>
 
+    <div class="modal-overlay" id="imageModal">
+      <div class="modal-content image-modal-content">
+        <button class="modal-close hover-target" onclick="closeImageModal()">
+          ✕
+        </button>
+        <img id="fullImage" src="" alt="Profile Picture" />
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script src="./main.js"></script>
