@@ -80,7 +80,6 @@ window.addEventListener('scroll', () => {
 
   updateBackToTop();
   updateSideNav();
-  updateBackToTopCircle();
 });
 
 function updateSideNav() {
@@ -111,18 +110,6 @@ function updateBackToTop() {
   } else {
     btn.classList.remove('show');
   }
-}
-
-function updateBackToTopCircle() {
-  const progressPath = document.getElementById('backToTopProgress');
-  if (!progressPath) return;
-
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-  const circumference = 100; 
-
-  progressPath.style.strokeDashoffset = circumference - progress * circumference;
 }
 
 function scrollToTop() {
