@@ -1,48 +1,53 @@
-// ============================================================
-// CUSTOM CURSOR
-// ============================================================
+const SUPABASE_URL = 'https://xhaabkwglcixymaqmwsd.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoYWFia3dnbGNpeHltYXFtd3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzMwMjksImV4cCI6MjA5ODE0OTAyOX0.KT1GQnosUN69ECnmcy3F1selazllyZrl5GxEludnoz0'; 
+
+let supabaseClient = null;
+
+try {
+  if (typeof window.supabase !== 'undefined') {
+    if (SUPABASE_URL.includes('xyz.supabase.co') || SUPABASE_URL === '') {
+      console.warn("Chưa nhập URL/Key Supabase. Tính năng lưu Like bị vô hiệu hóa.");
+    } else {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  }
+} catch (err) {
+  console.error("Lỗi khởi tạo Supabase:", err);
+}
+
+
+
 const cursorDot = document.getElementById('cursorDot');
 const cursorOutline = document.getElementById('cursorOutline');
 
-document.addEventListener('mousemove', (e) => {
-  const posX = e.clientX;
-  const posY = e.clientY;
+if (cursorDot && cursorOutline) {
+  document.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
 
-  cursorDot.style.left = `${posX}px`;
-  cursorDot.style.top = `${posY}px`;
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
 
-  // Outline di chuyển mượt hơn nhờ animation API
-  cursorOutline.animate(
-    [
-      { left: `${posX}px`, top: `${posY}px` }
-    ],
-    {
-      duration: 500,
-      fill: 'forwards'
-    }
-  );
-});
+    cursorOutline.animate(
+      [ { left: `${posX}px`, top: `${posY}px` } ],
+      { duration: 500, fill: 'forwards' }
+    );
+  });
+}
 
-// ============================================================
-// DARK MODE TOGGLE
-// ============================================================
+
 function toggleDarkMode() {
   document.body.classList.toggle('dark-mode');
   const isDark = document.body.classList.contains('dark-mode');
   const icon = document.getElementById('theme-icon');
   const text = document.getElementById('theme-text');
 
-  if (icon) {
-    icon.textContent = isDark ? '☀️' : '🌙';
-  }
-  if (text) {
-    text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-  }
+  if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+  if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
 
   localStorage.setItem('darkMode', isDark);
 }
 
-// Khôi phục trạng thái dark mode khi load trang
 window.addEventListener('load', () => {
   const darkMode = localStorage.getItem('darkMode') === 'true';
   if (darkMode) {
@@ -53,31 +58,24 @@ window.addEventListener('load', () => {
     if (text) text.textContent = 'Light Mode';
   }
 
-  // Ngăn chặn scroll restoration của trình duyệt
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
 
-  // Kích hoạt các animation ban đầu
   triggerScrollAnimation();
   updateBackToTop();
+  fetchCurrentLikes(); 
 });
 
-// ============================================================
-// SCROLL PROGRESS BAR (thanh tiến trình đọc)
-// ============================================================
+
 window.addEventListener('scroll', () => {
   const scrollProgress = document.querySelector('.scroll-progress');
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const scrollHeight =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
-  if (scrollHeight > 0) {
+  if (scrollHeight > 0 && scrollProgress) {
     const progressPercent = (scrollTop / scrollHeight) * 100;
     scrollProgress.style.width = progressPercent + '%';
-  } else {
-    scrollProgress.style.width = '0%';
   }
 
   updateBackToTop();
@@ -85,9 +83,6 @@ window.addEventListener('scroll', () => {
   updateBackToTopCircle();
 });
 
-// ============================================================
-// SIDE NAVIGATION (SCROLL SPY)
-// ============================================================
 function updateSideNav() {
   const sections = document.querySelectorAll('section[id]');
   const navDots = document.querySelectorAll('.side-nav-dot');
@@ -108,11 +103,9 @@ function updateSideNav() {
   });
 }
 
-// ============================================================
-// BACK TO TOP BUTTON (kèm vòng tròn tiến trình)
-// ============================================================
 function updateBackToTop() {
   const btn = document.getElementById('backToTop');
+  if (!btn) return;
   if (window.scrollY > 500) {
     btn.classList.add('show');
   } else {
@@ -125,11 +118,9 @@ function updateBackToTopCircle() {
   if (!progressPath) return;
 
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  const scrollHeight =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-  const circumference = 100; // giá trị stroke-dasharray
+  const circumference = 100; 
 
   progressPath.style.strokeDashoffset = circumference - progress * circumference;
 }
@@ -138,9 +129,7 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ============================================================
-// SCROLL REVEAL (hiệu ứng xuất hiện khi cuộn)
-// ============================================================
+
 function triggerScrollAnimation() {
   const reveals = document.querySelectorAll('.reveal');
 
@@ -152,15 +141,11 @@ function triggerScrollAnimation() {
         }
       });
     },
-    {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
-    }
+    { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
   );
 
   reveals.forEach((el) => observer.observe(el));
 
-  // Counter animation cho stats
   const statNumbers = document.querySelectorAll('.stat-number[data-target]');
   const counterObserver = new IntersectionObserver(
     (entries) => {
@@ -177,7 +162,6 @@ function triggerScrollAnimation() {
   );
   statNumbers.forEach((el) => counterObserver.observe(el));
 
-  // Skill bars animation
   const skillFills = document.querySelectorAll('.skill-fill[data-width]');
   const skillObserver = new IntersectionObserver(
     (entries) => {
@@ -207,20 +191,11 @@ function animateCounter(el, target) {
   }, 30);
 }
 
-// ============================================================
-// TYPEWRITER EFFECT
-// ============================================================
-const textsToType = [
-  'Tech Enthusiast',
-  'IT Student at UEH',
-  'Future Software Engineer'
-];
+
+const textsToType = ['Tech Enthusiast', 'IT Student at UEH', 'Future Software Engineer'];
 let textIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
-const typeSpeed = 100;
-const deleteSpeed = 50;
-const pauseTime = 2000;
 
 function typeWriter() {
   const typeSpan = document.querySelector('.typewriter-text');
@@ -236,10 +211,10 @@ function typeWriter() {
     charIndex++;
   }
 
-  let nextSpeed = isDeleting ? deleteSpeed : typeSpeed;
+  let nextSpeed = isDeleting ? 50 : 100;
 
   if (!isDeleting && charIndex === currentText.length) {
-    nextSpeed = pauseTime;
+    nextSpeed = 2000;
     isDeleting = true;
   } else if (isDeleting && charIndex === 0) {
     isDeleting = false;
@@ -247,20 +222,16 @@ function typeWriter() {
     nextSpeed = 500;
   }
 
-  typeSpan.innerHTML =
-    typeSpan.textContent +
-    '<span style="border-right: 2px solid var(--accent-color); animation: blink 1s infinite;">&nbsp;</span>';
-
+  typeSpan.innerHTML = typeSpan.textContent + '<span style="border-right: 2px solid var(--accent-color); animation: blink 1s infinite;">&nbsp;</span>';
   setTimeout(typeWriter, nextSpeed);
 }
 
 document.addEventListener('DOMContentLoaded', typeWriter);
 
-// ============================================================
-// 3D TILT EFFECT (hiệu ứng nghiêng thẻ)
-// ============================================================
+
 document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) => {
   card.addEventListener('mousemove', (e) => {
+    if (window.innerWidth <= 768) return; 
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -269,7 +240,6 @@ document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) 
     const rotateX = ((y - centerY) / centerY) * -5;
     const rotateY = ((x - centerX) / centerX) * 5;
 
-    // Đẩy các phần tử con lên phía trước
     for (let child of card.children) {
       child.style.transform = 'translateZ(30px)';
       child.style.transition = 'transform 0.1s ease-out';
@@ -279,8 +249,8 @@ document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) 
   });
 
   card.addEventListener('mouseleave', () => {
-    card.style.transform =
-      'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    if (window.innerWidth <= 768) return;
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
     for (let child of card.children) {
       child.style.transform = 'translateZ(0px)';
       child.style.transition = 'transform 0.3s ease-out';
@@ -288,11 +258,10 @@ document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) 
   });
 });
 
-// ============================================================
-// TOAST NOTIFICATIONS
-// ============================================================
+
 function showToast(message, duration = 3000) {
   const container = document.getElementById('toastContainer');
+  if(!container) return;
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;
@@ -304,38 +273,67 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
-// ============================================================
-// COPY EMAIL
-// ============================================================
 function copyEmail() {
   const email = 'dat82770@gmail.com';
-  navigator.clipboard
-    .writeText(email)
-    .then(() => {
-      showToast('📋 Email copied to clipboard!');
-    })
-    .catch(() => {
-      showToast('⚠️ Could not copy email.');
-    });
+  navigator.clipboard.writeText(email)
+    .then(() => showToast('Email copied to clipboard!'))
+    .catch(() => showToast('Could not copy email.'));
 }
 
-// ============================================================
-// REACTION BUTTON (kèm hiệu ứng particle nhỏ)
-// ============================================================
-let reactionCount = 0;
 
-function addReaction() {
-  reactionCount++;
-  document.getElementById('reactionCount').textContent = reactionCount;
+async function fetchCurrentLikes() {
+  if (!supabaseClient) return; 
+  try {
+    const { data, error } = await supabaseClient
+      .from('page_stats')
+      .select('likes_count')
+      .eq('id', 1)
+      .single();
 
-  // Hiệu ứng particle nhỏ khi nhấn like
+    if (error) throw error;
+    if (data) {
+      const countEl = document.getElementById('reactionCount');
+      if (countEl) countEl.textContent = data.likes_count;
+    }
+  } catch (error) {
+    console.error('Lỗi khi tải lượt like:', error.message);
+  }
+}
+
+let isLiking = false;
+async function addReaction() {
+  if (isLiking) return;
+  isLiking = true;
+
+  const countEl = document.getElementById('reactionCount');
+  if(!countEl) return;
+  
+  let currentCount = parseInt(countEl.textContent) || 0;
+  countEl.textContent = currentCount + 1;
+
   const btn = document.getElementById('reactionBtn');
   createMiniParticles(btn);
-
   showToast('Thanks for the like!');
+
+  if (!supabaseClient) {
+    isLiking = false;
+    return;
+  }
+
+  try {
+    const { error } = await supabaseClient.rpc('increment_likes');
+    if (error) throw error;
+  } catch (error) {
+    console.error('Lỗi khi cộng like:', error.message);
+    countEl.textContent = currentCount; 
+    showToast('Có lỗi xảy ra, không thể lưu lượt Like!');
+  } finally {
+    isLiking = false;
+  }
 }
 
 function createMiniParticles(element) {
+  if(!element) return;
   const rect = element.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
@@ -364,97 +362,74 @@ function createMiniParticles(element) {
       particle.style.opacity = '0';
     });
 
-    setTimeout(() => {
-      particle.remove();
-    }, 600);
+    setTimeout(() => particle.remove(), 600);
   }
 }
 
-// ============================================================
-// MODALS
-// ============================================================
+
 function openContactModal() {
-  document.getElementById('contactModal').classList.add('show');
+  const m = document.getElementById('contactModal');
+  if(m) m.classList.add('show');
 }
 
 function closeContactModal() {
-  document.getElementById('contactModal').classList.remove('show');
+  const m = document.getElementById('contactModal');
+  if(m) m.classList.remove('show');
 }
 
 function openProjectDetail(e, project) {
   e.preventDefault();
   const modal = document.getElementById('projectModal');
   const content = document.getElementById('projectModalContent');
+  if(!modal || !content) return;
 
   const details = {
-    supermarket: {
-      title: 'Supermarket Management',
-      tech: 'C#, WinForms, SQL Server',
-      desc: 'Full OOP-based desktop application with inventory tracking, sales reports, and user authentication.'
-    },
-    calculator: {
-      title: 'Calculator Simulator',
-      tech: 'C#, DSA',
-      desc: 'Infix to postfix conversion using Shunting Yard algorithm and stack evaluation for complex expressions.'
-    },
-    guestbook: {
-      title: 'Guest Book App',
-      tech: 'PHP, MySQL, HTML/CSS',
-      desc: 'Real-time message board with secure input handling and database persistence.'
-    },
-    myprofile: {
-      title: 'My Profile',
-      tech: 'HTML5, CSS3, JavaScript',
-      desc: 'This very portfolio you are viewing! Interactive design with dark mode and smooth animations.'
-    }
+    supermarket: { title: 'Supermarket Management', tech: 'C#, WinForms, SQL Server', desc: 'Full OOP-based desktop application with inventory tracking, sales reports, and user authentication.' },
+    calculator: { title: 'Calculator Simulator', tech: 'C#, DSA', desc: 'Infix to postfix conversion using Shunting Yard algorithm and stack evaluation for complex expressions.' },
+    guestbook: { title: 'Guest Book App', tech: 'PHP, MySQL, HTML/CSS', desc: 'Real-time message board with secure input handling and database persistence.' },
+    myprofile: { title: 'My Profile', tech: 'HTML5, CSS3, JavaScript', desc: 'This very portfolio you are viewing! Interactive design with dark mode and smooth animations.' }
   };
 
-  const d = details[project] || {
-    title: 'Project',
-    tech: '',
-    desc: 'Details coming soon.'
-  };
+  const d = details[project] || { title: 'Project', tech: '', desc: 'Details coming soon.' };
 
   content.innerHTML = `
-    <h2>${d.title}</h2>
-    <p><strong>Tech:</strong> ${d.tech}</p>
-    <p>${d.desc}</p>
-    <a href="https://github.com/datweb07" target="_blank" class="btn-brutal small" style="margin-top:1rem;">View on GitHub</a>
+    <h2 style="font-size: 2rem; color: var(--brand-dark); margin-bottom: 10px;">${d.title}</h2>
+    <p><strong>Tech Stack:</strong> ${d.tech}</p>
+    <p style="margin-top:10px;">${d.desc}</p>
+    <a href="https://github.com/datweb07" target="_blank" class="btn-brutal small" style="margin-top:1.5rem; display:inline-block; text-decoration:none;">View on GitHub</a>
   `;
 
   modal.classList.add('show');
 }
 
 function closeProjectModal() {
-  document.getElementById('projectModal').classList.remove('show');
+  const m = document.getElementById('projectModal');
+  if(m) m.classList.remove('show');
 }
 
-// Đóng modal khi click ra ngoài
 window.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal-overlay')) {
     e.target.classList.remove('show');
   }
 });
 
-// Xử lý form liên hệ (ngăn chặn reload)
 function submitContactForm(event) {
   event.preventDefault();
   showToast('📨 Message sent successfully! (demo)');
   closeContactModal();
+  event.target.reset();
 }
 
-// ============================================================
-// PROJECT TABS (FILTER)
-// ============================================================
+const fab = document.getElementById('fab');
+if(fab) fab.addEventListener('click', openContactModal);
+
+
 function filterProjects(category, btn) {
   document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
   btn.classList.add('active');
 
   document.querySelectorAll('.project-item').forEach((item) => {
-    if (
-      category === 'all' ||
-      item.getAttribute('data-category') === category
-    ) {
+    if (category === 'all' || item.getAttribute('data-category') === category) {
       item.style.display = 'block';
     } else {
       item.style.display = 'none';
@@ -462,15 +437,12 @@ function filterProjects(category, btn) {
   });
 }
 
-// ============================================================
-// ACCORDION
-// ============================================================
+
 function toggleAccordion(header) {
   header.classList.toggle('active');
   const body = header.nextElementSibling;
   body.classList.toggle('open');
 
-  // Đóng các accordion khác nếu cần
   document.querySelectorAll('.accordion-header').forEach((h) => {
     if (h !== header && h.classList.contains('active')) {
       h.classList.remove('active');
@@ -479,14 +451,7 @@ function toggleAccordion(header) {
   });
 }
 
-// ============================================================
-// FAB (Floating Action Button)
-// ============================================================
-document.getElementById('fab').addEventListener('click', openContactModal);
 
-// ============================================================
-// PARTICLES BACKGROUND (Canvas)
-// ============================================================
 (function initParticles() {
   const canvas = document.getElementById('particleCanvas');
   if (!canvas) return;
@@ -503,10 +468,7 @@ document.getElementById('fab').addEventListener('click', openContactModal);
   }
 
   class Particle {
-    constructor() {
-      this.reset();
-    }
-
+    constructor() { this.reset(); }
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
@@ -514,28 +476,18 @@ document.getElementById('fab').addEventListener('click', openContactModal);
       this.speedX = (Math.random() - 0.5) * 0.4;
       this.speedY = (Math.random() - 0.5) * 0.4;
     }
-
     update() {
       this.x += this.speedX;
       this.y += this.speedY;
-
-      if (
-        this.x < -10 ||
-        this.x > width + 10 ||
-        this.y < -10 ||
-        this.y > height + 10
-      ) {
+      if (this.x < -10 || this.x > width + 10 || this.y < -10 || this.y > height + 10) {
         this.reset();
       }
     }
-
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       const isDark = document.body.classList.contains('dark-mode');
-      ctx.fillStyle = isDark
-        ? 'rgba(204,243,129,0.4)'
-        : 'rgba(72,49,212,0.25)';
+      ctx.fillStyle = isDark ? 'rgba(204,243,129,0.4)' : 'rgba(72,49,212,0.25)';
       ctx.fill();
     }
   }
@@ -555,7 +507,6 @@ document.getElementById('fab').addEventListener('click', openContactModal);
       p.draw();
     }
 
-    // Vẽ đường nối giữa các hạt gần nhau
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -575,7 +526,6 @@ document.getElementById('fab').addEventListener('click', openContactModal);
         }
       }
     }
-
     requestAnimationFrame(animateParticles);
   }
 
