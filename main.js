@@ -413,11 +413,58 @@ window.addEventListener('click', (e) => {
   }
 });
 
-function submitContactForm(event) {
+// ============================================================
+// GỬI EMAIL VỚI WEB3FORMS API
+// ============================================================
+async function submitContactForm(event) {
   event.preventDefault();
-  showToast('📨 Message sent successfully! (demo)');
-  closeContactModal();
-  event.target.reset();
+
+  const submitBtn = document.getElementById('submitBtn');
+  const nameInput = document.getElementById('senderName');
+  const emailInput = document.getElementById('senderEmail');
+  const messageInput = document.getElementById('senderMessage');
+
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.innerHTML = 'đang gửi rùi nè...';
+  submitBtn.style.pointerEvents = 'none'; 
+  submitBtn.style.opacity = '0.7';
+
+  const ACCESS_KEY = '21dc0912-2c35-4fb0-b823-c618d485e31d';
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        access_key: ACCESS_KEY,
+        name: nameInput.value,
+        email: emailInput.value,
+        message: messageInput.value,
+        subject: 'Có tin nhắn mới từ trang Profile Dat Truong!' 
+      })
+    });
+
+    const result = await response.json();
+
+    if (response.status === 200) {
+      showToast('oki mình sẽ check mail sớm nhất nhé!!!');
+      closeContactModal();
+      event.target.reset(); 
+    } else {
+      console.error('Lỗi từ Web3Forms:', result);
+      showToast('Gửi thất bại. Hãy thử lại sau nhé!');
+    }
+  } catch (error) {
+    console.error('Lỗi Fetch API:', error);
+    showToast('Lỗi mạng. Vui lòng kiểm tra lại kết nối!');
+  } finally {
+    submitBtn.innerHTML = originalText;
+    submitBtn.style.pointerEvents = 'auto';
+    submitBtn.style.opacity = '1';
+  }
 }
 
 const fab = document.getElementById('fab');

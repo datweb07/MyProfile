@@ -91,31 +91,42 @@
         <button class="modal-close hover-target" onclick="closeContactModal()">
           ✕
         </button>
-        <h2 class="modal-heading">chào nhé!</h2>
-        <p class="modal-subtext">
+        <h2
+          style="font-size: 2rem; margin-bottom: 1rem; color: var(--brand-dark)"
+        >
+          chào nhé!
+        </h2>
+        <p style="margin-bottom: 1.5rem">
           chào bạn gì đó nha, nếu bạn muốn liên hệ với mình thì hãy điền thông
           tin vào form bên dưới nhé!
         </p>
         <form id="contactForm" onsubmit="submitContactForm(event)">
           <input
             type="text"
+            id="senderName"
             class="form-input"
             placeholder="tên bạn"
             required
           />
           <input
             type="email"
+            id="senderEmail"
             class="form-input"
             placeholder="email của bạn"
             required
           />
           <textarea
+            id="senderMessage"
             class="form-input"
             rows="4"
             placeholder="nói gì thi nói"
             required
           ></textarea>
-          <button type="submit" class="btn-brutal w-100 hover-target">
+          <button
+            type="submit"
+            id="submitBtn"
+            class="btn-brutal w-100 hover-target"
+          >
             rồi bấm vào đây nè
           </button>
         </form>
