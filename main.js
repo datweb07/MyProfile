@@ -606,3 +606,128 @@ document.addEventListener('DOMContentLoaded', () => {
   createParticles(Math.floor((width * height) / 15000));
   animateParticles();
 })();
+
+
+const audioPlayer = document.getElementById('audioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const progressBar = document.getElementById('progressBar');
+const progressContainer = document.getElementById('progressContainer');
+const currentSongName = document.getElementById('currentSongName');
+const repeatBtn = document.getElementById('repeatBtn');
+
+let isPlaying = false;
+let isRepeat = false;
+
+let currentSongIndex = localStorage.getItem('savedSongIndex') ? parseInt(localStorage.getItem('savedSongIndex')) : 0;
+let shouldAutoPlay = localStorage.getItem('isMusicPlaying') === 'true';
+
+const playlist = [
+  { title: "之间", src: "./musics/之间.mp3" },
+];
+
+function renderPlaylist() {
+  const list = document.getElementById('songList');
+  list.innerHTML = '';
+  playlist.forEach((song, index) => {
+    const li = document.createElement('li');
+    li.className = 'song-item';
+    li.innerHTML = `
+      <span class="song-item-title">${song.title}</span>
+      <button class="btn-brutal small outline hover-target" onclick="playSong(${index})">▶ Play</button>
+    `;
+    list.appendChild(li);
+  });
+}
+
+function loadSong(index) {
+  currentSongIndex = index;
+  audioPlayer.src = playlist[index].src;
+  currentSongName.textContent = playlist[index].title;
+  localStorage.setItem('savedSongIndex', index); 
+}
+
+function playSong(index) {
+  if (index !== currentSongIndex) {
+    loadSong(index);
+  }
+  
+  audioPlayer.play().then(() => {
+    isPlaying = true;
+    playPauseBtn.textContent = 'Stop';
+    localStorage.setItem('isMusicPlaying', 'true');
+  }).catch(e => {
+    console.warn("Trình duyệt chặn phát nhạc tự động:", e);
+    isPlaying = false;
+    playPauseBtn.textContent = 'Play';
+    localStorage.setItem('isMusicPlaying', 'false');
+  });
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    audioPlayer.pause();
+    isPlaying = false;
+    playPauseBtn.textContent = 'Continue';
+    localStorage.setItem('isMusicPlaying', 'false');
+  } else {
+    playSong(currentSongIndex);
+  }
+}
+
+function toggleRepeat() {
+  isRepeat = !isRepeat;
+  audioPlayer.loop = isRepeat;
+  
+  if (isRepeat) {
+    repeatBtn.style.background = 'var(--text-primary)';
+    repeatBtn.style.color = 'var(--bg-primary)';
+  } else {
+    repeatBtn.style.background = 'transparent';
+    repeatBtn.style.color = 'inherit';
+  }
+}
+
+audioPlayer.addEventListener('timeupdate', () => {
+  if (audioPlayer.duration) {
+    const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+  }
+});
+
+function setProgress(e) {
+  const width = progressContainer.clientWidth;
+  const clickX = e.offsetX;
+  const duration = audioPlayer.duration;
+  if(duration) {
+      audioPlayer.currentTime = (clickX / width) * duration;
+  }
+}
+
+
+//tự động chuyển nhạc
+audioPlayer.addEventListener('ended', () => {
+  if (!isRepeat) {
+    let nextIndex = currentSongIndex + 1;
+    if (nextIndex >= playlist.length) nextIndex = 0; 
+    playSong(nextIndex);
+  }
+});
+
+function openMusicModal() {
+  document.getElementById('musicModal').classList.add('show');
+}
+
+function closeMusicModal() {
+  document.getElementById('musicModal').classList.remove('show');
+}
+
+window.addEventListener('load', () => {
+  renderPlaylist();
+  loadSong(currentSongIndex);
+  
+
+  //nếu đang nghe, phát lại sau khi reload trang
+  if (shouldAutoPlay) {
+    playSong(currentSongIndex);
+  }
+});

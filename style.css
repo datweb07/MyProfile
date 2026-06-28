@@ -1157,3 +1157,122 @@ body.dark-mode .side-nav-dot::after {
   border-radius: 50%;
   border: 4px solid var(--bg-primary); 
 }
+
+.music-fab {
+  position: fixed;
+  bottom: 160px; 
+  right: 30px;
+  width: 55px;
+  height: 55px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: transform 0.3s, background 0.3s;
+  border: 2px solid var(--text-primary);
+}
+
+.music-fab .fab-icon{
+  color:#000000;
+}
+
+body.dark-mode .music-fab {
+  border-color: var(--text-primary);
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+}
+
+.now-playing {
+  background: var(--bg-secondary);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 2px solid var(--text-primary);
+}
+
+body.dark-mode .now-playing {
+  background: rgba(0,0,0,0.2);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.song-info {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.progress-container {
+  width: 100%;
+  height: 10px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+  cursor: none;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border: 1px solid var(--text-primary);
+}
+
+body.dark-mode .progress-container {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--brand-dark);
+  border-radius: 10px;
+  transition: width 0.1s linear;
+}
+
+body.dark-mode .progress-bar {
+  background: var(--accent-color);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.song-list {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.song-list::-webkit-scrollbar {
+  width: 5px;
+}
+.song-list::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 5px;
+}
+
+.song-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.dark-mode .song-item {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.song-item:last-child {
+  border-bottom: none;
+}
+
+.song-item-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}

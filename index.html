@@ -57,7 +57,7 @@
     </button>
 
     <button class="fab hover-target" id="fab" title="Contact Me">
-      <span class="fab-icon">Ừ</span>
+      <span class="fab-icon">ừ</span>
     </button>
 
     <div class="side-nav d-none-mobile">
@@ -78,6 +78,63 @@
         <div id="projectModalContent"></div>
       </div>
     </div>
+
+    <button
+      class="music-fab hover-target"
+      id="musicFab"
+      title="Music Player"
+      onclick="openMusicModal()"
+    >
+      <span class="fab-icon">yup</span>
+    </button>
+
+    <div class="modal-overlay" id="musicModal">
+      <div class="modal-content card-3d" style="max-width: 450px">
+        <button class="modal-close hover-target" onclick="closeMusicModal()">
+          ✕
+        </button>
+        <h2
+          class="modal-heading"
+          style="margin-bottom: 20px; color: var(--brand-dark)"
+        >
+          Music Box
+        </h2>
+
+        <div class="now-playing">
+          <div class="song-info">
+            <span id="currentSongName">Chưa có bài nào phát</span>
+          </div>
+          <div
+            class="progress-container hover-target"
+            id="progressContainer"
+            onclick="setProgress(event)"
+          >
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="controls">
+            <button
+              class="btn-brutal icon-only hover-target"
+              onclick="togglePlay()"
+              id="playPauseBtn"
+            >
+              Play
+            </button>
+            <button
+              class="btn-brutal icon-only hover-target"
+              onclick="toggleRepeat()"
+              id="repeatBtn"
+              title="Lặp lại"
+            >
+              Repeat
+            </button>
+          </div>
+        </div>
+
+        <ul class="song-list" id="songList"></ul>
+      </div>
+    </div>
+
+    <audio id="audioPlayer" preload="auto"></audio>
 
     <div class="modal-overlay" id="contactModal">
       <div class="modal-content card-3d">
