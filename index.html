@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dat Truong - My Profile</title>
 
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./pictures/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./pictures/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./pictures/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./pictures/site.webmanifest" />
+    <link rel="shortcut icon" href="./pictures/favicon.ico" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,12 +56,10 @@
       <span class="back-to-top-arrow">↑</span>
     </button>
 
-    <!-- Floating Action Button -->
     <button class="fab hover-target" id="fab" title="Contact Me">
       <span class="fab-icon">Ừ</span>
     </button>
 
-    <!-- Side Navigation (Scroll Spy) -->
     <div class="side-nav d-none-mobile">
       <a href="#home" class="side-nav-dot hover-target active" title="Home"></a>
       <a href="#journey" class="side-nav-dot hover-target" title="Journey"></a>
@@ -52,7 +70,6 @@
       ></a>
     </div>
 
-    <!-- Project Detail Modal -->
     <div class="modal-overlay" id="projectModal">
       <div class="modal-content card-3d">
         <button class="modal-close hover-target" onclick="closeProjectModal()">
@@ -62,7 +79,6 @@
       </div>
     </div>
 
-    <!-- Contact Modal -->
     <div class="modal-overlay" id="contactModal">
       <div class="modal-content card-3d">
         <button class="modal-close hover-target" onclick="closeContactModal()">
@@ -110,7 +126,6 @@
       </div>
     </div>
 
-    <!-- Header & Navigation -->
     <header class="header">
       <div class="container">
         <nav class="nav">
@@ -130,7 +145,6 @@
     </header>
 
     <main class="main-content">
-      <!-- Hero / Profile Section -->
       <section id="home" class="profile-section container reveal">
         <div class="profile-info">
           <h1 class="huge-title">
@@ -195,7 +209,6 @@
         </div>
       </section>
 
-      <!-- Journey Timeline -->
       <section id="journey" class="container reveal">
         <h2 class="section-title">
           <span class="chonky_underline" style="--underline-color: #ff6b2b">
@@ -231,7 +244,6 @@
         </div>
       </section>
 
-      <!-- Projects -->
       <section id="projects" class="container reveal">
         <h2 class="section-title">
           <span
@@ -262,7 +274,6 @@
           </button>
         </div>
         <div class="projects-grid">
-          <!-- Project Cards -->
           <div
             class="project-item project-card hover-target"
             data-category="backend"
