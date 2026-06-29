@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://xhaabkwglcixymaqmwsd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoYWFia3dnbGNpeHltYXFtd3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzMwMjksImV4cCI6MjA5ODE0OTAyOX0.KT1GQnosUN69ECnmcy3F1selazllyZrl5GxEludnoz0'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoYWFia3dnbGNpeHltYXFtd3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzMwMjksImV4cCI6MjA5ODE0OTAyOX0.KT1GQnosUN69ECnmcy3F1selazllyZrl5GxEludnoz0';
 
 let supabaseClient = null;
 
@@ -29,7 +29,7 @@ if (cursorDot && cursorOutline) {
     cursorDot.style.top = `${posY}px`;
 
     cursorOutline.animate(
-      [ { left: `${posX}px`, top: `${posY}px` } ],
+      [{ left: `${posX}px`, top: `${posY}px` }],
       { duration: 500, fill: 'forwards' }
     );
   });
@@ -64,7 +64,7 @@ window.addEventListener('load', () => {
 
   triggerScrollAnimation();
   updateBackToTop();
-  fetchCurrentLikes(); 
+  fetchCurrentLikes();
 });
 
 
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', typeWriter);
 
 document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) => {
   card.addEventListener('mousemove', (e) => {
-    if (window.innerWidth <= 768) return; 
+    if (window.innerWidth <= 768) return;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -248,7 +248,7 @@ document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) 
 
 function showToast(message, duration = 3000) {
   const container = document.getElementById('toastContainer');
-  if(!container) return;
+  if (!container) return;
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;
@@ -269,7 +269,7 @@ function copyEmail() {
 
 
 async function fetchCurrentLikes() {
-  if (!supabaseClient) return; 
+  if (!supabaseClient) return;
   try {
     const { data, error } = await supabaseClient
       .from('page_stats')
@@ -293,8 +293,8 @@ async function addReaction() {
   isLiking = true;
 
   const countEl = document.getElementById('reactionCount');
-  if(!countEl) return;
-  
+  if (!countEl) return;
+
   let currentCount = parseInt(countEl.textContent) || 0;
   countEl.textContent = currentCount + 1;
 
@@ -312,7 +312,7 @@ async function addReaction() {
     if (error) throw error;
   } catch (error) {
     console.error('Lỗi khi cộng like:', error.message);
-    countEl.textContent = currentCount; 
+    countEl.textContent = currentCount;
     showToast('Có lỗi xảy ra, không thể lưu lượt Like!');
   } finally {
     isLiking = false;
@@ -320,7 +320,7 @@ async function addReaction() {
 }
 
 function createMiniParticles(element) {
-  if(!element) return;
+  if (!element) return;
   const rect = element.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
@@ -356,19 +356,19 @@ function createMiniParticles(element) {
 
 function openContactModal() {
   const m = document.getElementById('contactModal');
-  if(m) m.classList.add('show');
+  if (m) m.classList.add('show');
 }
 
 function closeContactModal() {
   const m = document.getElementById('contactModal');
-  if(m) m.classList.remove('show');
+  if (m) m.classList.remove('show');
 }
 
 function openProjectDetail(e, project) {
   e.preventDefault();
   const modal = document.getElementById('projectModal');
   const content = document.getElementById('projectModalContent');
-  if(!modal || !content) return;
+  if (!modal || !content) return;
 
   const details = {
     supermarket: { title: 'Supermarket Management', tech: 'C#, WinForms, SQL Server', desc: 'Full OOP-based desktop application with inventory tracking, sales reports, and user authentication.' },
@@ -391,7 +391,7 @@ function openProjectDetail(e, project) {
 
 function closeProjectModal() {
   const m = document.getElementById('projectModal');
-  if(m) m.classList.remove('show');
+  if (m) m.classList.remove('show');
 }
 
 window.addEventListener('click', (e) => {
@@ -400,9 +400,9 @@ window.addEventListener('click', (e) => {
   }
 });
 
-// ============================================================
-// GỬI EMAIL VỚI WEB3FORMS API
-// ============================================================
+
+
+//gửi mail (web3forms)
 async function submitContactForm(event) {
   event.preventDefault();
 
@@ -413,7 +413,7 @@ async function submitContactForm(event) {
 
   const originalBtnText = submitBtn.innerHTML;
   submitBtn.innerHTML = 'đang gửi rùi nè...';
-  submitBtn.style.pointerEvents = 'none'; 
+  submitBtn.style.pointerEvents = 'none';
   submitBtn.style.opacity = '0.7';
 
   const ACCESS_KEY = '21dc0912-2c35-4fb0-b823-c618d485e31d';
@@ -430,7 +430,7 @@ async function submitContactForm(event) {
         name: nameInput.value,
         email: emailInput.value,
         message: messageInput.value,
-        subject: 'Có tin nhắn mới từ trang Profile Dat Truong!' 
+        subject: 'Có tin nhắn mới từ trang Profile Dat Truong!'
       })
     });
 
@@ -439,7 +439,7 @@ async function submitContactForm(event) {
     if (response.status === 200) {
       showToast('oki mình sẽ check mail sớm nhất nhé!!!');
       closeContactModal();
-      event.target.reset(); 
+      event.target.reset();
     } else {
       console.error('Lỗi từ Web3Forms:', result);
       showToast('Gửi thất bại. Hãy thử lại sau nhé!');
@@ -455,7 +455,7 @@ async function submitContactForm(event) {
 }
 
 const fab = document.getElementById('fab');
-if(fab) fab.addEventListener('click', openContactModal);
+if (fab) fab.addEventListener('click', openContactModal);
 
 
 function filterProjects(category, btn) {
@@ -564,38 +564,38 @@ function toggleAccordion(header) {
   }
 
 
-function openImageModal() {
-  const modal = document.getElementById('imageModal');
-  const fullImg = document.getElementById('fullImage');
-  const profileImg = document.querySelector('.profile-image');
-  if (!profileImg || !modal) return;
+  function openImageModal() {
+    const modal = document.getElementById('imageModal');
+    const fullImg = document.getElementById('fullImage');
+    const profileImg = document.querySelector('.profile-image');
+    if (!profileImg || !modal) return;
 
-  const bgStyle = getComputedStyle(profileImg).backgroundImage;
-  const url = bgStyle.slice(5, -2); 
-  fullImg.src = url;
+    const bgStyle = getComputedStyle(profileImg).backgroundImage;
+    const url = bgStyle.slice(5, -2);
+    fullImg.src = url;
 
-  modal.classList.add('show');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const profileImg = document.querySelector('.profile-image');
-  if (profileImg) {
-    profileImg.style.cursor = 'pointer';
-    profileImg.addEventListener('click', openImageModal);
+    modal.classList.add('show');
   }
-});
 
-function closeImageModal() {
-  document.getElementById('imageModal').classList.remove('show');
-}
+  document.addEventListener('DOMContentLoaded', () => {
+    const profileImg = document.querySelector('.profile-image');
+    if (profileImg) {
+      profileImg.style.cursor = 'pointer';
+      profileImg.addEventListener('click', openImageModal);
+    }
+  });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const profileImg = document.querySelector('.profile-image');
-  if (profileImg) {
-    profileImg.style.cursor = 'pointer';
-    profileImg.addEventListener('click', openImageModal);
+  function closeImageModal() {
+    document.getElementById('imageModal').classList.remove('show');
   }
-});
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const profileImg = document.querySelector('.profile-image');
+    if (profileImg) {
+      profileImg.style.cursor = 'pointer';
+      profileImg.addEventListener('click', openImageModal);
+    }
+  });
 
   window.addEventListener('resize', () => {
     resize();
@@ -643,14 +643,14 @@ function loadSong(index) {
   currentSongIndex = index;
   audioPlayer.src = playlist[index].src;
   currentSongName.textContent = playlist[index].title;
-  localStorage.setItem('savedSongIndex', index); 
+  localStorage.setItem('savedSongIndex', index);
 }
 
 function playSong(index) {
   if (index !== currentSongIndex) {
     loadSong(index);
   }
-  
+
   audioPlayer.play().then(() => {
     isPlaying = true;
     playPauseBtn.textContent = 'Stop';
@@ -677,7 +677,7 @@ function togglePlay() {
 function toggleRepeat() {
   isRepeat = !isRepeat;
   audioPlayer.loop = isRepeat;
-  
+
   if (isRepeat) {
     repeatBtn.style.background = 'var(--text-primary)';
     repeatBtn.style.color = 'var(--bg-primary)';
@@ -698,8 +698,8 @@ function setProgress(e) {
   const width = progressContainer.clientWidth;
   const clickX = e.offsetX;
   const duration = audioPlayer.duration;
-  if(duration) {
-      audioPlayer.currentTime = (clickX / width) * duration;
+  if (duration) {
+    audioPlayer.currentTime = (clickX / width) * duration;
   }
 }
 
@@ -708,7 +708,7 @@ function setProgress(e) {
 audioPlayer.addEventListener('ended', () => {
   if (!isRepeat) {
     let nextIndex = currentSongIndex + 1;
-    if (nextIndex >= playlist.length) nextIndex = 0; 
+    if (nextIndex >= playlist.length) nextIndex = 0;
     playSong(nextIndex);
   }
 });
@@ -724,7 +724,7 @@ function closeMusicModal() {
 window.addEventListener('load', () => {
   renderPlaylist();
   loadSong(currentSongIndex);
-  
+
 
   //nếu đang nghe, phát lại sau khi reload trang
   if (shouldAutoPlay) {

@@ -1,8 +1,4 @@
-/* ============================================================
-   BIẾN CSS TOÀN CỤC (CUSTOM PROPERTIES)
-   ============================================================ */
 :root {
-  /* Màu sắc chung */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --text-primary: #1a191d;
@@ -11,25 +7,20 @@
   --accent-color: #ccf381;
   --accent-secondary: #ff6b2b;
 
-  /* Card & UI */
   --card-bg: #ffffff;
   --card-border: 3px solid var(--text-primary);
   --card-shadow: 6px 6px 0px var(--brand-dark);
 
-  /* Transition */
   --transition-speed: 0.3s;
 
-  /* Custom cursor */
   --cursor-dot: #4831d4;
   --cursor-outline: rgba(72, 49, 212, 0.3);
 
-  /* Font families */
   --font-heading: 'IBM Plex Sans', sans-serif;
   --font-body: 'Barlow', sans-serif;
   --font-logo: 'Pacifico', cursive;
 }
 
-/* Dark mode overrides */
 body.dark-mode {
   --bg-primary: #120b2e;
   --bg-secondary: #1a1141;
@@ -44,9 +35,6 @@ body.dark-mode {
   --cursor-outline: rgba(204, 243, 129, 0.3);
 }
 
-/* ============================================================
-   RESET & THIẾT LẬP CƠ BẢN
-   ============================================================ */
 *,
 *::before,
 *::after {
@@ -57,7 +45,6 @@ body.dark-mode {
 
 html {
   scroll-behavior: smooth;
-  /* Ẩn con trỏ chuột hệ thống trên desktop */
   cursor: none;
 }
 
@@ -73,22 +60,17 @@ body {
   cursor: none;
 }
 
-/* Selection */
 ::selection {
   background: var(--accent-color);
   color: var(--text-primary);
 }
 
-/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
 .cursor-dot {
   position: fixed;
   width: 8px;
@@ -120,30 +102,26 @@ body {
     background-color 0.3s;
 }
 
-/* Hiệu ứng hover lên các phần tử tương tác */
-a:hover ~ .cursor-outline,
-button:hover ~ .cursor-outline,
-.btn-brutal:hover ~ .cursor-outline,
-.fab:hover ~ .cursor-outline,
-.accordion-header:hover ~ .cursor-outline,
-.tab-btn:hover ~ .cursor-outline,
-.side-nav-dot:hover ~ .cursor-outline {
+a:hover~.cursor-outline,
+button:hover~.cursor-outline,
+.btn-brutal:hover~.cursor-outline,
+.fab:hover~.cursor-outline,
+.accordion-header:hover~.cursor-outline,
+.tab-btn:hover~.cursor-outline,
+.side-nav-dot:hover~.cursor-outline {
   width: 56px;
   height: 56px;
   border-color: var(--accent-color);
   background: rgba(255, 107, 43, 0.1);
 }
 
-a:hover ~ .cursor-dot,
-button:hover ~ .cursor-dot {
+a:hover~.cursor-dot,
+button:hover~.cursor-dot {
   width: 12px;
   height: 12px;
   background-color: var(--accent-color);
 }
 
-/* ============================================================
-   HEADER & NAVIGATION
-   ============================================================ */
 .header {
   background: var(--bg-primary);
   position: fixed;
@@ -209,9 +187,8 @@ body.dark-mode .logo {
   transition: width 0.1s linear;
 }
 
-/* ============================================================
-   PARTICLES BACKGROUND CANVAS
-   ============================================================ */
+
+
 .particle-canvas {
   position: fixed;
   top: 0;
@@ -223,9 +200,9 @@ body.dark-mode .logo {
   opacity: 0.4;
 }
 
-/* ============================================================
-   TYPOGRAPHY (FONT FAMILIES ÁP DỤNG)
-   ============================================================ */
+
+
+
 h1,
 h2,
 h3,
@@ -260,9 +237,9 @@ p,
   font-family: var(--font-body);
 }
 
-/* ============================================================
-   CHONKY UNDERLINE
-   ============================================================ */
+
+
+
 .chonky_underline {
   position: relative;
   z-index: 2;
@@ -275,11 +252,9 @@ p,
   content: "";
   width: 100%;
   height: 12px;
-  background: linear-gradient(
-    65deg,
-    var(--underline-color) 0%,
-    rgba(255, 209, 0, 0) 100%
-  );
+  background: linear-gradient(65deg,
+      var(--underline-color) 0%,
+      rgba(255, 209, 0, 0) 100%);
   position: absolute;
   bottom: 2px;
   left: -2px;
@@ -291,9 +266,9 @@ p,
   height: 100%;
 }
 
-/* ============================================================
-   HERO SECTION
-   ============================================================ */
+
+
+
 .main-content {
   margin-top: 100px;
 }
@@ -337,9 +312,9 @@ body.dark-mode .huge-title {
   margin-bottom: 2.5rem;
 }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
+
+
+
 .tags {
   display: flex;
   gap: 1rem;
@@ -416,9 +391,9 @@ body.dark-mode .btn-brutal:hover {
   width: 100%;
 }
 
-/* ============================================================
-   PROFILE VISUAL (BLOB & AVATAR)
-   ============================================================ */
+
+
+
 .profile-visual {
   position: relative;
   width: 100%;
@@ -458,17 +433,19 @@ body.dark-mode .blob-shape {
   0% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
+
   50% {
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
+
   100% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 }
 
-/* ============================================================
-   SECTIONS CHUNG
-   ============================================================ */
+
+
+
 section {
   padding: 80px 0;
 }
@@ -479,80 +456,10 @@ section {
   margin-bottom: 3rem;
 }
 
-/* ============================================================
-   STATS
-   ============================================================ */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-  text-align: center;
-}
 
-.stat-card {
-  padding: 2rem 1rem;
-}
 
-.stat-number {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--brand-dark);
-  display: block;
-}
 
-body.dark-mode .stat-number {
-  color: var(--accent-color);
-}
 
-.stat-label {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-/* ============================================================
-   SKILL BARS
-   ============================================================ */
-.skill-bars {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.skill-item {
-  margin-bottom: 1.5rem;
-}
-
-.skill-info {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.skill-progress {
-  height: 12px;
-  background: var(--bg-secondary);
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid var(--text-primary);
-}
-
-.skill-fill {
-  height: 100%;
-  background: var(--brand-dark);
-  width: 0;
-  transition: width 1s ease;
-  border-radius: 10px;
-}
-
-body.dark-mode .skill-fill {
-  background: var(--accent-color);
-}
-
-/* ============================================================
-   TIMELINE
-   ============================================================ */
 .timeline {
   position: relative;
   max-width: 800px;
@@ -635,9 +542,9 @@ body.dark-mode .timeline-dot {
   opacity: 1;
 }
 
-/* ============================================================
-   CARDS
-   ============================================================ */
+
+
+
 .card-3d,
 .project-card,
 .stat-card {
@@ -660,9 +567,9 @@ body.dark-mode .stat-card {
   backdrop-filter: blur(10px);
 }
 
-/* ============================================================
-   PROJECTS GRID
-   ============================================================ */
+
+
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -706,9 +613,9 @@ body.dark-mode .project-tech-tags span {
   color: var(--accent-color);
 }
 
-/* ============================================================
-   TABS
-   ============================================================ */
+
+
+
 .tabs {
   display: flex;
   gap: 1rem;
@@ -736,61 +643,9 @@ body.dark-mode .project-tech-tags span {
   background: var(--bg-secondary);
 }
 
-/* ============================================================
-   ACCORDION (FAQ)
-   ============================================================ */
-.accordion {
-  max-width: 800px;
-  margin: 0 auto;
-}
 
-.accordion-item {
-  margin-bottom: 1rem;
-  overflow: hidden;
-  padding: 0;
-}
 
-.accordion-header {
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: none;
-}
 
-.accordion-icon {
-  font-size: 1.5rem;
-  transition: transform 0.3s;
-}
-
-.accordion-header.active .accordion-icon {
-  transform: rotate(45deg);
-  color: var(--accent-secondary);
-}
-
-.accordion-body {
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    max-height 0.4s ease,
-    padding 0.4s ease;
-  padding: 0 1.5rem;
-}
-
-.accordion-body.open {
-  max-height: 300px;
-  padding: 0 1.5rem 1.5rem 1.5rem;
-}
-
-/* ============================================================
-   MODALS & FORMS
-   ============================================================ */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -865,9 +720,9 @@ body.dark-mode .form-input {
   box-shadow: 4px 4px 0px var(--accent-color);
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+
+
+
 .toast-container {
   position: fixed;
   top: 80px;
@@ -902,6 +757,7 @@ body.dark-mode .toast {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -913,15 +769,16 @@ body.dark-mode .toast {
     transform: translateX(0);
     opacity: 1;
   }
+
   to {
     transform: translateX(100%);
     opacity: 0;
   }
 }
 
-/* ============================================================
-   BACK TO TOP & FAB
-   ============================================================ */
+
+
+
 .back-to-top {
   position: fixed;
   bottom: 30px;
@@ -985,9 +842,9 @@ body.dark-mode .fab {
   color: #fff;
 }
 
-/* ============================================================
-   REVEAL ANIMATION
-   ============================================================ */
+
+
+
 .reveal {
   opacity: 0;
   transform: translateY(60px);
@@ -999,9 +856,9 @@ body.dark-mode .fab {
   transform: translateY(0);
 }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
+
+
+
 .footer {
   text-align: center;
   padding: 2rem 0;
@@ -1009,9 +866,9 @@ body.dark-mode .fab {
   margin-top: 4rem;
 }
 
-/* ============================================================
-   SIDE NAVIGATION (SCROLL SPY)
-   ============================================================ */
+
+
+
 .side-nav {
   position: fixed;
   right: 30px;
@@ -1074,9 +931,9 @@ body.dark-mode .side-nav-dot::after {
   box-shadow: 0 0 10px var(--accent-color);
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
+
+
+
 @media (max-width: 992px) {
   .huge-title {
     font-size: 4rem;
@@ -1098,6 +955,7 @@ body.dark-mode .side-nav-dot::after {
 }
 
 @media (max-width: 768px) {
+
   html,
   body {
     cursor: auto;
@@ -1137,9 +995,9 @@ body.dark-mode .side-nav-dot::after {
   border: none;
   box-shadow: none;
   padding: 0;
-  max-width: 300px;       
+  max-width: 300px;
   max-height: 300px;
-  width: 70vw;            
+  width: 70vw;
   height: 70vw;
   max-width: 300px;
   max-height: 300px;
@@ -1153,14 +1011,14 @@ body.dark-mode .side-nav-dot::after {
 .image-modal-content img {
   width: 100%;
   height: 100%;
-  object-fit: cover;      
+  object-fit: cover;
   border-radius: 50%;
-  border: 4px solid var(--bg-primary); 
+  border: 4px solid var(--bg-primary);
 }
 
 .music-fab {
   position: fixed;
-  bottom: 160px; 
+  bottom: 160px;
   right: 30px;
   width: 55px;
   height: 55px;
@@ -1175,8 +1033,8 @@ body.dark-mode .side-nav-dot::after {
   border: 2px solid var(--text-primary);
 }
 
-.music-fab .fab-icon{
-  color:#000000;
+.music-fab .fab-icon {
+  color: #000000;
 }
 
 body.dark-mode .music-fab {
@@ -1194,8 +1052,8 @@ body.dark-mode .music-fab {
 }
 
 body.dark-mode .now-playing {
-  background: rgba(0,0,0,0.2);
-  border-color: rgba(255,255,255,0.2);
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .song-info {
@@ -1209,7 +1067,7 @@ body.dark-mode .now-playing {
 .progress-container {
   width: 100%;
   height: 10px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   cursor: none;
   margin-bottom: 15px;
@@ -1218,8 +1076,8 @@ body.dark-mode .now-playing {
 }
 
 body.dark-mode .progress-container {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .progress-bar {
@@ -1250,6 +1108,7 @@ body.dark-mode .progress-bar {
 .song-list::-webkit-scrollbar {
   width: 5px;
 }
+
 .song-list::-webkit-scrollbar-thumb {
   background: var(--accent-color);
   border-radius: 5px;
@@ -1260,11 +1119,11 @@ body.dark-mode .progress-bar {
   justify-content: space-between;
   align-items: center;
   padding: 12px 10px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode .song-item {
-  border-bottom-color: rgba(255,255,255,0.1);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .song-item:last-child {
