@@ -14,8 +14,62 @@ try {
 } catch (err) {
   console.error("Lỗi khởi tạo Supabase:", err);
 }
+let messages = {};
+let currentLanguage = localStorage.getItem('language') || 'en';
 
+function readMessage(key) {
+  return key.split('.').reduce((value, part) => value && value[part], messages);
+}
 
+function t(key, fallback = key) {
+  return readMessage(key) || fallback;
+}
+
+async function loadLanguage(lang) {
+  try {
+    const response = await fetch(`./messages/${lang}.json`);
+    if (!response.ok) throw new Error(`Could not load ${lang}.json`);
+    messages = await response.json();
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    document.documentElement.lang = lang === 'vi' ? 'vi' : 'en';
+    applyTranslations();
+  } catch (error) {
+    console.warn('Could not load language dataset:', error);
+  }
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    element.textContent = t(element.dataset.i18n, element.textContent);
+  });
+
+  document.querySelectorAll('[data-i18n-html]').forEach((element) => {
+    element.innerHTML = t(element.dataset.i18nHtml, element.innerHTML);
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+    element.placeholder = t(element.dataset.i18nPlaceholder, element.placeholder);
+  });
+
+  const languageToggle = document.getElementById('languageToggle');
+  if (languageToggle) languageToggle.textContent = t('nav.languageToggle', currentLanguage === 'en' ? 'VI' : 'EN');
+
+  const themeText = document.getElementById('theme-text');
+  if (themeText) {
+    const isDark = document.body.classList.contains('dark-mode');
+    themeText.textContent = isDark ? t('nav.lightMode', 'Light Mode') : t('nav.darkMode', 'Dark Mode');
+  }
+
+  if (document.getElementById('commandPalette')?.classList.contains('show')) {
+    renderCommandList(document.getElementById('commandSearch')?.value || '');
+  }
+}
+
+function toggleLanguage() {
+  const nextLanguage = currentLanguage === 'en' ? 'vi' : 'en';
+  loadLanguage(nextLanguage).then(() => showToast(t('toast.language', 'Language switched.')));
+}
 
 const cursorDot = document.getElementById('cursorDot');
 const cursorOutline = document.getElementById('cursorOutline');
@@ -43,7 +97,7 @@ function toggleDarkMode() {
   const text = document.getElementById('theme-text');
 
   if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-  if (text) text.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  if (text) text.textContent = isDark ? t('nav.lightMode', 'Light Mode') : t('nav.darkMode', 'Dark Mode');
 
   localStorage.setItem('darkMode', isDark);
 }
@@ -55,7 +109,7 @@ window.addEventListener('load', () => {
     const icon = document.getElementById('theme-icon');
     const text = document.getElementById('theme-text');
     if (icon) icon.textContent = '☀️';
-    if (text) text.textContent = 'Light Mode';
+    if (text) text.textContent = t('nav.lightMode', 'Light Mode');
   }
 
   if ('scrollRestoration' in history) {
@@ -371,19 +425,35 @@ function openProjectDetail(e, project) {
   if (!modal || !content) return;
 
   const details = {
-    supermarket: { title: 'Supermarket Management', tech: 'C#, WinForms, SQL Server', desc: 'Full OOP-based desktop application with inventory tracking, sales reports, and user authentication.' },
-    calculator: { title: 'Calculator Simulator', tech: 'C#, DSA', desc: 'Infix to postfix conversion using Shunting Yard algorithm and stack evaluation for complex expressions.' },
-    guestbook: { title: 'Guest Book App', tech: 'PHP, MySQL, HTML/CSS', desc: 'Real-time message board with secure input handling and database persistence.' },
-    myprofile: { title: 'My Profile', tech: 'HTML5, CSS3, JavaScript', desc: 'This very portfolio you are viewing! Interactive design with dark mode and smooth animations.' }
+    supermarket: {
+      title: t('projects.supermarket.title'),
+      tech: 'C#, WinForms, SQL Server',
+      desc: t('projects.supermarket.modalDesc')
+    },
+    calculator: {
+      title: t('projects.calculator.title'),
+      tech: 'C#, DSA',
+      desc: t('projects.calculator.modalDesc')
+    },
+    guestbook: {
+      title: t('projects.guestbook.title'),
+      tech: 'PHP, MySQL, HTML/CSS',
+      desc: t('projects.guestbook.modalDesc')
+    },
+    myprofile: {
+      title: t('projects.myprofile.title'),
+      tech: 'HTML5, CSS3, JavaScript',
+      desc: t('projects.myprofile.modalDesc')
+    }
   };
 
   const d = details[project] || { title: 'Project', tech: '', desc: 'Details coming soon.' };
 
   content.innerHTML = `
     <h2 style="font-size: 2rem; color: var(--brand-dark); margin-bottom: 10px;">${d.title}</h2>
-    <p><strong>Tech Stack:</strong> ${d.tech}</p>
+    <p><strong>${t('projectModal.techStack')}:</strong> ${d.tech}</p>
     <p style="margin-top:10px;">${d.desc}</p>
-    <a href="https://github.com/datweb07" target="_blank" class="btn-brutal small" style="margin-top:1.5rem; display:inline-block; text-decoration:none;">View on GitHub</a>
+    <a href="https://github.com/datweb07" target="_blank" class="btn-brutal small" style="margin-top:1.5rem; display:inline-block; text-decoration:none;">${t('projectModal.viewGithub')}</a>
   `;
 
   modal.classList.add('show');
@@ -448,7 +518,7 @@ async function submitContactForm(event) {
     console.error('Lỗi Fetch API:', error);
     showToast('Lỗi mạng. Vui lòng kiểm tra lại kết nối!');
   } finally {
-    submitBtn.innerHTML = originalText;
+    submitBtn.innerHTML = originalBtnText;
     submitBtn.style.pointerEvents = 'auto';
     submitBtn.style.opacity = '1';
   }
@@ -484,6 +554,171 @@ function toggleAccordion(header) {
     }
   });
 }
+
+const commandBlueprints = [
+  { key: 'home', shortcut: 'H', action: () => scrollToSection('home') },
+  { key: 'journey', shortcut: 'J', action: () => scrollToSection('journey') },
+  { key: 'projects', shortcut: 'P', action: () => scrollToSection('projects') },
+  { key: 'github', shortcut: 'G', action: () => window.open('https://github.com/datweb07', '_blank') },
+  { key: 'email', shortcut: 'E', action: copyEmail },
+  { key: 'music', shortcut: 'M', action: togglePlay },
+  { key: 'theme', shortcut: 'T', action: toggleDarkMode },
+  { key: 'contact', shortcut: 'C', action: openContactModal }
+];
+
+let activeCommandIndex = 0;
+
+function getCommandItems() {
+  return commandBlueprints.map((item) => ({
+    ...item,
+    title: t(`command.items.${item.key}.title`, item.key),
+    hint: t(`command.items.${item.key}.hint`, '')
+  }));
+}
+
+function scrollToSection(id) {
+  const section = document.getElementById(id);
+  if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function openCommandPalette() {
+  const palette = document.getElementById('commandPalette');
+  const search = document.getElementById('commandSearch');
+  if (!palette || !search) return;
+  palette.classList.add('show');
+  palette.setAttribute('aria-hidden', 'false');
+  search.value = '';
+  activeCommandIndex = 0;
+  renderCommandList('');
+  setTimeout(() => search.focus(), 40);
+}
+
+function closeCommandPalette() {
+  const palette = document.getElementById('commandPalette');
+  if (!palette) return;
+  palette.classList.remove('show');
+  palette.setAttribute('aria-hidden', 'true');
+}
+
+function getFilteredCommands(query) {
+  const q = query.trim().toLowerCase();
+  const commandItems = getCommandItems();
+  if (!q) return commandItems;
+  return commandItems.filter((item) => {
+    return item.title.toLowerCase().includes(q) || item.hint.toLowerCase().includes(q) || item.shortcut.toLowerCase() === q;
+  });
+}
+
+function renderCommandList(query) {
+  const list = document.getElementById('commandList');
+  if (!list) return;
+  const filtered = getFilteredCommands(query);
+  activeCommandIndex = Math.min(activeCommandIndex, Math.max(filtered.length - 1, 0));
+
+  list.innerHTML = filtered.map((item, index) => `
+    <button class="command-item hover-target ${index === activeCommandIndex ? 'active' : ''}" type="button" data-command-index="${index}">
+      <span>
+        <span class="command-title">${item.title}</span>
+        <span class="command-hint">${item.hint}</span>
+      </span>
+      <span class="command-shortcut">${item.shortcut}</span>
+    </button>
+  `).join('');
+
+  list.querySelectorAll('.command-item').forEach((button) => {
+    button.addEventListener('click', () => runCommandAtIndex(parseInt(button.dataset.commandIndex, 10)));
+  });
+}
+
+function runCommandAtIndex(index) {
+  const search = document.getElementById('commandSearch');
+  const filtered = getFilteredCommands(search?.value || '');
+  const command = filtered[index];
+  if (!command) return;
+  closeCommandPalette();
+  command.action();
+}
+
+function applyAccentColor(color) {
+  if (!color) return;
+  document.documentElement.style.setProperty('--accent-color', color);
+  localStorage.setItem('accentColor', color);
+  document.querySelectorAll('.accent-swatch').forEach((swatch) => {
+    swatch.classList.toggle('active', swatch.dataset.accent === color);
+  });
+}
+
+function initAccentPicker() {
+  const savedAccent = localStorage.getItem('accentColor');
+  if (savedAccent) applyAccentColor(savedAccent);
+
+  document.querySelectorAll('.accent-swatch').forEach((swatch) => {
+    swatch.addEventListener('click', () => applyAccentColor(swatch.dataset.accent));
+  });
+}
+
+function initCommandPalette() {
+  const trigger = document.getElementById('commandTrigger');
+  const closeBtn = document.getElementById('commandClose');
+  const palette = document.getElementById('commandPalette');
+  const search = document.getElementById('commandSearch');
+
+  if (trigger) trigger.addEventListener('click', openCommandPalette);
+  if (closeBtn) closeBtn.addEventListener('click', closeCommandPalette);
+  if (palette) {
+    palette.addEventListener('click', (e) => {
+      if (e.target === palette) closeCommandPalette();
+    });
+  }
+  if (search) {
+    search.addEventListener('input', () => {
+      activeCommandIndex = 0;
+      renderCommandList(search.value);
+    });
+    search.addEventListener('keydown', (e) => {
+      const filtered = getFilteredCommands(search.value);
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeCommandIndex = (activeCommandIndex + 1) % Math.max(filtered.length, 1);
+        renderCommandList(search.value);
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeCommandIndex = (activeCommandIndex - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1);
+        renderCommandList(search.value);
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runCommandAtIndex(activeCommandIndex);
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const target = e.target;
+    const isTyping = target && ['INPUT', 'TEXTAREA'].includes(target.tagName);
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openCommandPalette();
+    } else if (e.key === 'Escape') {
+      closeCommandPalette();
+    } else if (!isTyping) {
+      const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
+      if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
+        closeCommandPalette();
+        match.action();
+      }
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadLanguage(currentLanguage);
+  const languageToggle = document.getElementById('languageToggle');
+  if (languageToggle) languageToggle.addEventListener('click', toggleLanguage);
+  initCommandPalette();
+  initAccentPicker();
+});
 
 
 (function initParticles() {
@@ -571,7 +806,7 @@ function toggleAccordion(header) {
     if (!profileImg || !modal) return;
 
     const bgStyle = getComputedStyle(profileImg).backgroundImage;
-    const url = bgStyle.slice(5, -2);
+    const url = profileImg.currentSrc || profileImg.src || bgStyle.slice(5, -2);
     fullImg.src = url;
 
     modal.classList.add('show');
@@ -614,6 +849,7 @@ const progressBar = document.getElementById('progressBar');
 const progressContainer = document.getElementById('progressContainer');
 const currentSongName = document.getElementById('currentSongName');
 const repeatBtn = document.getElementById('repeatBtn');
+const musicFab = document.getElementById('musicFab');
 
 let isPlaying = false;
 let isRepeat = false;
@@ -624,6 +860,18 @@ let shouldAutoPlay = localStorage.getItem('isMusicPlaying') === 'true';
 const playlist = [
   { title: "之间", src: "./musics/之间.mp3" },
 ];
+
+function updateMusicWidget() {
+  if (!musicFab) return;
+  musicFab.classList.toggle('playing', isPlaying);
+
+  if (audioPlayer.duration) {
+    const degrees = (audioPlayer.currentTime / audioPlayer.duration) * 360;
+    musicFab.style.setProperty('--music-progress', `${degrees}deg`);
+  } else {
+    musicFab.style.setProperty('--music-progress', '0deg');
+  }
+}
 
 function renderPlaylist() {
   const list = document.getElementById('songList');
@@ -655,11 +903,13 @@ function playSong(index) {
     isPlaying = true;
     playPauseBtn.textContent = 'Stop';
     localStorage.setItem('isMusicPlaying', 'true');
+    updateMusicWidget();
   }).catch(e => {
     console.warn("Trình duyệt chặn phát nhạc tự động:", e);
     isPlaying = false;
     playPauseBtn.textContent = 'Play';
     localStorage.setItem('isMusicPlaying', 'false');
+    updateMusicWidget();
   });
 }
 
@@ -669,6 +919,7 @@ function togglePlay() {
     isPlaying = false;
     playPauseBtn.textContent = 'Continue';
     localStorage.setItem('isMusicPlaying', 'false');
+    updateMusicWidget();
   } else {
     playSong(currentSongIndex);
   }
@@ -691,6 +942,7 @@ audioPlayer.addEventListener('timeupdate', () => {
   if (audioPlayer.duration) {
     const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
     progressBar.style.width = `${progressPercent}%`;
+    updateMusicWidget();
   }
 });
 
@@ -724,6 +976,7 @@ function closeMusicModal() {
 window.addEventListener('load', () => {
   renderPlaylist();
   loadSong(currentSongIndex);
+  updateMusicWidget();
 
 
   //nếu đang nghe, phát lại sau khi reload trang

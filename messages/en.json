@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "languageToggle": "VI"
+  },
+  "command": {
+    "title": "Command Palette",
+    "placeholder": "Type a command...",
+    "items": {
+      "home": {
+        "title": "Go to Home",
+        "hint": "Jump to the intro"
+      },
+      "journey": {
+        "title": "Go to Learning Journey",
+        "hint": "Open the education timeline"
+      },
+      "projects": {
+        "title": "Go to Featured Projects",
+        "hint": "Open the project grid"
+      },
+      "github": {
+        "title": "Open GitHub",
+        "hint": "Visit datweb07"
+      },
+      "email": {
+        "title": "Copy Email",
+        "hint": "Copy the contact email"
+      },
+      "music": {
+        "title": "Toggle Music",
+        "hint": "Play or pause the current song"
+      },
+      "theme": {
+        "title": "Toggle Theme",
+        "hint": "Switch between light and dark mode"
+      },
+      "contact": {
+        "title": "Contact Me",
+        "hint": "Open the contact form"
+      }
+    }
+  },
+  "home": {
+    "title": "Hello<span class=\"accent-dot\">!</span><br />I'm Dat <span class=\"text-light\">Truong</span>",
+    "description": "I am currently studying Information Technology at <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">UEH University</a>. My career goal is to become a Software Engineer. I specialize in C#, ASP.NET MVC, SQL Server for backend, and ReactJs for frontend.",
+    "email": "Email Me ↗",
+    "like": "Like"
+  },
+  "journey": {
+    "title": "Learning Journey",
+    "highschool": {
+      "name": "Dong Phu High School",
+      "desc": "Studied with a strong focus on Mathematics."
+    },
+    "ueh": {
+      "name": "UEH University",
+      "desc": "Pursuing a Bachelor's degree in Information Technology.",
+      "tooltip": "Current milestone"
+    },
+    "intern": {
+      "name": "UEH - Institute of Smart City and Management",
+      "desc": "IT Intern"
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "tabs": {
+      "all": "All",
+      "backend": "Backend",
+      "frontend": "Frontend"
+    },
+    "details": "Details",
+    "supermarket": {
+      "title": "Supermarket Management",
+      "desc": "A WinForms project simulating supermarket sales, with a strong focus on Object-Oriented Programming and SQL Server.",
+      "modalDesc": "A full OOP-based desktop application with inventory tracking, sales reports, and user authentication."
+    },
+    "calculator": {
+      "title": "Calculator Simulator",
+      "desc": "Implemented the Stack data structure and the Shunting Yard algorithm for infix-to-postfix evaluation.",
+      "modalDesc": "An expression calculator that converts infix notation to postfix notation using the Shunting Yard algorithm and evaluates expressions with a stack."
+    },
+    "guestbook": {
+      "title": "Guest Book App",
+      "desc": "A web interface that lets users view, write, and store personal messages securely in real time.",
+      "modalDesc": "A real-time message board with secure input handling and database persistence."
+    },
+    "myprofile": {
+      "title": "My Profile",
+      "desc": "A creative portfolio showcasing my personal information, strengths, and small projects.",
+      "modalDesc": "This portfolio website with dark mode, smooth animations, music, contact form, and interactive UI details."
+    }
+  },
+  "projectModal": {
+    "techStack": "Tech Stack",
+    "viewGithub": "View on GitHub"
+  },
+  "footer": {
+    "credit": "Designed & Built by <strong>Dat Truong</strong>."
+  },
+  "toast": {
+    "language": "Language switched to English."
+  }
+}

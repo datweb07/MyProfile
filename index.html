@@ -28,6 +28,18 @@
   <div class="cursor-outline" id="cursorOutline"></div>
   <div class="toast-container" id="toastContainer"></div>
 
+  <div class="command-palette" id="commandPalette" aria-hidden="true">
+    <div class="command-panel card-3d">
+      <div class="command-header">
+        <span data-i18n="command.title">Command Palette</span>
+        <button class="command-close hover-target" id="commandClose" type="button">Esc</button>
+      </div>
+      <input id="commandSearch" class="command-search form-input" type="text" placeholder="Type a command..."
+        data-i18n-placeholder="command.placeholder" />
+      <div class="command-list" id="commandList"></div>
+    </div>
+  </div>
+
   <button class="back-to-top hover-target" id="backToTop" onclick="scrollToTop()" title="Back to top">
     <span class="back-to-top-arrow">↑</span>
   </button>
@@ -53,6 +65,7 @@
 
   <button class="music-fab hover-target" id="musicFab" title="Music Player" onclick="openMusicModal()">
     <span class="fab-icon">yup</span>
+    <span class="music-equalizer" aria-hidden="true"><i></i><i></i><i></i></span>
   </button>
 
   <div class="modal-overlay" id="musicModal">
@@ -116,9 +129,27 @@
         <div class="nav-left">
           <a href="#home" class="logo hover-target">Dat Truong</a>
         </div>
-        <button class="theme-toggle hover-target" onclick="toggleDarkMode()" id="themeToggle">
-          <span id="theme-text" class="d-none-mobile">Dark Mode</span>
-        </button>
+        <div class="nav-actions">
+          <button class="command-trigger hover-target" id="commandTrigger" type="button" title="Open command palette">
+            Ctrl K
+          </button>
+          <div class="accent-picker" id="accentPicker" aria-label="Theme accent picker">
+            <button class="accent-swatch hover-target active" type="button" data-accent="#ccf381"
+              style="--swatch: #ccf381" title="Lime accent"></button>
+            <button class="accent-swatch hover-target" type="button" data-accent="#ff6b2b" style="--swatch: #ff6b2b"
+              title="Orange accent"></button>
+            <button class="accent-swatch hover-target" type="button" data-accent="#8b5cf6" style="--swatch: #8b5cf6"
+              title="Purple accent"></button>
+            <button class="accent-swatch hover-target" type="button" data-accent="#ff8fd3" style="--swatch: #ff8fd3"
+              title="Pink accent"></button>
+          </div>
+          <button class="language-toggle hover-target" id="languageToggle" type="button" title="Switch language">
+            VI
+          </button>
+          <button class="theme-toggle hover-target" onclick="toggleDarkMode()" id="themeToggle">
+            <span id="theme-text" class="d-none-mobile" data-i18n="nav.darkMode">Dark Mode</span>
+          </button>
+        </div>
       </nav>
     </div>
     <div class="scroll-progress"></div>
@@ -127,14 +158,14 @@
   <main class="main-content">
     <section id="home" class="profile-section container reveal">
       <div class="profile-info">
-        <h1 class="huge-title">
+        <h1 class="huge-title" data-i18n-html="home.title">
           Hello<span class="accent-dot">!</span><br />
           I'm Dat <span class="text-light">Truong</span>
         </h1>
         <h2 class="role-title">
           <span class="typewriter-text"></span>
         </h2>
-        <p class="description">
+        <p class="description" data-i18n-html="home.description">
           I am currently studying Information Technology at the
           <a href="https://www.ueh.edu.vn/" target="_blank" class="chonky_underline hover-target"
             style="--underline-color: var(--accent-color)">
@@ -156,23 +187,24 @@
             title="Check out my GitHub">
             GitHub
           </button>
-          <button class="btn-brutal text-only hover-target" onclick="copyEmail()" title="Click to copy email">
+          <button class="btn-brutal text-only hover-target" onclick="copyEmail()" title="Click to copy email"
+            data-i18n="home.email">
             Email Me ↗
           </button>
           <button class="btn-brutal icon-only reaction-btn hover-target" id="reactionBtn" onclick="addReaction()">
-            <span>Like</span> <span id="reactionCount">0</span>
+            <span data-i18n="home.like">Like</span> <span id="reactionCount">0</span>
           </button>
         </div>
       </div>
       <div class="profile-visual">
         <div class="blob-shape"></div>
-        <div class="profile-image"></div>
+        <img class="profile-image" src="./pictures/img-main.png" alt="Dat Truong portrait" decoding="async" />
       </div>
     </section>
 
     <section id="journey" class="container reveal">
       <h2 class="section-title">
-        <span class="chonky_underline" style="--underline-color: #ff6b2b">
+        <span class="chonky_underline" style="--underline-color: #ff6b2b" data-i18n="journey.title">
           Learning Journey
         </span>
       </h2>
@@ -181,25 +213,25 @@
           <div class="timeline-dot"></div>
           <div class="timeline-date">Aug 2021 - Jun 2024</div>
           <div class="timeline-content card-3d">
-            <h4>THPT Đồng Phú</h4>
-            <p>Learning with a strong focus on Mathematics.</p>
+            <h4 data-i18n="journey.highschool.name">THPT Đồng Phú</h4>
+            <p data-i18n="journey.highschool.desc">Learning with a strong focus on Mathematics.</p>
           </div>
         </div>
         <div class="timeline-item reveal">
           <div class="timeline-dot"></div>
           <div class="timeline-date">Aug 2024 - Present</div>
           <div class="timeline-content card-3d">
-            <h4>UEH University</h4>
-            <p>Pursuing a Bachelor's degree in Information Technology.</p>
-            <span class="tooltip-text">Current milestone</span>
+            <h4 data-i18n="journey.ueh.name">UEH University</h4>
+            <p data-i18n="journey.ueh.desc">Pursuing a Bachelor's degree in Information Technology.</p>
+            <span class="tooltip-text" data-i18n="journey.ueh.tooltip">Current milestone</span>
           </div>
         </div>
         <div class="timeline-item reveal">
           <div class="timeline-dot"></div>
           <div class="timeline-date">Jun 2026 - Present</div>
           <div class="timeline-content card-3d">
-            <h4>UEH - Institute of Smart City and Management</h4>
-            <p>IT Intern</p>
+            <h4 data-i18n="journey.intern.name">UEH - Institute of Smart City and Management</h4>
+            <p data-i18n="journey.intern.desc">IT Intern</p>
           </div>
         </div>
       </div>
@@ -207,27 +239,28 @@
 
     <section id="projects" class="container reveal">
       <h2 class="section-title">
-        <span class="chonky_underline" style="--underline-color: var(--accent-color)">
+        <span class="chonky_underline" style="--underline-color: var(--accent-color)" data-i18n="projects.title">
           Featured Projects
         </span>
       </h2>
       <div class="tabs">
         <button class="tab-btn active hover-target" onclick="filterProjects('all', this)">
-          All
+          <span data-i18n="projects.tabs.all">All</span>
         </button>
         <button class="tab-btn hover-target" onclick="filterProjects('backend', this)">
-          Backend
+          <span data-i18n="projects.tabs.backend">Backend</span>
         </button>
         <button class="tab-btn hover-target" onclick="filterProjects('frontend', this)">
-          Frontend
+          <span data-i18n="projects.tabs.frontend">Frontend</span>
         </button>
       </div>
       <div class="projects-grid">
         <div class="project-item project-card hover-target" data-category="backend">
           <h3 class="project-title">
-            <a href="#" onclick="openProjectDetail(event, 'supermarket')">Supermarket Management</a>
+            <a href="#" onclick="openProjectDetail(event, 'supermarket')"
+              data-i18n="projects.supermarket.title">Supermarket Management</a>
           </h3>
-          <p class="project-desc">
+          <p class="project-desc" data-i18n="projects.supermarket.desc">
             A WinForms project simulating supermarket sales, focusing heavily
             on Object-Oriented Programming and SQL Server.
           </p>
@@ -236,28 +269,30 @@
           </div>
           <button class="btn-brutal outline small hover-target" onclick="openProjectDetail(event, 'supermarket')"
             style="margin-top: 1rem">
-            Details
+            <span data-i18n="projects.details">Details</span>
           </button>
         </div>
         <div class="project-item project-card hover-target" data-category="backend">
           <h3 class="project-title">
-            <a href="#" onclick="openProjectDetail(event, 'calculator')">Calculator Simulator</a>
+            <a href="#" onclick="openProjectDetail(event, 'calculator')"
+              data-i18n="projects.calculator.title">Calculator Simulator</a>
           </h3>
-          <p class="project-desc">
+          <p class="project-desc" data-i18n="projects.calculator.desc">
             Implemented Stack data structure and Shunting Yard Algorithm for
             infix-to-postfix evaluation.
           </p>
           <div class="project-tech-tags"><span>C#</span><span>DSA</span></div>
           <button class="btn-brutal outline small hover-target" onclick="openProjectDetail(event, 'calculator')"
             style="margin-top: 1rem">
-            Details
+            <span data-i18n="projects.details">Details</span>
           </button>
         </div>
         <div class="project-item project-card hover-target" data-category="frontend">
           <h3 class="project-title">
-            <a href="#" onclick="openProjectDetail(event, 'guestbook')">Guest Book App</a>
+            <a href="#" onclick="openProjectDetail(event, 'guestbook')" data-i18n="projects.guestbook.title">Guest
+              Book App</a>
           </h3>
-          <p class="project-desc">
+          <p class="project-desc" data-i18n="projects.guestbook.desc">
             A web interface enabling users to view, write, and store personal
             messages securely in real-time.
           </p>
@@ -266,14 +301,15 @@
           </div>
           <button class="btn-brutal outline small hover-target" onclick="openProjectDetail(event, 'guestbook')"
             style="margin-top: 1rem">
-            Details
+            <span data-i18n="projects.details">Details</span>
           </button>
         </div>
         <div class="project-item project-card hover-target" data-category="frontend">
           <h3 class="project-title">
-            <a href="#" onclick="openProjectDetail(event, 'myprofile')">My Profile</a>
+            <a href="#" onclick="openProjectDetail(event, 'myprofile')" data-i18n="projects.myprofile.title">My
+              Profile</a>
           </h3>
-          <p class="project-desc">
+          <p class="project-desc" data-i18n="projects.myprofile.desc">
             A creative portfolio showcasing my personal information,
             strengths, and small projects.
           </p>
@@ -282,7 +318,7 @@
           </div>
           <button class="btn-brutal outline small hover-target" onclick="openProjectDetail(event, 'myprofile')"
             style="margin-top: 1rem">
-            Details
+            <span data-i18n="projects.details">Details</span>
           </button>
         </div>
       </div>
@@ -291,7 +327,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p>Designed & Built by <strong>Dat Truong</strong>.</p>
+      <p data-i18n-html="footer.credit">Designed & Built by <strong>Dat Truong</strong>.</p>
     </div>
   </footer>
 

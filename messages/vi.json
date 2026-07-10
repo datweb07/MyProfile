@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "darkMode": "Chế độ tối",
+    "lightMode": "Chế độ sáng",
+    "languageToggle": "EN"
+  },
+  "command": {
+    "title": "Bảng lệnh nhanh",
+    "placeholder": "Nhập lệnh cần tìm...",
+    "items": {
+      "home": {
+        "title": "Về trang đầu",
+        "hint": "Quay lại phần giới thiệu"
+      },
+      "journey": {
+        "title": "Đến Learning Journey",
+        "hint": "Mở dòng thời gian học tập"
+      },
+      "projects": {
+        "title": "Đến Featured Projects",
+        "hint": "Mở danh sách dự án"
+      },
+      "github": {
+        "title": "Mở GitHub",
+        "hint": "Truy cập trang datweb07"
+      },
+      "email": {
+        "title": "Sao chép email",
+        "hint": "Sao chép email liên hệ"
+      },
+      "music": {
+        "title": "Bật/tắt nhạc",
+        "hint": "Phát hoặc tạm dừng bài hát hiện tại"
+      },
+      "theme": {
+        "title": "Đổi giao diện",
+        "hint": "Chuyển giữa chế độ sáng và tối"
+      },
+      "contact": {
+        "title": "Liên hệ với mình",
+        "hint": "Mở biểu mẫu liên hệ"
+      }
+    }
+  },
+  "home": {
+    "title": "Xin chào<span class=\"accent-dot\">!</span><br />Mình là Đạt <span class=\"text-light\">Trương</span>",
+    "description": "Mình hiện đang học ngành Công nghệ thông tin tại <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">Đại học UEH</a>. Mục tiêu nghề nghiệp của mình là trở thành Software Engineer. Mình tập trung vào C#, ASP.NET MVC, SQL Server ở backend và ReactJs ở frontend.",
+    "email": "Gửi email ↗",
+    "like": "Thích"
+  },
+  "journey": {
+    "title": "Hành trình học tập",
+    "highschool": {
+      "name": "THPT Đồng Phú",
+      "desc": "Học tập với định hướng nổi bật về Toán học."
+    },
+    "ueh": {
+      "name": "Đại học UEH",
+      "desc": "Đang theo học chương trình Cử nhân Công nghệ thông tin.",
+      "tooltip": "Cột mốc hiện tại"
+    },
+    "intern": {
+      "name": "UEH - Viện Đô thị thông minh và Quản lý",
+      "desc": "Thực tập sinh IT"
+    }
+  },
+  "projects": {
+    "title": "Dự án nổi bật",
+    "tabs": {
+      "all": "Tất cả",
+      "backend": "Backend",
+      "frontend": "Frontend"
+    },
+    "details": "Chi tiết",
+    "supermarket": {
+      "title": "Quản lý siêu thị",
+      "desc": "Dự án WinForms mô phỏng hoạt động bán hàng trong siêu thị, tập trung mạnh vào lập trình hướng đối tượng và SQL Server.",
+      "modalDesc": "Ứng dụng desktop theo hướng OOP, có quản lý tồn kho, báo cáo bán hàng và xác thực người dùng."
+    },
+    "calculator": {
+      "title": "Mô phỏng máy tính",
+      "desc": "Triển khai cấu trúc dữ liệu Stack và thuật toán Shunting Yard để chuyển biểu thức trung tố sang hậu tố và tính toán kết quả.",
+      "modalDesc": "Máy tính biểu thức chuyển đổi trung tố sang hậu tố bằng thuật toán Shunting Yard và dùng stack để đánh giá biểu thức."
+    },
+    "guestbook": {
+      "title": "Ứng dụng lưu bút",
+      "desc": "Giao diện web cho phép người dùng xem, viết và lưu trữ lời nhắn cá nhân một cách an toàn theo thời gian thực.",
+      "modalDesc": "Bảng lời nhắn thời gian thực với xử lý đầu vào an toàn và lưu trữ dữ liệu trong cơ sở dữ liệu."
+    },
+    "myprofile": {
+      "title": "Hồ sơ cá nhân",
+      "desc": "Portfolio sáng tạo dùng để giới thiệu thông tin cá nhân, điểm mạnh và các dự án nhỏ của mình.",
+      "modalDesc": "Website portfolio này có dark mode, animation mượt, trình phát nhạc, form liên hệ và nhiều chi tiết UI tương tác."
+    }
+  },
+  "projectModal": {
+    "techStack": "Công nghệ",
+    "viewGithub": "Xem trên GitHub"
+  },
+  "footer": {
+    "credit": "Thiết kế và xây dựng bởi <strong>Đạt Trương</strong>."
+  },
+  "toast": {
+    "language": "Đã chuyển sang tiếng Việt."
+  }
+}
