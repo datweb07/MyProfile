@@ -40,6 +40,54 @@
     </div>
   </div>
 
+  <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true">
+    <div class="terminal-panel card-3d">
+      <div class="terminal-topbar">
+        <div class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span class="terminal-title" data-i18n="terminal.title">DatOS Terminal</span>
+        <button class="terminal-close hover-target" id="terminalClose" type="button">Esc</button>
+      </div>
+      <div class="terminal-screen" id="terminalScreen" aria-live="polite"></div>
+      <form class="terminal-input-row" id="terminalForm">
+        <span class="terminal-prompt">dat@portfolio:~$</span>
+        <input id="terminalInput" class="terminal-input" type="text" autocomplete="off" spellcheck="false"
+          placeholder="type help" data-i18n-placeholder="terminal.placeholder" />
+      </form>
+    </div>
+  </div>
+
+  <div class="map-overlay" id="mapOverlay" aria-hidden="true">
+    <div class="map-panel card-3d">
+      <div class="tool-topbar">
+        <span data-i18n="map.title">Smart City Navigation</span>
+        <button class="tool-close hover-target" id="mapClose" type="button">Esc</button>
+      </div>
+      <canvas id="mapCanvas" class="map-canvas" width="720" height="420"></canvas>
+      <div class="map-hud">
+        <span id="mapStatus" data-i18n="map.status">Use WASD or arrow keys to drive.</span>
+        <button class="btn-brutal small hover-target" id="mapVisitBtn" type="button" data-i18n="map.visit">Visit
+          zone</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-overlay" id="timeOverlay" aria-hidden="true">
+    <div class="time-panel card-3d">
+      <div class="tool-topbar">
+        <span data-i18n="time.title">Time Travel</span>
+        <button class="tool-close hover-target" id="timeClose" type="button">Esc</button>
+      </div>
+      <div class="time-year" id="timeYear">2026</div>
+      <input id="timeSlider" class="time-slider hover-target" type="range" min="2023" max="2026" step="1"
+        value="2026" />
+      <div class="time-card">
+        <h3 id="timeHeadline"></h3>
+        <p id="timeDescription"></p>
+        <div class="time-skill-bars" id="timeSkillBars"></div>
+      </div>
+    </div>
+  </div>
+
   <button class="back-to-top hover-target" id="backToTop" onclick="scrollToTop()" title="Back to top">
     <span class="back-to-top-arrow">↑</span>
   </button>
@@ -132,6 +180,15 @@
         <div class="nav-actions">
           <button class="command-trigger hover-target" id="commandTrigger" type="button" title="Open command palette">
             Ctrl K
+          </button>
+          <button class="terminal-trigger hover-target" id="terminalTrigger" type="button" title="Open terminal">
+            Term
+          </button>
+          <button class="map-trigger hover-target" id="mapTrigger" type="button" title="Open navigation map">
+            Map
+          </button>
+          <button class="time-trigger hover-target" id="timeTrigger" type="button" title="Open time travel">
+            Time
           </button>
           <div class="accent-picker" id="accentPicker" aria-label="Theme accent picker">
             <button class="accent-swatch hover-target active" type="button" data-accent="#ccf381"

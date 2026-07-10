@@ -39,6 +39,94 @@
       "contact": {
         "title": "Contact Me",
         "hint": "Open the contact form"
+      },
+      "terminal": {
+        "title": "Open Terminal",
+        "hint": "Explore this portfolio with commands"
+      },
+      "map": {
+        "title": "Open Mini Map",
+        "hint": "Drive through the portfolio zones"
+      },
+      "time": {
+        "title": "Open Time Travel",
+        "hint": "View growth by year"
+      }
+    }
+  },
+  "terminal": {
+    "title": "DatOS Terminal",
+    "placeholder": "type help",
+    "welcome": "Welcome to DatOS. Type help to see available commands.",
+    "unknown": "Unknown command. Type help to see what I can do.",
+    "cleared": "Terminal cleared.",
+    "help": "Commands: help, about, skills, projects, journey, map, time, contact, github, music, theme, lang, clear.",
+    "about": "Dat Truong is an Information Technology student at UEH, aiming to become a Software Engineer with a backend focus in C#, ASP.NET MVC, SQL Server and frontend work in ReactJs.",
+    "skills": "Core stack: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA, and practical UI interaction design.",
+    "projects": "Projects: Supermarket Management, Calculator Simulator, Guest Book App, and this My Profile portfolio.",
+    "journey": "Timeline: Dong Phu High School -> UEH University -> IT Intern at UEH Institute of Smart City and Management.",
+    "contact": "Contact actions: opening the contact form and copying dat82770@gmail.com.",
+    "github": "Opening GitHub profile...",
+    "music": "Toggling music playback...",
+    "theme": "Switching theme...",
+    "lang": "Switching language..."
+  },
+  "map": {
+    "title": "Smart City Navigation",
+    "status": "Use WASD or arrow keys to drive.",
+    "visit": "Visit zone",
+    "zones": {
+      "home": "Home district",
+      "journey": "Learning timeline",
+      "projects": "Project hub",
+      "contact": "Contact station"
+    },
+    "near": "Near: {zone}. Press Enter or Visit zone.",
+    "empty": "Drive to a glowing zone to navigate."
+  },
+  "time": {
+    "title": "Time Travel",
+    "terminal": "Opening Time Travel...",
+    "years": {
+      "2023": {
+        "headline": "Building the foundation",
+        "description": "Focused on programming fundamentals, math thinking, and disciplined self-study.",
+        "skills": {
+          "C#": 25,
+          "SQL": 15,
+          "Frontend": 20,
+          "Problem Solving": 35
+        }
+      },
+      "2024": {
+        "headline": "Starting university life",
+        "description": "Entered UEH and began turning fundamentals into small practical products.",
+        "skills": {
+          "C#": 45,
+          "SQL": 35,
+          "Frontend": 40,
+          "Problem Solving": 55
+        }
+      },
+      "2025": {
+        "headline": "Growing through projects",
+        "description": "Built desktop and web projects, improved UI thinking, and practiced database-backed workflows.",
+        "skills": {
+          "C#": 65,
+          "SQL": 58,
+          "Frontend": 62,
+          "Problem Solving": 70
+        }
+      },
+      "2026": {
+        "headline": "Sharpening real-world readiness",
+        "description": "Internship experience, portfolio polish, stronger backend/frontend integration, and smarter interactive UI.",
+        "skills": {
+          "C#": 78,
+          "SQL": 72,
+          "Frontend": 76,
+          "Problem Solving": 82
+        }
       }
     }
   },

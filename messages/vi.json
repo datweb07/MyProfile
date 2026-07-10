@@ -39,6 +39,94 @@
       "contact": {
         "title": "Liên hệ với mình",
         "hint": "Mở biểu mẫu liên hệ"
+      },
+      "terminal": {
+        "title": "Mở Terminal",
+        "hint": "Khám phá portfolio bằng lệnh"
+      },
+      "map": {
+        "title": "Mở bản đồ mini",
+        "hint": "Lái qua các khu vực của portfolio"
+      },
+      "time": {
+        "title": "Mở Time Travel",
+        "hint": "Xem tiến trình phát triển theo từng năm"
+      }
+    }
+  },
+  "terminal": {
+    "title": "DatOS Terminal",
+    "placeholder": "gõ help",
+    "welcome": "Chào mừng đến với DatOS. Gõ help để xem các lệnh có thể dùng.",
+    "unknown": "Không nhận ra lệnh này. Gõ help để xem mình có thể làm gì.",
+    "cleared": "Đã xóa màn hình terminal.",
+    "help": "Các lệnh: help, about, skills, projects, journey, map, time, contact, github, music, theme, lang, clear.",
+    "about": "Đạt Trương là sinh viên Công nghệ thông tin tại UEH, định hướng trở thành Software Engineer với backend C#, ASP.NET MVC, SQL Server và frontend ReactJs.",
+    "skills": "Stack chính: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA và thiết kế tương tác UI thực tế.",
+    "projects": "Dự án: Quản lý siêu thị, Mô phỏng máy tính, Ứng dụng lưu bút và portfolio My Profile này.",
+    "journey": "Dòng thời gian: THPT Đồng Phú -> Đại học UEH -> Thực tập sinh IT tại Viện Đô thị thông minh và Quản lý UEH.",
+    "contact": "Tác vụ liên hệ: mở form liên hệ và sao chép email dat82770@gmail.com.",
+    "github": "Đang mở trang GitHub...",
+    "music": "Đang bật/tắt nhạc...",
+    "theme": "Đang đổi giao diện...",
+    "lang": "Đang đổi ngôn ngữ..."
+  },
+  "map": {
+    "title": "Điều hướng đô thị thông minh",
+    "status": "Dùng WASD hoặc phím mũi tên để di chuyển.",
+    "visit": "Đi tới khu vực",
+    "zones": {
+      "home": "Khu giới thiệu",
+      "journey": "Dòng thời gian học tập",
+      "projects": "Trung tâm dự án",
+      "contact": "Trạm liên hệ"
+    },
+    "near": "Đang gần: {zone}. Nhấn Enter hoặc Đi tới khu vực.",
+    "empty": "Hãy lái tới một khu vực phát sáng để điều hướng."
+  },
+  "time": {
+    "title": "Time Travel",
+    "terminal": "Đang mở Time Travel...",
+    "years": {
+      "2023": {
+        "headline": "Xây nền tảng",
+        "description": "Tập trung vào nền tảng lập trình, tư duy toán học và thói quen tự học có kỷ luật.",
+        "skills": {
+          "C#": 25,
+          "SQL": 15,
+          "Frontend": 20,
+          "Problem Solving": 35
+        }
+      },
+      "2024": {
+        "headline": "Bắt đầu hành trình đại học",
+        "description": "Vào UEH và bắt đầu biến kiến thức nền tảng thành các sản phẩm nhỏ có tính thực hành.",
+        "skills": {
+          "C#": 45,
+          "SQL": 35,
+          "Frontend": 40,
+          "Problem Solving": 55
+        }
+      },
+      "2025": {
+        "headline": "Trưởng thành qua dự án",
+        "description": "Xây dựng dự án desktop và web, cải thiện tư duy UI và luyện quy trình làm việc với cơ sở dữ liệu.",
+        "skills": {
+          "C#": 65,
+          "SQL": 58,
+          "Frontend": 62,
+          "Problem Solving": 70
+        }
+      },
+      "2026": {
+        "headline": "Sẵn sàng hơn cho môi trường thực tế",
+        "description": "Có trải nghiệm thực tập, hoàn thiện portfolio, tăng khả năng kết hợp backend/frontend và UI tương tác thông minh.",
+        "skills": {
+          "C#": 78,
+          "SQL": 72,
+          "Frontend": 76,
+          "Problem Solving": 82
+        }
       }
     }
   },

@@ -64,6 +64,21 @@ function applyTranslations() {
   if (document.getElementById('commandPalette')?.classList.contains('show')) {
     renderCommandList(document.getElementById('commandSearch')?.value || '');
   }
+
+  const terminalScreen = document.getElementById('terminalScreen');
+  if (terminalScreen) terminalScreen.dataset.ready = '';
+  if (document.getElementById('terminalOverlay')?.classList.contains('show')) {
+    resetTerminalIntro();
+  }
+
+  if (document.getElementById('mapOverlay')?.classList.contains('show')) {
+    updateMapStatus();
+    drawMap();
+  }
+
+  if (document.getElementById('timeOverlay')?.classList.contains('show')) {
+    renderTimeTravel();
+  }
 }
 
 function toggleLanguage() {
@@ -563,7 +578,10 @@ const commandBlueprints = [
   { key: 'email', shortcut: 'E', action: copyEmail },
   { key: 'music', shortcut: 'M', action: togglePlay },
   { key: 'theme', shortcut: 'T', action: toggleDarkMode },
-  { key: 'contact', shortcut: 'C', action: openContactModal }
+  { key: 'contact', shortcut: 'C', action: openContactModal },
+  { key: 'terminal', shortcut: '`', action: openTerminal },
+  { key: 'map', shortcut: 'N', action: openMap },
+  { key: 'time', shortcut: 'Y', action: openTimeTravel }
 ];
 
 let activeCommandIndex = 0;
@@ -657,6 +675,393 @@ function initAccentPicker() {
   });
 }
 
+const mapState = {
+  x: 360,
+  y: 210,
+  activeZone: null,
+  zones: [
+    { id: 'home', x: 110, y: 95, w: 150, h: 92, target: 'home', color: '#ccf381' },
+    { id: 'journey', x: 455, y: 74, w: 170, h: 98, target: 'journey', color: '#ff6b2b' },
+    { id: 'projects', x: 440, y: 270, w: 185, h: 100, target: 'projects', color: '#4831d4' },
+    { id: 'contact', x: 85, y: 265, w: 160, h: 92, target: 'contact', color: '#ff8fd3' }
+  ]
+};
+
+function getMapCanvasContext() {
+  const canvas = document.getElementById('mapCanvas');
+  return canvas ? { canvas, ctx: canvas.getContext('2d') } : null;
+}
+
+function getActiveMapZone() {
+  return mapState.zones.find((zone) => {
+    return mapState.x >= zone.x && mapState.x <= zone.x + zone.w && mapState.y >= zone.y && mapState.y <= zone.y + zone.h;
+  }) || null;
+}
+
+function drawMap() {
+  const map = getMapCanvasContext();
+  if (!map) return;
+  const { canvas, ctx } = map;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < canvas.width; x += 36) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < canvas.height; y += 36) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 12;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(120, 210);
+  ctx.lineTo(600, 210);
+  ctx.moveTo(360, 80);
+  ctx.lineTo(360, 350);
+  ctx.stroke();
+
+  const activeZone = getActiveMapZone();
+  mapState.activeZone = activeZone?.id || null;
+
+  mapState.zones.forEach((zone) => {
+    const isActive = activeZone?.id === zone.id;
+    ctx.fillStyle = isActive ? zone.color : 'rgba(255,255,255,0.08)';
+    ctx.strokeStyle = zone.color;
+    ctx.lineWidth = isActive ? 4 : 2;
+    ctx.beginPath();
+    ctx.roundRect(zone.x, zone.y, zone.w, zone.h, 14);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = isActive ? '#111827' : '#ffffff';
+    ctx.font = '700 18px Barlow, sans-serif';
+    ctx.fillText(t(`map.zones.${zone.id}`, zone.id), zone.x + 16, zone.y + 38);
+  });
+
+  ctx.save();
+  ctx.translate(mapState.x, mapState.y);
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#ccf381';
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.roundRect(-18, -11, 36, 22, 8);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(-8, -16, 16, 8);
+  ctx.restore();
+
+  updateMapStatus();
+}
+
+function updateMapStatus() {
+  const status = document.getElementById('mapStatus');
+  if (!status) return;
+  const activeZone = getActiveMapZone();
+  if (activeZone) {
+    status.textContent = t('map.near', 'Near: {zone}. Press Enter or Visit zone.').replace('{zone}', t(`map.zones.${activeZone.id}`, activeZone.id));
+  } else {
+    status.textContent = t('map.empty', 'Drive to a glowing zone to navigate.');
+  }
+}
+
+function visitMapZone() {
+  const activeZone = getActiveMapZone();
+  if (!activeZone) {
+    showToast(t('map.empty', 'Drive to a glowing zone to navigate.'));
+    return;
+  }
+  closeMap();
+  if (activeZone.target === 'contact') {
+    openContactModal();
+  } else {
+    scrollToSection(activeZone.target);
+  }
+}
+
+function moveMap(dx, dy) {
+  mapState.x = Math.max(26, Math.min(694, mapState.x + dx));
+  mapState.y = Math.max(26, Math.min(394, mapState.y + dy));
+  drawMap();
+}
+
+function openMap() {
+  const overlay = document.getElementById('mapOverlay');
+  if (!overlay) return;
+  closeCommandPalette();
+  closeTerminal();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  drawMap();
+}
+
+function closeMap() {
+  const overlay = document.getElementById('mapOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function initMapNavigation() {
+  const trigger = document.getElementById('mapTrigger');
+  const closeBtn = document.getElementById('mapClose');
+  const visitBtn = document.getElementById('mapVisitBtn');
+  const overlay = document.getElementById('mapOverlay');
+
+  if (trigger) trigger.addEventListener('click', openMap);
+  if (closeBtn) closeBtn.addEventListener('click', closeMap);
+  if (visitBtn) visitBtn.addEventListener('click', visitMapZone);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeMap();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('mapOverlay')?.classList.contains('show')) return;
+    const key = e.key.toLowerCase();
+    const speed = e.shiftKey ? 22 : 12;
+    if (['arrowup', 'w'].includes(key)) {
+      e.preventDefault();
+      moveMap(0, -speed);
+    } else if (['arrowdown', 's'].includes(key)) {
+      e.preventDefault();
+      moveMap(0, speed);
+    } else if (['arrowleft', 'a'].includes(key)) {
+      e.preventDefault();
+      moveMap(-speed, 0);
+    } else if (['arrowright', 'd'].includes(key)) {
+      e.preventDefault();
+      moveMap(speed, 0);
+    } else if (key === 'enter') {
+      e.preventDefault();
+      visitMapZone();
+    }
+  });
+}
+
+function getTimeData(year) {
+  return readMessage(`time.years.${year}`) || readMessage('time.years.2026') || {};
+}
+
+function renderTimeTravel() {
+  const slider = document.getElementById('timeSlider');
+  const yearLabel = document.getElementById('timeYear');
+  const headline = document.getElementById('timeHeadline');
+  const description = document.getElementById('timeDescription');
+  const bars = document.getElementById('timeSkillBars');
+  if (!slider || !yearLabel || !headline || !description || !bars) return;
+
+  const year = slider.value;
+  const data = getTimeData(year);
+  yearLabel.textContent = year;
+  headline.textContent = data.headline || '';
+  description.textContent = data.description || '';
+  bars.innerHTML = Object.entries(data.skills || {}).map(([skill, level]) => `
+    <div class="time-skill">
+      <div class="time-skill-label"><span>${skill}</span><span>${level}%</span></div>
+      <div class="time-skill-track"><span class="time-skill-fill" style="--level: ${level}%"></span></div>
+    </div>
+  `).join('');
+}
+
+function openTimeTravel() {
+  const overlay = document.getElementById('timeOverlay');
+  if (!overlay) return;
+  closeCommandPalette();
+  closeTerminal();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  renderTimeTravel();
+}
+
+function closeTimeTravel() {
+  const overlay = document.getElementById('timeOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function initTimeTravel() {
+  const trigger = document.getElementById('timeTrigger');
+  const closeBtn = document.getElementById('timeClose');
+  const overlay = document.getElementById('timeOverlay');
+  const slider = document.getElementById('timeSlider');
+
+  if (trigger) trigger.addEventListener('click', openTimeTravel);
+  if (closeBtn) closeBtn.addEventListener('click', closeTimeTravel);
+  if (slider) slider.addEventListener('input', renderTimeTravel);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeTimeTravel();
+    });
+  }
+}
+
+let terminalHistory = [];
+let terminalHistoryIndex = 0;
+
+function appendTerminalLine(text, type = '') {
+  const screen = document.getElementById('terminalScreen');
+  if (!screen) return;
+
+  const line = document.createElement('div');
+  line.className = `terminal-line ${type}`.trim();
+  line.textContent = text;
+  screen.appendChild(line);
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function resetTerminalIntro() {
+  const screen = document.getElementById('terminalScreen');
+  if (!screen || screen.dataset.ready === currentLanguage) return;
+  screen.innerHTML = '';
+  appendTerminalLine(t('terminal.welcome', 'Welcome to DatOS. Type help to see available commands.'), 'muted');
+  screen.dataset.ready = currentLanguage;
+}
+
+function openTerminal() {
+  const overlay = document.getElementById('terminalOverlay');
+  const input = document.getElementById('terminalInput');
+  if (!overlay || !input) return;
+  closeCommandPalette();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  resetTerminalIntro();
+  setTimeout(() => input.focus(), 40);
+}
+
+function closeTerminal() {
+  const overlay = document.getElementById('terminalOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function runTerminalCommand(rawCommand) {
+  const command = rawCommand.trim().toLowerCase();
+  if (!command) return;
+
+  appendTerminalLine(`dat@portfolio:~$ ${rawCommand}`, 'command');
+  terminalHistory.push(rawCommand);
+  terminalHistoryIndex = terminalHistory.length;
+
+  switch (command) {
+    case 'help':
+      appendTerminalLine(t('terminal.help'));
+      break;
+    case 'about':
+    case 'cat about.txt':
+      appendTerminalLine(t('terminal.about'));
+      break;
+    case 'skills':
+    case 'ls skills':
+      appendTerminalLine(t('terminal.skills'));
+      break;
+    case 'projects':
+    case 'ls projects':
+      appendTerminalLine(t('terminal.projects'));
+      scrollToSection('projects');
+      break;
+    case 'journey':
+    case 'timeline':
+      appendTerminalLine(t('terminal.journey'));
+      scrollToSection('journey');
+      break;
+    case 'contact':
+      appendTerminalLine(t('terminal.contact'));
+      openContactModal();
+      copyEmail();
+      break;
+    case 'github':
+      appendTerminalLine(t('terminal.github'));
+      window.open('https://github.com/datweb07', '_blank');
+      break;
+    case 'music':
+      appendTerminalLine(t('terminal.music'));
+      togglePlay();
+      break;
+    case 'theme':
+      appendTerminalLine(t('terminal.theme'));
+      toggleDarkMode();
+      break;
+    case 'lang':
+    case 'language':
+      appendTerminalLine(t('terminal.lang'));
+      toggleLanguage();
+      break;
+    case 'map':
+    case 'nav':
+      appendTerminalLine(t('map.title'));
+      openMap();
+      break;
+    case 'time':
+    case 'years':
+      appendTerminalLine(t('time.terminal'));
+      openTimeTravel();
+      break;
+    case 'clear':
+    case 'cls':
+      document.getElementById('terminalScreen').innerHTML = '';
+      appendTerminalLine(t('terminal.cleared'), 'muted');
+      break;
+    default:
+      appendTerminalLine(t('terminal.unknown'), 'error');
+  }
+}
+
+function initTerminal() {
+  const trigger = document.getElementById('terminalTrigger');
+  const closeBtn = document.getElementById('terminalClose');
+  const overlay = document.getElementById('terminalOverlay');
+  const form = document.getElementById('terminalForm');
+  const input = document.getElementById('terminalInput');
+
+  if (trigger) trigger.addEventListener('click', openTerminal);
+  if (closeBtn) closeBtn.addEventListener('click', closeTerminal);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeTerminal();
+    });
+  }
+  if (form && input) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      runTerminalCommand(input.value);
+      input.value = '';
+    });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runTerminalCommand(input.value);
+        input.value = '';
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        terminalHistoryIndex = Math.max(terminalHistoryIndex - 1, 0);
+        input.value = terminalHistory[terminalHistoryIndex] || '';
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        terminalHistoryIndex = Math.min(terminalHistoryIndex + 1, terminalHistory.length);
+        input.value = terminalHistory[terminalHistoryIndex] || '';
+      }
+    });
+  }
+}
+
 function initCommandPalette() {
   const trigger = document.getElementById('commandTrigger');
   const closeBtn = document.getElementById('commandClose');
@@ -702,6 +1107,9 @@ function initCommandPalette() {
       openCommandPalette();
     } else if (e.key === 'Escape') {
       closeCommandPalette();
+      closeTerminal();
+      closeMap();
+      closeTimeTravel();
     } else if (!isTyping) {
       const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
       if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
@@ -718,6 +1126,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (languageToggle) languageToggle.addEventListener('click', toggleLanguage);
   initCommandPalette();
   initAccentPicker();
+  initTerminal();
+  initMapNavigation();
+  initTimeTravel();
 });
 
 
