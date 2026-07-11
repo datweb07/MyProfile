@@ -88,6 +88,75 @@
     </div>
   </div>
 
+  <div class="ioc-overlay" id="iocOverlay" aria-hidden="true">
+    <div class="ioc-panel card-3d">
+      <div class="tool-topbar">
+        <span data-i18n="ioc.title">Portfolio Control Center</span>
+        <button class="tool-close hover-target" id="iocClose" type="button">Esc</button>
+      </div>
+      <div class="ioc-grid">
+        <div class="ioc-card">
+          <h3 data-i18n="ioc.api">API Response</h3>
+          <canvas id="iocLatencyCanvas" width="420" height="160"></canvas>
+          <strong id="iocLatencyValue">0ms</strong>
+        </div>
+        <div class="ioc-card">
+          <h3 data-i18n="ioc.visitors">Visitor Heatmap</h3>
+          <div class="ioc-heatmap" id="iocHeatmap"></div>
+        </div>
+        <div class="ioc-card ioc-card-wide">
+          <h3 data-i18n="ioc.logs">Live Event Stream</h3>
+          <div class="ioc-log-stream" id="iocLogStream"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-overlay" id="skillOverlay" aria-hidden="true">
+    <div class="skill-panel card-3d">
+      <div class="tool-topbar">
+        <span data-i18n="skillsGraph.title">Skill Particle Graph</span>
+        <button class="tool-close hover-target" id="skillClose" type="button">Esc</button>
+      </div>
+      <canvas id="skillCanvas" class="skill-canvas" width="760" height="430"></canvas>
+      <div class="skill-hint" id="skillHint" data-i18n="skillsGraph.hint">
+        Move your cursor over a skill. Double-click a node to reveal related projects.
+      </div>
+    </div>
+  </div>
+
+  <div class="resume-overlay" id="resumeOverlay" aria-hidden="true">
+    <div class="resume-panel card-3d">
+      <div class="tool-topbar">
+        <span data-i18n="resume.title">Interactive Resume Board</span>
+        <button class="tool-close hover-target" id="resumeClose" type="button">Esc</button>
+      </div>
+      <div class="resume-board" id="resumeBoard">
+        <div class="resume-column" data-column="experience">
+          <h3 data-i18n="resume.columns.experience">Experience</h3>
+          <div class="resume-dropzone">
+            <article class="resume-card" draggable="true" data-card="intern" data-i18n="resume.cards.intern">IT Intern - UEH Smart City Institute</article>
+            <article class="resume-card" draggable="true" data-card="profile" data-i18n="resume.cards.profile">Interactive Portfolio System</article>
+          </div>
+        </div>
+        <div class="resume-column" data-column="skills">
+          <h3 data-i18n="resume.columns.skills">Skills to Verify</h3>
+          <div class="resume-dropzone">
+            <article class="resume-card" draggable="true" data-card="backend" data-i18n="resume.cards.backend">Backend: C#, ASP.NET MVC, SQL Server</article>
+            <article class="resume-card" draggable="true" data-card="frontend" data-i18n="resume.cards.frontend">Frontend: HTML/CSS, JS, ReactJs</article>
+          </div>
+        </div>
+        <div class="resume-column" data-column="interview">
+          <h3 data-i18n="resume.columns.interview">Interview Request</h3>
+          <div class="resume-dropzone">
+            <article class="resume-card" draggable="true" data-card="contact" data-i18n="resume.cards.contact">Contact Dat Truong</article>
+          </div>
+        </div>
+      </div>
+      <p class="resume-note" id="resumeNote" data-i18n="resume.note">Drag cards between columns to build your own interview checklist.</p>
+    </div>
+  </div>
+
   <button class="back-to-top hover-target" id="backToTop" onclick="scrollToTop()" title="Back to top">
     <span class="back-to-top-arrow">↑</span>
   </button>

@@ -51,6 +51,18 @@
       "time": {
         "title": "Mở Time Travel",
         "hint": "Xem tiến trình phát triển theo từng năm"
+      },
+      "ioc": {
+        "title": "Mở Control Center",
+        "hint": "Theo dõi telemetry của portfolio"
+      },
+      "skillsGraph": {
+        "title": "Mở Skill Graph",
+        "hint": "Khám phá mạng hạt công nghệ"
+      },
+      "resume": {
+        "title": "Mở Resume Board",
+        "hint": "Kéo thả thẻ vào checklist phỏng vấn"
       }
     }
   },
@@ -60,7 +72,7 @@
     "welcome": "Chào mừng đến với DatOS. Gõ help để xem các lệnh có thể dùng.",
     "unknown": "Không nhận ra lệnh này. Gõ help để xem mình có thể làm gì.",
     "cleared": "Đã xóa màn hình terminal.",
-    "help": "Các lệnh: help, about, skills, projects, journey, map, time, contact, github, music, theme, lang, clear.",
+    "help": "Các lệnh: help, about, skills, projects, journey, map, time, ioc, graph, resume, contact, github, music, theme, lang, clear.",
     "about": "Đạt Trương là sinh viên Công nghệ thông tin tại UEH, định hướng trở thành Software Engineer với backend C#, ASP.NET MVC, SQL Server và frontend ReactJs.",
     "skills": "Stack chính: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA và thiết kế tương tác UI thực tế.",
     "projects": "Dự án: Quản lý siêu thị, Mô phỏng máy tính, Ứng dụng lưu bút và portfolio My Profile này.",
@@ -69,7 +81,10 @@
     "github": "Đang mở trang GitHub...",
     "music": "Đang bật/tắt nhạc...",
     "theme": "Đang đổi giao diện...",
-    "lang": "Đang đổi ngôn ngữ..."
+    "lang": "Đang đổi ngôn ngữ...",
+    "ioc": "Đang mở Portfolio Control Center...",
+    "graph": "Đang mở skill graph tương tác...",
+    "resume": "Đang mở resume board..."
   },
   "map": {
     "title": "Điều hướng đô thị thông minh",
@@ -190,5 +205,41 @@
   },
   "toast": {
     "language": "Đã chuyển sang tiếng Việt."
+  },
+  "ioc": {
+    "title": "Portfolio Control Center",
+    "api": "Phản hồi API",
+    "visitors": "Bản đồ người xem",
+    "logs": "Luồng sự kiện realtime",
+    "events": [
+      "mở Project Hub",
+      "bật nhạc",
+      "sao chép email",
+      "ghé thăm Learning Journey",
+      "đổi màu accent",
+      "mở Smart City Navigation"
+    ]
+  },
+  "skillsGraph": {
+    "title": "Skill Particle Graph",
+    "hint": "Di chuột qua một kỹ năng. Nhấp đúp vào hạt để xem dự án liên quan.",
+    "projects": "{skill} kết nối với: {projects}"
+  },
+  "resume": {
+    "title": "Interactive Resume Board",
+    "columns": {
+      "experience": "Kinh nghiệm",
+      "skills": "Kỹ năng cần kiểm tra",
+      "interview": "Yêu cầu phỏng vấn"
+    },
+    "cards": {
+      "intern": "Thực tập sinh IT - Viện Đô thị thông minh UEH",
+      "profile": "Hệ thống portfolio tương tác",
+      "backend": "Backend: C#, ASP.NET MVC, SQL Server",
+      "frontend": "Frontend: HTML/CSS, JS, ReactJs",
+      "contact": "Liên hệ Đạt Trương"
+    },
+    "note": "Kéo thả các thẻ giữa các cột để tự tạo checklist phỏng vấn.",
+    "dropped": "Đã thêm vào {column}."
   }
 }

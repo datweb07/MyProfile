@@ -79,6 +79,15 @@ function applyTranslations() {
   if (document.getElementById('timeOverlay')?.classList.contains('show')) {
     renderTimeTravel();
   }
+
+  if (document.getElementById('iocOverlay')?.classList.contains('show')) {
+    renderIocHeatmap();
+    renderIocLogs();
+  }
+
+  if (document.getElementById('skillOverlay')?.classList.contains('show')) {
+    drawSkillGraph();
+  }
 }
 
 function toggleLanguage() {
@@ -581,7 +590,10 @@ const commandBlueprints = [
   { key: 'contact', shortcut: 'C', action: openContactModal },
   { key: 'terminal', shortcut: '`', action: openTerminal },
   { key: 'map', shortcut: 'N', action: openMap },
-  { key: 'time', shortcut: 'Y', action: openTimeTravel }
+  { key: 'time', shortcut: 'Y', action: openTimeTravel },
+  { key: 'ioc', shortcut: 'I', action: openIOC },
+  { key: 'skillsGraph', shortcut: 'S', action: openSkillGraph },
+  { key: 'resume', shortcut: 'R', action: openResumeBoard }
 ];
 
 let activeCommandIndex = 0;
@@ -795,6 +807,7 @@ function moveMap(dx, dy) {
   mapState.x = Math.max(26, Math.min(694, mapState.x + dx));
   mapState.y = Math.max(26, Math.min(394, mapState.y + dy));
   drawMap();
+  updateSpatialAudio();
 }
 
 function openMap() {
@@ -805,6 +818,8 @@ function openMap() {
   overlay.classList.add('show');
   overlay.setAttribute('aria-hidden', 'false');
   drawMap();
+  initSpatialAudio();
+  updateSpatialAudio();
 }
 
 function closeMap() {
@@ -910,6 +925,352 @@ function initTimeTravel() {
   }
 }
 
+const iocState = {
+  timer: null,
+  latency: Array.from({ length: 28 }, () => 90 + Math.round(Math.random() * 95)),
+  logs: [],
+  cities: [
+    { name: 'HCMC', value: 46 },
+    { name: 'Hanoi', value: 31 },
+    { name: 'Da Nang', value: 22 },
+    { name: 'Singapore', value: 15 }
+  ]
+};
+
+function getIocCanvasContext() {
+  const canvas = document.getElementById('iocLatencyCanvas');
+  return canvas ? { canvas, ctx: canvas.getContext('2d') } : null;
+}
+
+function drawIocLatencyChart() {
+  const chart = getIocCanvasContext();
+  if (!chart) return;
+  const { canvas, ctx } = chart;
+  const values = iocState.latency;
+  const max = Math.max(...values, 260);
+  const min = Math.min(...values, 35);
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 1;
+  for (let y = 24; y < canvas.height; y += 34) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#ccf381';
+  ctx.lineWidth = 4;
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  values.forEach((value, index) => {
+    const x = (index / (values.length - 1)) * (canvas.width - 28) + 14;
+    const y = canvas.height - 18 - ((value - min) / Math.max(max - min, 1)) * (canvas.height - 38);
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  const latest = values[values.length - 1];
+  const value = document.getElementById('iocLatencyValue');
+  if (value) value.textContent = `${latest}ms`;
+}
+
+function renderIocHeatmap() {
+  const heatmap = document.getElementById('iocHeatmap');
+  if (!heatmap) return;
+  const max = Math.max(...iocState.cities.map((city) => city.value), 1);
+  heatmap.innerHTML = iocState.cities.map((city) => `
+    <div class="ioc-city">
+      <span>${city.name}</span>
+      <span class="ioc-city-bar"><span style="--value: ${(city.value / max) * 100}%"></span></span>
+      <span>${city.value}</span>
+    </div>
+  `).join('');
+}
+
+function renderIocLogs() {
+  const stream = document.getElementById('iocLogStream');
+  if (!stream) return;
+  stream.innerHTML = iocState.logs.map((line) => `<div>${line}</div>`).join('');
+  stream.scrollTop = stream.scrollHeight;
+}
+
+function pushIocLog() {
+  const events = readMessage('ioc.events') || [
+    'opened Project Hub',
+    'played music',
+    'copied email',
+    'visited Learning Journey'
+  ];
+  const city = iocState.cities[Math.floor(Math.random() * iocState.cities.length)];
+  const event = events[Math.floor(Math.random() * events.length)];
+  const time = new Date().toLocaleTimeString([], { hour12: false });
+  iocState.logs.push(`[${time}] User from ${city.name} ${event}`);
+  if (iocState.logs.length > 8) iocState.logs.shift();
+  city.value += Math.random() > 0.45 ? 1 : 0;
+  renderIocLogs();
+  renderIocHeatmap();
+}
+
+function tickIOC() {
+  const next = 52 + Math.round(Math.random() * 170);
+  iocState.latency.push(next);
+  iocState.latency.shift();
+  drawIocLatencyChart();
+  if (Math.random() > 0.32) pushIocLog();
+}
+
+function openIOC() {
+  const overlay = document.getElementById('iocOverlay');
+  if (!overlay) return;
+  closeCommandPalette();
+  closeTerminal();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  if (!iocState.logs.length) pushIocLog();
+  renderIocHeatmap();
+  renderIocLogs();
+  drawIocLatencyChart();
+  if (!iocState.timer) iocState.timer = setInterval(tickIOC, 1000);
+}
+
+function closeIOC() {
+  const overlay = document.getElementById('iocOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+  if (iocState.timer) {
+    clearInterval(iocState.timer);
+    iocState.timer = null;
+  }
+}
+
+function initIOC() {
+  const closeBtn = document.getElementById('iocClose');
+  const overlay = document.getElementById('iocOverlay');
+  if (closeBtn) closeBtn.addEventListener('click', closeIOC);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeIOC();
+    });
+  }
+}
+
+const skillGraphState = {
+  raf: null,
+  pointer: { x: -999, y: -999 },
+  nodes: [
+    { label: 'C#', group: 'backend', x: 135, y: 120, vx: 0.45, vy: 0.25, projects: 'Supermarket Management' },
+    { label: 'ASP.NET', group: 'backend', x: 245, y: 190, vx: -0.35, vy: 0.32, projects: 'Backend APIs, MVC apps' },
+    { label: 'SQL Server', group: 'backend', x: 160, y: 300, vx: 0.3, vy: -0.25, projects: 'Supermarket Management, data workflows' },
+    { label: 'JavaScript', group: 'frontend', x: 440, y: 120, vx: -0.28, vy: 0.35, projects: 'My Profile, Guest Book App' },
+    { label: 'ReactJs', group: 'frontend', x: 570, y: 190, vx: 0.3, vy: -0.28, projects: 'Frontend experiments' },
+    { label: 'HTML/CSS', group: 'frontend', x: 490, y: 315, vx: -0.42, vy: -0.22, projects: 'My Profile' },
+    { label: 'DSA', group: 'logic', x: 350, y: 260, vx: 0.24, vy: -0.38, projects: 'Calculator Simulator' },
+    { label: 'AI Agents', group: 'future', x: 635, y: 90, vx: -0.22, vy: 0.3, projects: 'Portfolio roadmap' }
+  ]
+};
+
+function getSkillCanvasContext() {
+  const canvas = document.getElementById('skillCanvas');
+  return canvas ? { canvas, ctx: canvas.getContext('2d') } : null;
+}
+
+function drawSkillGraph() {
+  const graph = getSkillCanvasContext();
+  if (!graph) return;
+  const { canvas, ctx } = graph;
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#ccf381';
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  skillGraphState.nodes.forEach((a, i) => {
+    skillGraphState.nodes.slice(i + 1).forEach((b) => {
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      const dist = Math.hypot(dx, dy);
+      if (a.group === b.group || dist < 180) {
+        ctx.strokeStyle = a.group === b.group ? 'rgba(204,243,129,0.38)' : 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = a.group === b.group ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    });
+  });
+
+  skillGraphState.nodes.forEach((node) => {
+    const dist = Math.hypot(node.x - skillGraphState.pointer.x, node.y - skillGraphState.pointer.y);
+    const active = dist < 88;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, active ? 32 : 25, 0, Math.PI * 2);
+    ctx.fillStyle = active ? accent : 'rgba(255,255,255,0.92)';
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+
+    ctx.fillStyle = active ? '#111827' : '#1a191d';
+    ctx.font = '700 14px Barlow, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(node.label, node.x, node.y);
+  });
+}
+
+function animateSkillGraph() {
+  const graph = getSkillCanvasContext();
+  if (!graph) return;
+  const { canvas } = graph;
+  skillGraphState.nodes.forEach((node) => {
+    const dx = node.x - skillGraphState.pointer.x;
+    const dy = node.y - skillGraphState.pointer.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 150) {
+      skillGraphState.nodes.forEach((peer) => {
+        if (peer.group === node.group && peer !== node) {
+          peer.vx += (node.x - peer.x) * 0.0008;
+          peer.vy += (node.y - peer.y) * 0.0008;
+        }
+      });
+    }
+    node.x += node.vx;
+    node.y += node.vy;
+    node.vx *= 0.992;
+    node.vy *= 0.992;
+    if (node.x < 45 || node.x > canvas.width - 45) node.vx *= -1;
+    if (node.y < 45 || node.y > canvas.height - 45) node.vy *= -1;
+    node.x = Math.max(45, Math.min(canvas.width - 45, node.x));
+    node.y = Math.max(45, Math.min(canvas.height - 45, node.y));
+  });
+  drawSkillGraph();
+  skillGraphState.raf = requestAnimationFrame(animateSkillGraph);
+}
+
+function openSkillGraph() {
+  const overlay = document.getElementById('skillOverlay');
+  if (!overlay) return;
+  closeCommandPalette();
+  closeTerminal();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  if (!skillGraphState.raf) animateSkillGraph();
+}
+
+function closeSkillGraph() {
+  const overlay = document.getElementById('skillOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+  if (skillGraphState.raf) {
+    cancelAnimationFrame(skillGraphState.raf);
+    skillGraphState.raf = null;
+  }
+}
+
+function initSkillGraph() {
+  const canvas = document.getElementById('skillCanvas');
+  const closeBtn = document.getElementById('skillClose');
+  const overlay = document.getElementById('skillOverlay');
+  if (closeBtn) closeBtn.addEventListener('click', closeSkillGraph);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSkillGraph();
+    });
+  }
+  if (canvas) {
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      skillGraphState.pointer.x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+      skillGraphState.pointer.y = ((e.clientY - rect.top) / rect.height) * canvas.height;
+    });
+    canvas.addEventListener('mouseleave', () => {
+      skillGraphState.pointer.x = -999;
+      skillGraphState.pointer.y = -999;
+    });
+    canvas.addEventListener('dblclick', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * canvas.width;
+      const y = ((e.clientY - rect.top) / rect.height) * canvas.height;
+      const node = skillGraphState.nodes.find((item) => Math.hypot(item.x - x, item.y - y) < 42);
+      if (!node) return;
+      showToast(t('skillsGraph.projects', '{skill} connects to: {projects}').replace('{skill}', node.label).replace('{projects}', node.projects), 4200);
+    });
+  }
+}
+
+function openResumeBoard() {
+  const overlay = document.getElementById('resumeOverlay');
+  if (!overlay) return;
+  closeCommandPalette();
+  closeTerminal();
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeResumeBoard() {
+  const overlay = document.getElementById('resumeOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function initResumeBoard() {
+  const overlay = document.getElementById('resumeOverlay');
+  const closeBtn = document.getElementById('resumeClose');
+  const board = document.getElementById('resumeBoard');
+  if (closeBtn) closeBtn.addEventListener('click', closeResumeBoard);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeResumeBoard();
+    });
+  }
+  if (!board) return;
+
+  board.addEventListener('dragstart', (e) => {
+    const card = e.target.closest('.resume-card');
+    if (!card) return;
+    card.classList.add('dragging');
+    e.dataTransfer.setData('text/plain', card.dataset.card);
+  });
+
+  board.addEventListener('dragend', (e) => {
+    e.target.closest('.resume-card')?.classList.remove('dragging');
+    document.querySelectorAll('.resume-dropzone').forEach((zone) => zone.classList.remove('drag-over'));
+  });
+
+  board.querySelectorAll('.resume-dropzone').forEach((zone) => {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain');
+      const card = board.querySelector(`.resume-card[data-card="${id}"]`);
+      const column = zone.closest('.resume-column')?.dataset.column || '';
+      if (!card) return;
+      zone.classList.remove('drag-over');
+      zone.appendChild(card);
+      const columnName = t(`resume.columns.${column}`, column);
+      const note = document.getElementById('resumeNote');
+      const message = t('resume.dropped', 'Added to {column}.').replace('{column}', columnName);
+      if (note) note.textContent = message;
+      showToast(message);
+      if (id === 'contact' && column === 'interview') openContactModal();
+    });
+  });
+}
+
 let terminalHistory = [];
 let terminalHistoryIndex = 0;
 
@@ -1012,6 +1373,24 @@ function runTerminalCommand(rawCommand) {
       appendTerminalLine(t('time.terminal'));
       openTimeTravel();
       break;
+    case 'ioc':
+    case 'control':
+    case 'dashboard':
+      appendTerminalLine(t('terminal.ioc'));
+      openIOC();
+      break;
+    case 'graph':
+    case 'skills-graph':
+    case 'particles':
+      appendTerminalLine(t('terminal.graph'));
+      openSkillGraph();
+      break;
+    case 'resume':
+    case 'kanban':
+    case 'cv':
+      appendTerminalLine(t('terminal.resume'));
+      openResumeBoard();
+      break;
     case 'clear':
     case 'cls':
       document.getElementById('terminalScreen').innerHTML = '';
@@ -1110,6 +1489,9 @@ function initCommandPalette() {
       closeTerminal();
       closeMap();
       closeTimeTravel();
+      closeIOC();
+      closeSkillGraph();
+      closeResumeBoard();
     } else if (!isTyping) {
       const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
       if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
@@ -1129,6 +1511,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initTerminal();
   initMapNavigation();
   initTimeTravel();
+  initIOC();
+  initSkillGraph();
+  initResumeBoard();
 });
 
 
@@ -1264,6 +1649,10 @@ const musicFab = document.getElementById('musicFab');
 
 let isPlaying = false;
 let isRepeat = false;
+let spatialAudioCtx = null;
+let spatialSource = null;
+let spatialPanner = null;
+let spatialGain = null;
 
 let currentSongIndex = localStorage.getItem('savedSongIndex') ? parseInt(localStorage.getItem('savedSongIndex')) : 0;
 let shouldAutoPlay = localStorage.getItem('isMusicPlaying') === 'true';
@@ -1282,6 +1671,37 @@ function updateMusicWidget() {
   } else {
     musicFab.style.setProperty('--music-progress', '0deg');
   }
+}
+
+function initSpatialAudio() {
+  if (!audioPlayer || spatialSource) return;
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return;
+  try {
+    spatialAudioCtx = spatialAudioCtx || new AudioContextClass();
+    spatialSource = spatialAudioCtx.createMediaElementSource(audioPlayer);
+    spatialPanner = spatialAudioCtx.createStereoPanner();
+    spatialGain = spatialAudioCtx.createGain();
+    spatialSource.connect(spatialPanner);
+    spatialPanner.connect(spatialGain);
+    spatialGain.connect(spatialAudioCtx.destination);
+    updateSpatialAudio();
+  } catch (error) {
+    spatialSource = null;
+    spatialPanner = null;
+    spatialGain = null;
+    console.warn('Spatial audio is unavailable:', error);
+  }
+}
+
+function updateSpatialAudio() {
+  if (!spatialPanner || !spatialGain) return;
+  const speaker = { x: 600, y: 210 };
+  const distance = Math.hypot(mapState.x - speaker.x, mapState.y - speaker.y);
+  const normalized = Math.min(distance / 520, 1);
+  const pan = Math.max(-1, Math.min(1, (mapState.x - speaker.x) / 360));
+  spatialPanner.pan.setTargetAtTime(pan, spatialAudioCtx.currentTime, 0.08);
+  spatialGain.gain.setTargetAtTime(0.35 + (1 - normalized) * 0.65, spatialAudioCtx.currentTime, 0.08);
 }
 
 function renderPlaylist() {
@@ -1311,6 +1731,8 @@ function playSong(index) {
   }
 
   audioPlayer.play().then(() => {
+    initSpatialAudio();
+    if (spatialAudioCtx?.state === 'suspended') spatialAudioCtx.resume();
     isPlaying = true;
     playPauseBtn.textContent = 'Stop';
     localStorage.setItem('isMusicPlaying', 'true');

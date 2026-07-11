@@ -51,6 +51,18 @@
       "time": {
         "title": "Open Time Travel",
         "hint": "View growth by year"
+      },
+      "ioc": {
+        "title": "Open Control Center",
+        "hint": "Watch live portfolio telemetry"
+      },
+      "skillsGraph": {
+        "title": "Open Skill Graph",
+        "hint": "Explore connected tech particles"
+      },
+      "resume": {
+        "title": "Open Resume Board",
+        "hint": "Drag cards into an interview checklist"
       }
     }
   },
@@ -60,7 +72,7 @@
     "welcome": "Welcome to DatOS. Type help to see available commands.",
     "unknown": "Unknown command. Type help to see what I can do.",
     "cleared": "Terminal cleared.",
-    "help": "Commands: help, about, skills, projects, journey, map, time, contact, github, music, theme, lang, clear.",
+    "help": "Commands: help, about, skills, projects, journey, map, time, ioc, graph, resume, contact, github, music, theme, lang, clear.",
     "about": "Dat Truong is an Information Technology student at UEH, aiming to become a Software Engineer with a backend focus in C#, ASP.NET MVC, SQL Server and frontend work in ReactJs.",
     "skills": "Core stack: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA, and practical UI interaction design.",
     "projects": "Projects: Supermarket Management, Calculator Simulator, Guest Book App, and this My Profile portfolio.",
@@ -69,7 +81,10 @@
     "github": "Opening GitHub profile...",
     "music": "Toggling music playback...",
     "theme": "Switching theme...",
-    "lang": "Switching language..."
+    "lang": "Switching language...",
+    "ioc": "Opening the Portfolio Control Center...",
+    "graph": "Opening the interactive skill graph...",
+    "resume": "Opening the resume board..."
   },
   "map": {
     "title": "Smart City Navigation",
@@ -129,6 +144,42 @@
         }
       }
     }
+  },
+  "ioc": {
+    "title": "Portfolio Control Center",
+    "api": "API Response",
+    "visitors": "Visitor Heatmap",
+    "logs": "Live Event Stream",
+    "events": [
+      "opened Project Hub",
+      "played music",
+      "copied email",
+      "visited Learning Journey",
+      "changed accent color",
+      "opened Smart City Navigation"
+    ]
+  },
+  "skillsGraph": {
+    "title": "Skill Particle Graph",
+    "hint": "Move your cursor over a skill. Double-click a node to reveal related projects.",
+    "projects": "{skill} connects to: {projects}"
+  },
+  "resume": {
+    "title": "Interactive Resume Board",
+    "columns": {
+      "experience": "Experience",
+      "skills": "Skills to Verify",
+      "interview": "Interview Request"
+    },
+    "cards": {
+      "intern": "IT Intern - UEH Smart City Institute",
+      "profile": "Interactive Portfolio System",
+      "backend": "Backend: C#, ASP.NET MVC, SQL Server",
+      "frontend": "Frontend: HTML/CSS, JS, ReactJs",
+      "contact": "Contact Dat Truong"
+    },
+    "note": "Drag cards between columns to build your own interview checklist.",
+    "dropped": "Added to {column}."
   },
   "home": {
     "title": "Hello<span class=\"accent-dot\">!</span><br />I'm Dat <span class=\"text-light\">Truong</span>",
