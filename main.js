@@ -297,6 +297,9 @@ document.addEventListener('DOMContentLoaded', typeWriter);
 document.querySelectorAll('.card-3d, .project-card, .stat-card').forEach((card) => {
   card.addEventListener('mousemove', (e) => {
     if (window.innerWidth <= 768) return;
+    if (card.closest('.modal-overlay, .command-palette, .terminal-overlay, .map-overlay, .time-overlay, .ioc-overlay, .skill-overlay, .resume-overlay, .secret-diary-overlay')) {
+      return;
+    }
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -347,6 +350,212 @@ function copyEmail() {
 
 function openCV() {
   window.open('./documents/cv.pdf', '_blank', 'noopener');
+}
+
+const secretDiaryState = {
+  unlocked: false,
+  password: '',
+  currentDate: formatDiaryDate(new Date()),
+  initialized: false
+};
+
+function formatDiaryDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function parseDiaryDate(dateString) {
+  const [year, month, day] = dateString.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function setDiaryStatus(message) {
+  const status = document.getElementById('secretDiaryStatus');
+  if (status) status.textContent = message;
+}
+
+function setDiaryDate(date) {
+  const input = document.getElementById('secretDiaryDate');
+  secretDiaryState.currentDate = date;
+  if (input) input.value = date;
+}
+
+function shiftDiaryDate(days) {
+  const date = parseDiaryDate(secretDiaryState.currentDate);
+  date.setDate(date.getDate() + days);
+  setDiaryDate(formatDiaryDate(date));
+  loadDiaryEntry();
+}
+
+function showDiaryApp() {
+  const lock = document.getElementById('secretDiaryLock');
+  const app = document.getElementById('secretDiaryApp');
+  const shell = document.querySelector('.secret-diary-shell');
+  if (lock) lock.hidden = true;
+  if (app) app.hidden = false;
+  if (shell) {
+    shell.classList.remove('is-locked');
+    shell.classList.add('is-unlocked');
+  }
+}
+
+function showDiaryLock() {
+  const lock = document.getElementById('secretDiaryLock');
+  const app = document.getElementById('secretDiaryApp');
+  const shell = document.querySelector('.secret-diary-shell');
+  if (lock) lock.hidden = false;
+  if (app) app.hidden = true;
+  if (shell) {
+    shell.classList.remove('is-unlocked');
+    shell.classList.add('is-locked');
+  }
+}
+
+function openSecretDiary() {
+  const overlay = document.getElementById('secretDiaryOverlay');
+  if (!overlay) return;
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+  if (secretDiaryState.unlocked) {
+    showDiaryApp();
+    loadDiaryEntry();
+  } else {
+    showDiaryLock();
+    setTimeout(() => document.getElementById('secretDiaryPassword')?.focus(), 40);
+  }
+}
+
+function closeSecretDiary() {
+  const overlay = document.getElementById('secretDiaryOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+async function unlockSecretDiary(event) {
+  event.preventDefault();
+  if (!supabaseClient) {
+    showToast('Supabase is not ready for the diary yet.');
+    return;
+  }
+
+  const passwordInput = document.getElementById('secretDiaryPassword');
+  const password = passwordInput?.value || '';
+  const { data, error } = await supabaseClient.rpc('secret_diary_password_ok', {
+    input_password: password
+  });
+
+  if (error) {
+    console.error('Secret diary unlock error:', error);
+    showToast('Diary database is not set up yet.');
+    return;
+  }
+
+  if (!data) {
+    showToast('Wrong password.');
+    return;
+  }
+
+  secretDiaryState.unlocked = true;
+  secretDiaryState.password = password;
+  if (passwordInput) passwordInput.value = '';
+  showDiaryApp();
+  setDiaryDate(secretDiaryState.currentDate);
+  loadDiaryEntry();
+}
+
+async function loadDiaryEntry() {
+  if (!secretDiaryState.unlocked || !supabaseClient) return;
+  setDiaryStatus('Loading...');
+
+  const { data, error } = await supabaseClient.rpc('get_secret_diary_entry', {
+    input_password: secretDiaryState.password,
+    target_date: secretDiaryState.currentDate
+  });
+
+  if (error) {
+    console.error('Secret diary load error:', error);
+    setDiaryStatus('Could not load this page.');
+    showToast('Could not load diary entry.');
+    return;
+  }
+
+  const entry = Array.isArray(data) ? data[0] : data;
+  const title = document.getElementById('secretDiaryTitle');
+  const content = document.getElementById('secretDiaryContent');
+  if (title) title.value = entry?.title || '';
+  if (content) content.value = entry?.content || '';
+  setDiaryStatus(entry?.updated_at ? `Last saved: ${new Date(entry.updated_at).toLocaleString()}` : 'Blank page.');
+}
+
+async function saveDiaryEntry() {
+  if (!secretDiaryState.unlocked || !supabaseClient) return;
+  const title = document.getElementById('secretDiaryTitle')?.value || '';
+  const content = document.getElementById('secretDiaryContent')?.value || '';
+  setDiaryStatus('Saving...');
+
+  const { error } = await supabaseClient.rpc('upsert_secret_diary_entry', {
+    input_password: secretDiaryState.password,
+    target_date: secretDiaryState.currentDate,
+    entry_title: title,
+    entry_content: content
+  });
+
+  if (error) {
+    console.error('Secret diary save error:', error);
+    setDiaryStatus('Save failed.');
+    showToast('Could not save diary entry.');
+    return;
+  }
+
+  setDiaryStatus(`Saved: ${new Date().toLocaleString()}`);
+  showToast('Diary saved.');
+}
+
+function lockSecretDiary() {
+  secretDiaryState.unlocked = false;
+  secretDiaryState.password = '';
+  showDiaryLock();
+  setTimeout(() => document.getElementById('secretDiaryPassword')?.focus(), 40);
+}
+
+function initSecretDiary() {
+  if (secretDiaryState.initialized) return;
+  secretDiaryState.initialized = true;
+
+  const hotspot = document.getElementById('secretDiaryHotspot');
+  const overlay = document.getElementById('secretDiaryOverlay');
+  const loginForm = document.getElementById('secretDiaryLoginForm');
+  const dateInput = document.getElementById('secretDiaryDate');
+  const today = formatDiaryDate(new Date());
+
+  setDiaryDate(today);
+  if (hotspot) hotspot.addEventListener('click', openSecretDiary);
+  document.querySelectorAll('[data-secret-diary-close]').forEach((button) => {
+    button.addEventListener('click', closeSecretDiary);
+  });
+  if (loginForm) loginForm.addEventListener('submit', unlockSecretDiary);
+  if (dateInput) {
+    dateInput.addEventListener('change', () => {
+      setDiaryDate(dateInput.value);
+      loadDiaryEntry();
+    });
+  }
+  document.getElementById('diaryPrevDay')?.addEventListener('click', () => shiftDiaryDate(-1));
+  document.getElementById('diaryNextDay')?.addEventListener('click', () => shiftDiaryDate(1));
+  document.getElementById('diaryToday')?.addEventListener('click', () => {
+    setDiaryDate(formatDiaryDate(new Date()));
+    loadDiaryEntry();
+  });
+  document.getElementById('diarySave')?.addEventListener('click', saveDiaryEntry);
+  document.getElementById('diaryLock')?.addEventListener('click', lockSecretDiary);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeSecretDiary();
+    });
+  }
 }
 
 
@@ -1501,6 +1710,7 @@ function initCommandPalette() {
       closeIOC();
       closeSkillGraph();
       closeResumeBoard();
+      closeSecretDiary();
     } else if (!isTyping) {
       const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
       if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
@@ -1525,6 +1735,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initIOC();
   initSkillGraph();
   initResumeBoard();
+  initSecretDiary();
 });
 
 

@@ -19,6 +19,7 @@
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap"
     rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -27,6 +28,44 @@
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-outline" id="cursorOutline"></div>
   <div class="toast-container" id="toastContainer"></div>
+  <button class="secret-diary-hotspot hover-target" id="secretDiaryHotspot" type="button"
+    aria-label="Open secret diary">bí mật hihi</button>
+
+  <div class="secret-diary-overlay" id="secretDiaryOverlay" aria-hidden="true">
+    <div class="secret-diary-shell is-locked">
+      <section class="secret-diary-lock" id="secretDiaryLock">
+        <div class="secret-diary-lock-card card-3d">
+          <button class="secret-diary-close hover-target" type="button" data-secret-diary-close>Esc</button>
+          <!-- <span class="secret-diary-kicker">private pages</span> -->
+          <h2>nhật ký bí mật</h2>
+          <p>đúng mật khẩu mới đăng nhập được nhé =)))</p>
+          <form class="secret-diary-login" id="secretDiaryLoginForm">
+            <input class="form-input" id="secretDiaryPassword" type="password" autocomplete="current-password"
+              placeholder="nhập ở đây nè" required />
+            <button class="btn-brutal hover-target" type="submit">zô thui nào</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="secret-diary-app" id="secretDiaryApp" hidden>
+        <button class="secret-diary-close hover-target" type="button" data-secret-diary-close>Esc</button>
+        <div class="secret-diary-toolbar">
+          <button class="btn-brutal small outline hover-target" id="diaryPrevDay" type="button">Prev</button>
+          <input class="secret-diary-date hover-target" id="secretDiaryDate" type="date" />
+          <button class="btn-brutal small outline hover-target" id="diaryNextDay" type="button">Next</button>
+          <button class="btn-brutal small hover-target" id="diaryToday" type="button">Today</button>
+          <button class="btn-brutal small hover-target" id="diarySave" type="button">Save</button>
+          <button class="btn-brutal small text-only hover-target" id="diaryLock" type="button">Lock</button>
+        </div>
+        <article class="secret-diary-paper">
+          <input class="secret-diary-title" id="secretDiaryTitle" type="text" placeholder="A title for today..." />
+          <textarea class="secret-diary-content" id="secretDiaryContent"
+            placeholder="Write something only you will know..."></textarea>
+          <div class="secret-diary-status" id="secretDiaryStatus">Not saved yet.</div>
+        </article>
+      </section>
+    </div>
+  </div>
 
   <div class="command-palette" id="commandPalette" aria-hidden="true">
     <div class="command-panel card-3d">
