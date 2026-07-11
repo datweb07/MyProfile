@@ -2,7 +2,8 @@
   "nav": {
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
-    "languageToggle": "VI"
+    "languageToggle": "VI",
+    "cv": "CV"
   },
   "command": {
     "title": "Command Palette",
@@ -63,6 +64,10 @@
       "resume": {
         "title": "Open Resume Board",
         "hint": "Drag cards into an interview checklist"
+      },
+      "cv": {
+        "title": "Open CV PDF",
+        "hint": "Open the CV in a new window"
       }
     }
   },
@@ -72,7 +77,7 @@
     "welcome": "Welcome to DatOS. Type help to see available commands.",
     "unknown": "Unknown command. Type help to see what I can do.",
     "cleared": "Terminal cleared.",
-    "help": "Commands: help, about, skills, projects, journey, map, time, ioc, graph, resume, contact, github, music, theme, lang, clear.",
+    "help": "Commands: help, about, skills, projects, journey, map, time, ioc, graph, resume, cv, contact, github, music, theme, lang, clear.",
     "about": "Dat Truong is an Information Technology student at UEH, aiming to become a Software Engineer with a backend focus in C#, ASP.NET MVC, SQL Server and frontend work in ReactJs.",
     "skills": "Core stack: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA, and practical UI interaction design.",
     "projects": "Projects: Supermarket Management, Calculator Simulator, Guest Book App, and this My Profile portfolio.",
@@ -84,7 +89,8 @@
     "lang": "Switching language...",
     "ioc": "Opening the Portfolio Control Center...",
     "graph": "Opening the interactive skill graph...",
-    "resume": "Opening the resume board..."
+    "resume": "Opening the resume board...",
+    "cv": "Opening CV PDF..."
   },
   "map": {
     "title": "Smart City Navigation",
@@ -185,7 +191,8 @@
     "title": "Hello<span class=\"accent-dot\">!</span><br />I'm Dat <span class=\"text-light\">Truong</span>",
     "description": "I am currently studying Information Technology at <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">UEH University</a>. My career goal is to become a Software Engineer. I specialize in C#, ASP.NET MVC, SQL Server for backend, and ReactJs for frontend.",
     "email": "Email Me ↗",
-    "like": "Like"
+    "like": "Like",
+    "cv": "View CV ↗"
   },
   "journey": {
     "title": "Learning Journey",

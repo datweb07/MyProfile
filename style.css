@@ -317,9 +317,38 @@ body.dark-mode .huge-title {
 
 .tags {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
   align-items: center;
+}
+
+.tags .btn-brutal {
+  flex: 0 0 auto;
+}
+
+.social-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+}
+
+.social-icon-btn svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+  fill: currentColor;
+}
+
+.tags .btn-brutal.text-only {
+  padding: 8px 6px;
+  white-space: nowrap;
+}
+
+.tags .reaction-btn {
+  padding: 9px 14px;
+  white-space: nowrap;
 }
 
 .btn-brutal {
@@ -467,6 +496,10 @@ section {
   position: relative;
   max-width: 800px;
   margin: 0 auto;
+}
+
+#projects {
+  margin-top: clamp(9rem, 18vh, 15rem);
 }
 
 .timeline::before {
@@ -949,6 +982,7 @@ body.dark-mode .side-nav-dot::after {
   }
 
   .tags {
+    flex-wrap: wrap;
     justify-content: center;
   }
 
@@ -986,6 +1020,10 @@ body.dark-mode .side-nav-dot::after {
   .timeline-item:nth-child(odd) .timeline-dot,
   .timeline-item:nth-child(even) .timeline-dot {
     left: 21px;
+  }
+
+  #projects {
+    margin-top: 5rem;
   }
 
   .tabs {
@@ -1179,6 +1217,7 @@ body.dark-mode .header {
 .terminal-trigger,
 .map-trigger,
 .time-trigger,
+.cv-trigger,
 .language-toggle {
   background: var(--bg-primary);
   border: 2px solid var(--text-primary);
@@ -1195,6 +1234,7 @@ body.dark-mode .header {
 .terminal-trigger:hover,
 .map-trigger:hover,
 .time-trigger:hover,
+.cv-trigger:hover,
 .language-toggle:hover {
   background: var(--accent-color);
   color: #1a191d;
@@ -1886,7 +1926,8 @@ body.dark-mode .header {
   }
 
   .map-trigger,
-  .time-trigger {
+  .time-trigger,
+  .cv-trigger {
     padding: 0.45rem 0.65rem;
   }
 

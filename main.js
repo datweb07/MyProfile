@@ -345,6 +345,10 @@ function copyEmail() {
     .catch(() => showToast('Could not copy email.'));
 }
 
+function openCV() {
+  window.open('./documents/cv.pdf', '_blank', 'noopener');
+}
+
 
 async function fetchCurrentLikes() {
   if (!supabaseClient) return;
@@ -585,6 +589,7 @@ const commandBlueprints = [
   { key: 'projects', shortcut: 'P', action: () => scrollToSection('projects') },
   { key: 'github', shortcut: 'G', action: () => window.open('https://github.com/datweb07', '_blank') },
   { key: 'email', shortcut: 'E', action: copyEmail },
+  { key: 'cv', shortcut: 'V', action: openCV },
   { key: 'music', shortcut: 'M', action: togglePlay },
   { key: 'theme', shortcut: 'T', action: toggleDarkMode },
   { key: 'contact', shortcut: 'C', action: openContactModal },
@@ -1387,9 +1392,13 @@ function runTerminalCommand(rawCommand) {
       break;
     case 'resume':
     case 'kanban':
-    case 'cv':
       appendTerminalLine(t('terminal.resume'));
       openResumeBoard();
+      break;
+    case 'cv':
+    case 'pdf':
+      appendTerminalLine(t('terminal.cv'));
+      openCV();
       break;
     case 'clear':
     case 'cls':
@@ -1505,7 +1514,9 @@ function initCommandPalette() {
 document.addEventListener('DOMContentLoaded', () => {
   loadLanguage(currentLanguage);
   const languageToggle = document.getElementById('languageToggle');
+  const cvTrigger = document.getElementById('cvTrigger');
   if (languageToggle) languageToggle.addEventListener('click', toggleLanguage);
+  if (cvTrigger) cvTrigger.addEventListener('click', openCV);
   initCommandPalette();
   initAccentPicker();
   initTerminal();

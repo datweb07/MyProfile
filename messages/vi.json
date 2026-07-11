@@ -2,7 +2,8 @@
   "nav": {
     "darkMode": "Chế độ tối",
     "lightMode": "Chế độ sáng",
-    "languageToggle": "EN"
+    "languageToggle": "EN",
+    "cv": "CV"
   },
   "command": {
     "title": "Bảng lệnh nhanh",
@@ -63,6 +64,10 @@
       "resume": {
         "title": "Mở Resume Board",
         "hint": "Kéo thả thẻ vào checklist phỏng vấn"
+      },
+      "cv": {
+        "title": "Mở CV PDF",
+        "hint": "Mở CV trong cửa sổ mới"
       }
     }
   },
@@ -72,7 +77,7 @@
     "welcome": "Chào mừng đến với DatOS. Gõ help để xem các lệnh có thể dùng.",
     "unknown": "Không nhận ra lệnh này. Gõ help để xem mình có thể làm gì.",
     "cleared": "Đã xóa màn hình terminal.",
-    "help": "Các lệnh: help, about, skills, projects, journey, map, time, ioc, graph, resume, contact, github, music, theme, lang, clear.",
+    "help": "Các lệnh: help, about, skills, projects, journey, map, time, ioc, graph, resume, cv, contact, github, music, theme, lang, clear.",
     "about": "Đạt Trương là sinh viên Công nghệ thông tin tại UEH, định hướng trở thành Software Engineer với backend C#, ASP.NET MVC, SQL Server và frontend ReactJs.",
     "skills": "Stack chính: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA và thiết kế tương tác UI thực tế.",
     "projects": "Dự án: Quản lý siêu thị, Mô phỏng máy tính, Ứng dụng lưu bút và portfolio My Profile này.",
@@ -84,7 +89,8 @@
     "lang": "Đang đổi ngôn ngữ...",
     "ioc": "Đang mở Portfolio Control Center...",
     "graph": "Đang mở skill graph tương tác...",
-    "resume": "Đang mở resume board..."
+    "resume": "Đang mở resume board...",
+    "cv": "Đang mở CV PDF..."
   },
   "map": {
     "title": "Điều hướng đô thị thông minh",
@@ -149,7 +155,8 @@
     "title": "Xin chào<span class=\"accent-dot\">!</span><br />Mình là Đạt <span class=\"text-light\">Trương</span>",
     "description": "Mình hiện đang học ngành Công nghệ thông tin tại <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">Đại học UEH</a>. Mục tiêu nghề nghiệp của mình là trở thành Software Engineer. Mình tập trung vào C#, ASP.NET MVC, SQL Server ở backend và ReactJs ở frontend.",
     "email": "Gửi email ↗",
-    "like": "Thích"
+    "like": "Thích",
+    "cv": "Xem CV ↗"
   },
   "journey": {
     "title": "Hành trình học tập",
