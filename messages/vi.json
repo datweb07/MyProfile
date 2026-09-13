@@ -153,7 +153,7 @@
   },
   "home": {
     "title": "Xin chào<span class=\"accent-dot\">!</span><br />Mình là Đạt <span class=\"text-light\">Trương</span>",
-    "description": "Mình hiện đang học ngành Công nghệ thông tin tại <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">Đại học UEH</a>. Mục tiêu nghề nghiệp của mình là trở thành Software Engineer. Mình tập trung vào C#, ASP.NET MVC, SQL Server ở backend và ReactJs ở frontend.",
+    "description": "Mình hiện đang học ngành Công nghệ thông tin tại <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">Đại học UEH</a> và làm việc với vai trò Backend AI Engineering Intern. Mục tiêu nghề nghiệp của mình là trở thành Software Engineer. Mình xây dựng các dịch vụ backend mở rộng, RESTful APIs và tích hợp các mô hình AI sử dụng Python, Node.js, C#/.NET và PostgreSQL.",
     "email": "Gửi email ↗",
     "like": "Thích",
     "cv": "Xem CV ↗"

@@ -189,7 +189,7 @@
   },
   "home": {
     "title": "Hello<span class=\"accent-dot\">!</span><br />I'm Dat <span class=\"text-light\">Truong</span>",
-    "description": "I am currently studying Information Technology at <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">UEH University</a>. My career goal is to become a Software Engineer. I specialize in C#, ASP.NET MVC, SQL Server for backend, and ReactJs for frontend.",
+    "description": "I am currently studying Information Technology at <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">UEH University</a> and working as a Backend AI Engineering Intern. My career goal is to become a Software Engineer. I build scalable backend services, RESTful APIs and integrate AI models using Python, Node.js, C#/.NET and PostgreSQL.",
     "email": "Email Me ↗",
     "like": "Like",
     "cv": "View CV ↗"
