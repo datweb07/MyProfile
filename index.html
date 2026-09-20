@@ -164,95 +164,6 @@
       </div>
     </div>
 
-    <div class="command-palette" id="commandPalette" aria-hidden="true">
-      <div class="command-panel card-3d">
-        <div class="command-header">
-          <span data-i18n="command.title">Command Palette</span>
-          <button
-            class="command-close hover-target"
-            id="commandClose"
-            type="button"
-          >
-            Esc
-          </button>
-        </div>
-        <input
-          id="commandSearch"
-          class="command-search form-input"
-          type="text"
-          placeholder="Type a command..."
-          data-i18n-placeholder="command.placeholder"
-        />
-        <div class="command-list" id="commandList"></div>
-      </div>
-    </div>
-
-    <div class="terminal-overlay" id="terminalOverlay" aria-hidden="true">
-      <div class="terminal-panel card-3d">
-        <div class="terminal-topbar">
-          <div class="terminal-dots" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </div>
-          <span class="terminal-title" data-i18n="terminal.title"
-            >DatOS Terminal</span
-          >
-          <button
-            class="terminal-close hover-target"
-            id="terminalClose"
-            type="button"
-          >
-            Esc
-          </button>
-        </div>
-        <div
-          class="terminal-screen"
-          id="terminalScreen"
-          aria-live="polite"
-        ></div>
-        <form class="terminal-input-row" id="terminalForm">
-          <span class="terminal-prompt">dat@portfolio:~$</span>
-          <input
-            id="terminalInput"
-            class="terminal-input"
-            type="text"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder="type help"
-            data-i18n-placeholder="terminal.placeholder"
-          />
-        </form>
-      </div>
-    </div>
-
-    <div class="map-overlay" id="mapOverlay" aria-hidden="true">
-      <div class="map-panel card-3d">
-        <div class="tool-topbar">
-          <span data-i18n="map.title">Smart City Navigation</span>
-          <button class="tool-close hover-target" id="mapClose" type="button">
-            Esc
-          </button>
-        </div>
-        <canvas
-          id="mapCanvas"
-          class="map-canvas"
-          width="720"
-          height="420"
-        ></canvas>
-        <div class="map-hud">
-          <span id="mapStatus" data-i18n="map.status"
-            >Use WASD or arrow keys to drive.</span
-          >
-          <button
-            class="btn-brutal small hover-target"
-            id="mapVisitBtn"
-            type="button"
-            data-i18n="map.visit"
-          >
-            Visit zone
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- <div class="time-overlay" id="timeOverlay" aria-hidden="true">
       <div class="time-panel card-3d">
@@ -548,30 +459,7 @@
             <a href="#home" class="logo hover-target">Dat Truong</a>
           </div>
           <div class="nav-actions">
-            <button
-              class="command-trigger hover-target"
-              id="commandTrigger"
-              type="button"
-              title="Open command palette"
-            >
-              Ctrl K
-            </button>
-            <button
-              class="terminal-trigger hover-target"
-              id="terminalTrigger"
-              type="button"
-              title="Open terminal"
-            >
-              Term
-            </button>
-            <button
-              class="map-trigger hover-target"
-              id="mapTrigger"
-              type="button"
-              title="Open navigation map"
-            >
-              Map
-            </button>
+
             <!-- <button
               class="time-trigger hover-target"
               id="timeTrigger"
@@ -734,46 +622,56 @@
           <span
             class="chonky_underline"
             style="--underline-color: #ff6b2b"
-            data-i18n="journey.title"
           >
-            Learning Journey
+            Experience
           </span>
         </h2>
         <div class="timeline">
           <div class="timeline-item reveal">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">Aug 2021 - Jun 2024</div>
+            <div class="timeline-date">Aug 2026 - Present</div>
             <div class="timeline-content card-3d">
-              <h4 data-i18n="journey.highschool.name">THPT Đồng Phú</h4>
-              <p data-i18n="journey.highschool.desc">
-                Learning with a strong focus on Mathematics.
-              </p>
+              <h4>FlyRank AI</h4>
+              <p>Backend AI Engineer - Intern</p>
             </div>
           </div>
           <div class="timeline-item reveal">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">Aug 2024 - Present</div>
+            <div class="timeline-date">Jun 2026 - Aug 2026</div>
             <div class="timeline-content card-3d">
-              <h4 data-i18n="journey.ueh.name">UEH University</h4>
-              <p data-i18n="journey.ueh.desc">
-                Pursuing a Bachelor's degree in Information Technology.
-              </p>
-              <span class="tooltip-text" data-i18n="journey.ueh.tooltip"
-                >Current milestone</span
-              >
+              <h4>Institute of Smart City and Management</h4>
+              <p>IT Digital Platform Intern</p>
             </div>
           </div>
           <div class="timeline-item reveal">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">Jun 2026 - Present</div>
+            <div class="timeline-date">Nov 2024 - Dec 2024</div>
             <div class="timeline-content card-3d">
-              <h4 data-i18n="journey.intern.name">
-                UEH - Institute of Smart City and Management
-              </h4>
-              <p data-i18n="journey.intern.desc">IT Intern</p>
+              <h4>Circle K</h4>
+              <p>Parttime Employee</p>
             </div>
           </div>
         </div>
+
+        <h2 class="section-title" style="margin-top: 4rem;">
+          <span
+            class="chonky_underline"
+            style="--underline-color: var(--accent-color)"
+          >
+            Education
+          </span>
+        </h2>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Sep 2024 - Jan 2028</div>
+            <div class="timeline-content card-3d">
+              <h4>University Of Economics Ho Chi Minh City</h4>
+              <p>Bachelor's degree, Information Technology</p>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <!-- <section id="projects" class="container reveal">

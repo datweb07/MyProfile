@@ -61,20 +61,11 @@ function applyTranslations() {
     themeText.textContent = isDark ? t('nav.lightMode', 'Light Mode') : t('nav.darkMode', 'Dark Mode');
   }
 
-  if (document.getElementById('commandPalette')?.classList.contains('show')) {
-    renderCommandList(document.getElementById('commandSearch')?.value || '');
-  }
 
-  const terminalScreen = document.getElementById('terminalScreen');
-  if (terminalScreen) terminalScreen.dataset.ready = '';
-  if (document.getElementById('terminalOverlay')?.classList.contains('show')) {
-    resetTerminalIntro();
-  }
 
-  if (document.getElementById('mapOverlay')?.classList.contains('show')) {
-    updateMapStatus();
-    drawMap();
-  }
+
+
+
 
   if (document.getElementById('timeOverlay')?.classList.contains('show')) {
     renderTimeTravel();
@@ -792,96 +783,7 @@ function toggleAccordion(header) {
   });
 }
 
-const commandBlueprints = [
-  { key: 'home', shortcut: 'H', action: () => scrollToSection('home') },
-  { key: 'journey', shortcut: 'J', action: () => scrollToSection('journey') },
-  { key: 'projects', shortcut: 'P', action: () => scrollToSection('projects') },
-  { key: 'github', shortcut: 'G', action: () => window.open('https://github.com/datweb07', '_blank') },
-  { key: 'email', shortcut: 'E', action: copyEmail },
-  { key: 'cv', shortcut: 'V', action: openCV },
-  { key: 'music', shortcut: 'M', action: togglePlay },
-  { key: 'theme', shortcut: 'T', action: toggleDarkMode },
-  { key: 'contact', shortcut: 'C', action: openContactModal },
-  { key: 'terminal', shortcut: '`', action: openTerminal },
-  { key: 'map', shortcut: 'N', action: openMap },
-  { key: 'time', shortcut: 'Y', action: openTimeTravel },
-  { key: 'ioc', shortcut: 'I', action: openIOC },
-  { key: 'skillsGraph', shortcut: 'S', action: openSkillGraph },
-  { key: 'resume', shortcut: 'R', action: openResumeBoard }
-];
 
-let activeCommandIndex = 0;
-
-function getCommandItems() {
-  return commandBlueprints.map((item) => ({
-    ...item,
-    title: t(`command.items.${item.key}.title`, item.key),
-    hint: t(`command.items.${item.key}.hint`, '')
-  }));
-}
-
-function scrollToSection(id) {
-  const section = document.getElementById(id);
-  if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function openCommandPalette() {
-  const palette = document.getElementById('commandPalette');
-  const search = document.getElementById('commandSearch');
-  if (!palette || !search) return;
-  palette.classList.add('show');
-  palette.setAttribute('aria-hidden', 'false');
-  search.value = '';
-  activeCommandIndex = 0;
-  renderCommandList('');
-  setTimeout(() => search.focus(), 40);
-}
-
-function closeCommandPalette() {
-  const palette = document.getElementById('commandPalette');
-  if (!palette) return;
-  palette.classList.remove('show');
-  palette.setAttribute('aria-hidden', 'true');
-}
-
-function getFilteredCommands(query) {
-  const q = query.trim().toLowerCase();
-  const commandItems = getCommandItems();
-  if (!q) return commandItems;
-  return commandItems.filter((item) => {
-    return item.title.toLowerCase().includes(q) || item.hint.toLowerCase().includes(q) || item.shortcut.toLowerCase() === q;
-  });
-}
-
-function renderCommandList(query) {
-  const list = document.getElementById('commandList');
-  if (!list) return;
-  const filtered = getFilteredCommands(query);
-  activeCommandIndex = Math.min(activeCommandIndex, Math.max(filtered.length - 1, 0));
-
-  list.innerHTML = filtered.map((item, index) => `
-    <button class="command-item hover-target ${index === activeCommandIndex ? 'active' : ''}" type="button" data-command-index="${index}">
-      <span>
-        <span class="command-title">${item.title}</span>
-        <span class="command-hint">${item.hint}</span>
-      </span>
-      <span class="command-shortcut">${item.shortcut}</span>
-    </button>
-  `).join('');
-
-  list.querySelectorAll('.command-item').forEach((button) => {
-    button.addEventListener('click', () => runCommandAtIndex(parseInt(button.dataset.commandIndex, 10)));
-  });
-}
-
-function runCommandAtIndex(index) {
-  const search = document.getElementById('commandSearch');
-  const filtered = getFilteredCommands(search?.value || '');
-  const command = filtered[index];
-  if (!command) return;
-  closeCommandPalette();
-  command.action();
-}
 
 function applyAccentColor(color) {
   if (!color) return;
@@ -901,185 +803,6 @@ function initAccentPicker() {
   });
 }
 
-const mapState = {
-  x: 360,
-  y: 210,
-  activeZone: null,
-  zones: [
-    { id: 'home', x: 110, y: 95, w: 150, h: 92, target: 'home', color: '#ccf381' },
-    { id: 'journey', x: 455, y: 74, w: 170, h: 98, target: 'journey', color: '#ff6b2b' },
-    { id: 'projects', x: 440, y: 270, w: 185, h: 100, target: 'projects', color: '#4831d4' },
-    { id: 'contact', x: 85, y: 265, w: 160, h: 92, target: 'contact', color: '#ff8fd3' }
-  ]
-};
-
-function getMapCanvasContext() {
-  const canvas = document.getElementById('mapCanvas');
-  return canvas ? { canvas, ctx: canvas.getContext('2d') } : null;
-}
-
-function getActiveMapZone() {
-  return mapState.zones.find((zone) => {
-    return mapState.x >= zone.x && mapState.x <= zone.x + zone.w && mapState.y >= zone.y && mapState.y <= zone.y + zone.h;
-  }) || null;
-}
-
-function drawMap() {
-  const map = getMapCanvasContext();
-  if (!map) return;
-  const { canvas, ctx } = map;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = '#111827';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < canvas.width; x += 36) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, canvas.height);
-    ctx.stroke();
-  }
-  for (let y = 0; y < canvas.height; y += 36) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(canvas.width, y);
-    ctx.stroke();
-  }
-
-  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-  ctx.lineWidth = 12;
-  ctx.lineCap = 'round';
-  ctx.beginPath();
-  ctx.moveTo(120, 210);
-  ctx.lineTo(600, 210);
-  ctx.moveTo(360, 80);
-  ctx.lineTo(360, 350);
-  ctx.stroke();
-
-  const activeZone = getActiveMapZone();
-  mapState.activeZone = activeZone?.id || null;
-
-  mapState.zones.forEach((zone) => {
-    const isActive = activeZone?.id === zone.id;
-    ctx.fillStyle = isActive ? zone.color : 'rgba(255,255,255,0.08)';
-    ctx.strokeStyle = zone.color;
-    ctx.lineWidth = isActive ? 4 : 2;
-    ctx.beginPath();
-    ctx.roundRect(zone.x, zone.y, zone.w, zone.h, 14);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = isActive ? '#111827' : '#ffffff';
-    ctx.font = '700 18px Barlow, sans-serif';
-    ctx.fillText(t(`map.zones.${zone.id}`, zone.id), zone.x + 16, zone.y + 38);
-  });
-
-  ctx.save();
-  ctx.translate(mapState.x, mapState.y);
-  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#ccf381';
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.roundRect(-18, -11, 36, 22, 8);
-  ctx.fill();
-  ctx.stroke();
-  ctx.fillStyle = '#111827';
-  ctx.fillRect(-8, -16, 16, 8);
-  ctx.restore();
-
-  updateMapStatus();
-}
-
-function updateMapStatus() {
-  const status = document.getElementById('mapStatus');
-  if (!status) return;
-  const activeZone = getActiveMapZone();
-  if (activeZone) {
-    status.textContent = t('map.near', 'Near: {zone}. Press Enter or Visit zone.').replace('{zone}', t(`map.zones.${activeZone.id}`, activeZone.id));
-  } else {
-    status.textContent = t('map.empty', 'Drive to a glowing zone to navigate.');
-  }
-}
-
-function visitMapZone() {
-  const activeZone = getActiveMapZone();
-  if (!activeZone) {
-    showToast(t('map.empty', 'Drive to a glowing zone to navigate.'));
-    return;
-  }
-  closeMap();
-  if (activeZone.target === 'contact') {
-    openContactModal();
-  } else {
-    scrollToSection(activeZone.target);
-  }
-}
-
-function moveMap(dx, dy) {
-  mapState.x = Math.max(26, Math.min(694, mapState.x + dx));
-  mapState.y = Math.max(26, Math.min(394, mapState.y + dy));
-  drawMap();
-  updateSpatialAudio();
-}
-
-function openMap() {
-  const overlay = document.getElementById('mapOverlay');
-  if (!overlay) return;
-  closeCommandPalette();
-  closeTerminal();
-  overlay.classList.add('show');
-  overlay.setAttribute('aria-hidden', 'false');
-  drawMap();
-  initSpatialAudio();
-  updateSpatialAudio();
-}
-
-function closeMap() {
-  const overlay = document.getElementById('mapOverlay');
-  if (!overlay) return;
-  overlay.classList.remove('show');
-  overlay.setAttribute('aria-hidden', 'true');
-}
-
-function initMapNavigation() {
-  const trigger = document.getElementById('mapTrigger');
-  const closeBtn = document.getElementById('mapClose');
-  const visitBtn = document.getElementById('mapVisitBtn');
-  const overlay = document.getElementById('mapOverlay');
-
-  if (trigger) trigger.addEventListener('click', openMap);
-  if (closeBtn) closeBtn.addEventListener('click', closeMap);
-  if (visitBtn) visitBtn.addEventListener('click', visitMapZone);
-  if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeMap();
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (!document.getElementById('mapOverlay')?.classList.contains('show')) return;
-    const key = e.key.toLowerCase();
-    const speed = e.shiftKey ? 22 : 12;
-    if (['arrowup', 'w'].includes(key)) {
-      e.preventDefault();
-      moveMap(0, -speed);
-    } else if (['arrowdown', 's'].includes(key)) {
-      e.preventDefault();
-      moveMap(0, speed);
-    } else if (['arrowleft', 'a'].includes(key)) {
-      e.preventDefault();
-      moveMap(-speed, 0);
-    } else if (['arrowright', 'd'].includes(key)) {
-      e.preventDefault();
-      moveMap(speed, 0);
-    } else if (key === 'enter') {
-      e.preventDefault();
-      visitMapZone();
-    }
-  });
-}
 
 function getTimeData(year) {
   return readMessage(`time.years.${year}`) || readMessage('time.years.2026') || {};
@@ -1485,241 +1208,56 @@ function initResumeBoard() {
   });
 }
 
-let terminalHistory = [];
-let terminalHistoryIndex = 0;
 
-function appendTerminalLine(text, type = '') {
-  const screen = document.getElementById('terminalScreen');
-  if (!screen) return;
 
-  const line = document.createElement('div');
-  line.className = `terminal-line ${type}`.trim();
-  line.textContent = text;
-  screen.appendChild(line);
-  screen.scrollTop = screen.scrollHeight;
-}
-
-function resetTerminalIntro() {
-  const screen = document.getElementById('terminalScreen');
-  if (!screen || screen.dataset.ready === currentLanguage) return;
-  screen.innerHTML = '';
-  appendTerminalLine(t('terminal.welcome', 'Welcome to DatOS. Type help to see available commands.'), 'muted');
-  screen.dataset.ready = currentLanguage;
-}
-
-function openTerminal() {
-  const overlay = document.getElementById('terminalOverlay');
-  const input = document.getElementById('terminalInput');
-  if (!overlay || !input) return;
-  closeCommandPalette();
-  overlay.classList.add('show');
-  overlay.setAttribute('aria-hidden', 'false');
-  resetTerminalIntro();
-  setTimeout(() => input.focus(), 40);
-}
-
-function closeTerminal() {
-  const overlay = document.getElementById('terminalOverlay');
-  if (!overlay) return;
-  overlay.classList.remove('show');
-  overlay.setAttribute('aria-hidden', 'true');
-}
-
-function runTerminalCommand(rawCommand) {
-  const command = rawCommand.trim().toLowerCase();
-  if (!command) return;
-
-  appendTerminalLine(`dat@portfolio:~$ ${rawCommand}`, 'command');
-  terminalHistory.push(rawCommand);
-  terminalHistoryIndex = terminalHistory.length;
-
-  switch (command) {
-    case 'help':
-      appendTerminalLine(t('terminal.help'));
-      break;
-    case 'about':
-    case 'cat about.txt':
-      appendTerminalLine(t('terminal.about'));
-      break;
-    case 'skills':
-    case 'ls skills':
-      appendTerminalLine(t('terminal.skills'));
-      break;
-    case 'projects':
-    case 'ls projects':
-      appendTerminalLine(t('terminal.projects'));
-      scrollToSection('projects');
-      break;
-    case 'journey':
-    case 'timeline':
-      appendTerminalLine(t('terminal.journey'));
-      scrollToSection('journey');
-      break;
-    case 'contact':
-      appendTerminalLine(t('terminal.contact'));
-      openContactModal();
-      copyEmail();
-      break;
-    case 'github':
-      appendTerminalLine(t('terminal.github'));
-      window.open('https://github.com/datweb07', '_blank');
-      break;
-    case 'music':
-      appendTerminalLine(t('terminal.music'));
-      togglePlay();
-      break;
-    case 'theme':
-      appendTerminalLine(t('terminal.theme'));
-      toggleDarkMode();
-      break;
-    case 'lang':
-    case 'language':
-      appendTerminalLine(t('terminal.lang'));
-      toggleLanguage();
-      break;
-    case 'map':
-    case 'nav':
-      appendTerminalLine(t('map.title'));
-      openMap();
-      break;
-    case 'time':
-    case 'years':
-      appendTerminalLine(t('time.terminal'));
-      openTimeTravel();
-      break;
-    case 'ioc':
-    case 'control':
-    case 'dashboard':
-      appendTerminalLine(t('terminal.ioc'));
-      openIOC();
-      break;
-    case 'graph':
-    case 'skills-graph':
-    case 'particles':
-      appendTerminalLine(t('terminal.graph'));
-      openSkillGraph();
-      break;
-    case 'resume':
-    case 'kanban':
-      appendTerminalLine(t('terminal.resume'));
-      openResumeBoard();
-      break;
-    case 'cv':
-    case 'pdf':
-      appendTerminalLine(t('terminal.cv'));
-      openCV();
-      break;
-    case 'clear':
-    case 'cls':
-      document.getElementById('terminalScreen').innerHTML = '';
-      appendTerminalLine(t('terminal.cleared'), 'muted');
-      break;
-    default:
-      appendTerminalLine(t('terminal.unknown'), 'error');
-  }
-}
-
-function initTerminal() {
-  const trigger = document.getElementById('terminalTrigger');
-  const closeBtn = document.getElementById('terminalClose');
-  const overlay = document.getElementById('terminalOverlay');
-  const form = document.getElementById('terminalForm');
-  const input = document.getElementById('terminalInput');
-
-  if (trigger) trigger.addEventListener('click', openTerminal);
-  if (closeBtn) closeBtn.addEventListener('click', closeTerminal);
-  if (overlay) {
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeTerminal();
-    });
-  }
-  if (form && input) {
-    form.addEventListener('submit', (e) => {
+if (search) {
+  search.addEventListener('input', () => {
+    activeCommandIndex = 0;
+    renderCommandList(search.value);
+  });
+  search.addEventListener('keydown', (e) => {
+    const filtered = getFilteredCommands(search.value);
+    if (e.key === 'ArrowDown') {
       e.preventDefault();
-      runTerminalCommand(input.value);
-      input.value = '';
-    });
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        runTerminalCommand(input.value);
-        input.value = '';
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        terminalHistoryIndex = Math.max(terminalHistoryIndex - 1, 0);
-        input.value = terminalHistory[terminalHistoryIndex] || '';
-      }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        terminalHistoryIndex = Math.min(terminalHistoryIndex + 1, terminalHistory.length);
-        input.value = terminalHistory[terminalHistoryIndex] || '';
-      }
-    });
-  }
-}
-
-function initCommandPalette() {
-  const trigger = document.getElementById('commandTrigger');
-  const closeBtn = document.getElementById('commandClose');
-  const palette = document.getElementById('commandPalette');
-  const search = document.getElementById('commandSearch');
-
-  if (trigger) trigger.addEventListener('click', openCommandPalette);
-  if (closeBtn) closeBtn.addEventListener('click', closeCommandPalette);
-  if (palette) {
-    palette.addEventListener('click', (e) => {
-      if (e.target === palette) closeCommandPalette();
-    });
-  }
-  if (search) {
-    search.addEventListener('input', () => {
-      activeCommandIndex = 0;
+      activeCommandIndex = (activeCommandIndex + 1) % Math.max(filtered.length, 1);
       renderCommandList(search.value);
-    });
-    search.addEventListener('keydown', (e) => {
-      const filtered = getFilteredCommands(search.value);
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        activeCommandIndex = (activeCommandIndex + 1) % Math.max(filtered.length, 1);
-        renderCommandList(search.value);
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeCommandIndex = (activeCommandIndex - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1);
-        renderCommandList(search.value);
-      }
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        runCommandAtIndex(activeCommandIndex);
-      }
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    const target = e.target;
-    const isTyping = target && ['INPUT', 'TEXTAREA'].includes(target.tagName);
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    }
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
-      openCommandPalette();
-    } else if (e.key === 'Escape') {
-      closeCommandPalette();
-      closeTerminal();
-      closeMap();
-      closeTimeTravel();
-      closeIOC();
-      closeSkillGraph();
-      closeResumeBoard();
-      closeSecretDiary();
-    } else if (!isTyping) {
-      const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
-      if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
-        closeCommandPalette();
-        match.action();
-      }
+      activeCommandIndex = (activeCommandIndex - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1);
+      renderCommandList(search.value);
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      runCommandAtIndex(activeCommandIndex);
     }
   });
 }
+
+document.addEventListener('keydown', (e) => {
+  const target = e.target;
+  const isTyping = target && ['INPUT', 'TEXTAREA'].includes(target.tagName);
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    openCommandPalette();
+  } else if (e.key === 'Escape') {
+    closeCommandPalette();
+    closeTerminal();
+    closeMap();
+    closeTimeTravel();
+    closeIOC();
+    closeSkillGraph();
+    closeResumeBoard();
+    closeSecretDiary();
+  } else if (!isTyping) {
+    const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
+    if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
+      closeCommandPalette();
+      match.action();
+    }
+  }
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
   loadLanguage(currentLanguage);
@@ -1727,10 +1265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cvTrigger = document.getElementById('cvTrigger');
   if (languageToggle) languageToggle.addEventListener('click', toggleLanguage);
   if (cvTrigger) cvTrigger.addEventListener('click', openCV);
-  initCommandPalette();
   initAccentPicker();
-  initTerminal();
-  initMapNavigation();
   initTimeTravel();
   initIOC();
   initSkillGraph();
