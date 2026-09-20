@@ -9,8 +9,8 @@ npm install
 npm run dev
 ```
 
-Mở `http://localhost:3000`. Middleware sẽ chuyển sang `/en`; bản tiếng Việt ở
-`/vi`.
+Mở `http://localhost:3000`. App Router sẽ chuyển sang route tĩnh `/en`; bản
+tiếng Việt ở `/vi`. Dự án không dùng Edge Middleware.
 
 ## Environment
 
@@ -40,10 +40,11 @@ git status
 
 1. Push repository lên GitHub.
 2. Import repository trong Vercel; framework preset chọn Next.js.
-3. Thêm cả bốn biến ở trên vào Production, Preview và Development. Đặt
+3. Giữ Build Command và Output Directory ở chế độ mặc định của Next.js.
+4. Thêm cả bốn biến ở trên vào Production, Preview và Development. Đặt
    `NEXT_PUBLIC_SITE_URL` thành domain production thật.
-4. Deploy.
-5. Nếu dùng contact form Web3Forms, thêm domain production vào danh sách domain
+5. Deploy.
+6. Nếu dùng contact form Web3Forms, thêm domain production vào danh sách domain
    được phép trong Web3Forms.
 
 Không cần tạo Vercel project trước khi commit. Không cần tạo Supabase project

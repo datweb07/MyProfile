@@ -1,9 +1,5 @@
-import createNextIntlPlugin from 'next-intl/plugin';
-
-const withNextIntl = createNextIntlPlugin('./lib/i18n.ts');
-
-export default withNextIntl({
+export default {
   images: {
     formats: ['image/avif', 'image/webp']
   }
-});
+};

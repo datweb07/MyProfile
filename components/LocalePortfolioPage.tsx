@@ -1,7 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {getMessages} from 'next-intl/server';
 import PortfolioClient from '@/components/PortfolioClient';
+import LocaleIntlProvider from '@/components/LocaleIntlProvider';
+import englishMessages from '@/messages/en.json';
+import vietnameseMessages from '@/messages/vi.json';
+
+type Locale = 'en' | 'vi';
 
 function getLegacyBody() {
   const source = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
@@ -17,9 +21,12 @@ function getLegacyBody() {
     .replaceAll('./messages/', '/messages/');
 }
 
-export default async function HomePage({params}: {params: Promise<{locale: string}>}) {
-  const {locale} = await params;
-  const messages = await getMessages();
+export default function LocalePortfolioPage({locale}: {locale: Locale}) {
+  const messages = locale === 'vi' ? vietnameseMessages : englishMessages;
 
-  return <PortfolioClient html={getLegacyBody()} locale={locale} messages={messages} />;
+  return (
+    <LocaleIntlProvider locale={locale} messages={messages}>
+      <PortfolioClient html={getLegacyBody()} locale={locale} messages={messages} />
+    </LocaleIntlProvider>
+  );
 }
