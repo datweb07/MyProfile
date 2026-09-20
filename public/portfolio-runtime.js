@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'https://xhaabkwglcixymaqmwsd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoYWFia3dnbGNpeHltYXFtd3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzMwMjksImV4cCI6MjA5ODE0OTAyOX0.KT1GQnosUN69ECnmcy3F1selazllyZrl5GxEludnoz0';
+const SUPABASE_URL = window.__SUPABASE_URL__ || '';
+const SUPABASE_ANON_KEY = window.__SUPABASE_ANON_KEY__ || '';
 
 let supabaseClient = null;
 
@@ -14,8 +14,8 @@ try {
 } catch (err) {
   console.error("Lỗi khởi tạo Supabase:", err);
 }
-let messages = {};
-let currentLanguage = localStorage.getItem('language') || 'en';
+let messages = window.__PORTFOLIO_MESSAGES__ || {};
+let currentLanguage = window.__PORTFOLIO_LOCALE__ || 'en';
 
 function readMessage(key) {
   return key.split('.').reduce((value, part) => value && value[part], messages);
@@ -27,9 +27,7 @@ function t(key, fallback = key) {
 
 async function loadLanguage(lang) {
   try {
-    const response = await fetch(`./messages/${lang}.json`);
-    if (!response.ok) throw new Error(`Could not load ${lang}.json`);
-    messages = await response.json();
+    messages = window.__PORTFOLIO_MESSAGES__ || messages;
     currentLanguage = lang;
     localStorage.setItem('language', lang);
     document.documentElement.lang = lang === 'vi' ? 'vi' : 'en';
@@ -83,7 +81,8 @@ function applyTranslations() {
 
 function toggleLanguage() {
   const nextLanguage = currentLanguage === 'en' ? 'vi' : 'en';
-  loadLanguage(nextLanguage).then(() => showToast(t('toast.language', 'Language switched.')));
+  localStorage.setItem('language', nextLanguage);
+  window.location.assign(`/${nextLanguage}${window.location.hash}`);
 }
 
 const cursorDot = document.getElementById('cursorDot');
@@ -340,7 +339,7 @@ function copyEmail() {
 }
 
 function openCV() {
-  window.open('./documents/cv.pdf', '_blank', 'noopener');
+  window.open('/documents/cv.pdf', '_blank', 'noopener');
 }
 
 const secretDiaryState = {
@@ -427,24 +426,22 @@ function closeSecretDiary() {
 
 async function unlockSecretDiary(event) {
   event.preventDefault();
-  if (!supabaseClient) {
-    showToast('Supabase is not ready for the diary yet.');
-    return;
-  }
-
   const passwordInput = document.getElementById('secretDiaryPassword');
   const password = passwordInput?.value || '';
-  const { data, error } = await supabaseClient.rpc('secret_diary_password_ok', {
-    input_password: password
+  const response = await fetch('/api/diary', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'unlock', password })
   });
+  const result = await response.json();
 
-  if (error) {
-    console.error('Secret diary unlock error:', error);
+  if (!response.ok) {
+    console.error('Secret diary unlock error:', result.error);
     showToast('Diary database is not set up yet.');
     return;
   }
 
-  if (!data) {
+  if (!result.ok) {
     showToast('Wrong password.');
     return;
   }
@@ -458,22 +455,28 @@ async function unlockSecretDiary(event) {
 }
 
 async function loadDiaryEntry() {
-  if (!secretDiaryState.unlocked || !supabaseClient) return;
+  if (!secretDiaryState.unlocked) return;
   setDiaryStatus('Loading...');
 
-  const { data, error } = await supabaseClient.rpc('get_secret_diary_entry', {
-    input_password: secretDiaryState.password,
-    target_date: secretDiaryState.currentDate
+  const response = await fetch('/api/diary', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'load',
+      password: secretDiaryState.password,
+      date: secretDiaryState.currentDate
+    })
   });
+  const result = await response.json();
 
-  if (error) {
-    console.error('Secret diary load error:', error);
+  if (!response.ok) {
+    console.error('Secret diary load error:', result.error);
     setDiaryStatus('Could not load this page.');
     showToast('Could not load diary entry.');
     return;
   }
 
-  const entry = Array.isArray(data) ? data[0] : data;
+  const entry = result.entry;
   const title = document.getElementById('secretDiaryTitle');
   const content = document.getElementById('secretDiaryContent');
   if (title) title.value = entry?.title || '';
@@ -482,20 +485,26 @@ async function loadDiaryEntry() {
 }
 
 async function saveDiaryEntry() {
-  if (!secretDiaryState.unlocked || !supabaseClient) return;
+  if (!secretDiaryState.unlocked) return;
   const title = document.getElementById('secretDiaryTitle')?.value || '';
   const content = document.getElementById('secretDiaryContent')?.value || '';
   setDiaryStatus('Saving...');
 
-  const { error } = await supabaseClient.rpc('upsert_secret_diary_entry', {
-    input_password: secretDiaryState.password,
-    target_date: secretDiaryState.currentDate,
-    entry_title: title,
-    entry_content: content
+  const response = await fetch('/api/diary', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'save',
+      password: secretDiaryState.password,
+      date: secretDiaryState.currentDate,
+      title,
+      content
+    })
   });
+  const result = await response.json();
 
-  if (error) {
-    console.error('Secret diary save error:', error);
+  if (!response.ok) {
+    console.error('Secret diary save error:', result.error);
     setDiaryStatus('Save failed.');
     showToast('Could not save diary entry.');
     return;
@@ -714,7 +723,14 @@ async function submitContactForm(event) {
   submitBtn.style.pointerEvents = 'none';
   submitBtn.style.opacity = '0.7';
 
-  const ACCESS_KEY = '21dc0912-2c35-4fb0-b823-c618d485e31d';
+  const ACCESS_KEY = window.__WEB3FORMS_ACCESS_KEY__ || '';
+  if (!ACCESS_KEY) {
+    showToast('Contact form is not configured yet.');
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.style.pointerEvents = 'auto';
+    submitBtn.style.opacity = '1';
+    return;
+  }
 
   try {
     const response = await fetch('https://api.web3forms.com/submit', {
@@ -1230,6 +1246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let width, height;
   let particles = [];
+  let particleRaf = null;
 
   function resize() {
     width = window.innerWidth;
@@ -1297,7 +1314,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-    requestAnimationFrame(animateParticles);
+    particleRaf = requestAnimationFrame(animateParticles);
   }
 
 
@@ -1325,6 +1342,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeImageModal() {
     document.getElementById('imageModal').classList.remove('show');
   }
+  window.closeImageModal = closeImageModal;
 
   document.addEventListener('DOMContentLoaded', () => {
     const profileImg = document.querySelector('.profile-image');
@@ -1334,14 +1352,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  window.addEventListener('resize', () => {
+  const handleParticleResize = () => {
     resize();
     createParticles(Math.floor((width * height) / 15000));
-  });
+  };
+  window.addEventListener('resize', handleParticleResize);
 
   resize();
   createParticles(Math.floor((width * height) / 15000));
   animateParticles();
+
+  window.__portfolioCleanup = () => {
+    if (particleRaf) cancelAnimationFrame(particleRaf);
+    window.removeEventListener('resize', handleParticleResize);
+    closeIOC();
+    closeSkillGraph();
+  };
 })();
 
 
@@ -1364,7 +1390,7 @@ let currentSongIndex = localStorage.getItem('savedSongIndex') ? parseInt(localSt
 let shouldAutoPlay = localStorage.getItem('isMusicPlaying') === 'true';
 
 const playlist = [
-  { title: "之间", src: "./musics/之间.mp3" },
+  { title: "之间", src: "/musics/之间.mp3" },
 ];
 
 function updateMusicWidget() {
@@ -1403,9 +1429,10 @@ function initSpatialAudio() {
 function updateSpatialAudio() {
   if (!spatialPanner || !spatialGain) return;
   const speaker = { x: 600, y: 210 };
-  const distance = Math.hypot(mapState.x - speaker.x, mapState.y - speaker.y);
+  const listener = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const distance = Math.hypot(listener.x - speaker.x, listener.y - speaker.y);
   const normalized = Math.min(distance / 520, 1);
-  const pan = Math.max(-1, Math.min(1, (mapState.x - speaker.x) / 360));
+  const pan = Math.max(-1, Math.min(1, (listener.x - speaker.x) / 360));
   spatialPanner.pan.setTargetAtTime(pan, spatialAudioCtx.currentTime, 0.08);
   spatialGain.gain.setTargetAtTime(0.35 + (1 - normalized) * 0.65, spatialAudioCtx.currentTime, 0.08);
 }
@@ -1523,3 +1550,12 @@ window.addEventListener('load', () => {
     playSong(currentSongIndex);
   }
 });
+
+const cleanupCanvasRuntime = window.__portfolioCleanup;
+window.__portfolioCleanup = () => {
+  cleanupCanvasRuntime?.();
+  audioPlayer.pause();
+  if (spatialAudioCtx && spatialAudioCtx.state !== 'closed') {
+    spatialAudioCtx.close().catch(() => {});
+  }
+};

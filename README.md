@@ -1,13 +1,50 @@
-# My Profile
+# MyProfile — Next.js 15
 
-This is a static website project intended to serve as a personal profile, showcasing my background, skills, and completed projects
+Portfolio sử dụng Next.js 15 App Router, TypeScript, `next-intl` và Supabase SSR.
 
-## Tech Stack
+## Chạy local
 
-- **HTML5**: Semantic structure, accessibility basics
-- **CSS3**: Flexbox, Grid, Responsive Design, Animations, Dark Mode, 3D Transform
-- **JavaScript (Vanilla)**:
-  + DOM Manipulation & Event Handling
-  + Browser APIs (LocalStorage, IntersectionObserver)
-  + UI Effects (Typewriter, Scroll Progress, 3D Tilt)
-  + SPA-like navigation (no framework)
+```bash
+npm install
+npm run dev
+```
+
+Mở `http://localhost:3000`. Middleware sẽ chuyển sang `/en`; bản tiếng Việt ở
+`/vi`.
+
+## Environment
+
+Tạo `.env.local` từ `.env.example`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your-web3forms-access-key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+Không commit `.env.local`. Anon key có thể xuất hiện ở browser, nhưng Supabase
+phải bật RLS và policy/RPC phù hợp cho `page_stats`, `increment_likes` và các
+RPC Secret Diary.
+
+## Kiểm tra trước khi commit
+
+```bash
+npm run typecheck
+npm run build
+npm audit
+git status
+```
+
+## Deploy Vercel
+
+1. Push repository lên GitHub.
+2. Import repository trong Vercel; framework preset chọn Next.js.
+3. Thêm cả bốn biến ở trên vào Production, Preview và Development. Đặt
+   `NEXT_PUBLIC_SITE_URL` thành domain production thật.
+4. Deploy.
+5. Nếu dùng contact form Web3Forms, thêm domain production vào danh sách domain
+   được phép trong Web3Forms.
+
+Không cần tạo Vercel project trước khi commit. Không cần tạo Supabase project
+mới nếu database/RPC hiện tại vẫn đang hoạt động.

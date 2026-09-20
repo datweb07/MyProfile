@@ -1,2 +1,7 @@
 .vscode/
 .agents/
+.next/
+node_modules/
+.env*.local
+npm-debug.log*
+*.tsbuildinfo

@@ -698,6 +698,156 @@ body.dark-mode .blob-shape {
   transform: translateZ(0);
 }
 
+.profile-image-mount {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image,
+.portfolio-app img:not([data-no-preview='true']) {
+  cursor: zoom-in;
+}
+
+.global-image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: rgba(18, 18, 18, 0.48);
+  backdrop-filter: none;
+  cursor: default;
+  animation: viewerFadeIn 180ms ease-out;
+}
+
+.image-viewer-stage {
+  position: absolute;
+  inset: 22px 22px 76px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.image-viewer-stage img {
+  max-width: min(88vw, 1680px);
+  max-height: calc(100vh - 116px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  cursor: grab;
+  transform-origin: center;
+  transition: transform 140ms ease-out;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.image-viewer-stage img:active {
+  cursor: grabbing;
+  transition: none;
+}
+
+.image-viewer-toolbar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(92, 92, 92, 0.58);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(8px);
+  transform: translateX(-50%);
+}
+
+.image-viewer-toolbar button,
+.image-viewer-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer !important;
+}
+
+.image-viewer-toolbar button:hover,
+.image-viewer-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.image-viewer-toolbar button:focus-visible,
+.image-viewer-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.image-viewer-toolbar svg,
+.image-viewer-close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.image-viewer-toolbar output {
+  min-width: 46px;
+  color: #fff;
+  font: 600 12px/1 var(--font-body);
+  text-align: center;
+}
+
+.image-viewer-divider {
+  width: 1px;
+  height: 20px;
+  margin: 0 4px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.image-viewer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  background: rgba(70, 70, 70, 0.52);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes viewerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  .image-viewer-toolbar {
+    bottom: 14px;
+    max-width: calc(100vw - 32px);
+    overflow-x: auto;
+  }
+
+  .image-viewer-stage {
+    inset: 12px 10px 70px;
+  }
+}
+
 @keyframes morph {
   0% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;

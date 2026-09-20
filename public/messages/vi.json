@@ -1,0 +1,252 @@
+{
+  "nav": {
+    "darkMode": "Chế độ tối",
+    "lightMode": "Chế độ sáng",
+    "languageToggle": "EN",
+    "cv": "CV"
+  },
+  "command": {
+    "title": "Bảng lệnh nhanh",
+    "placeholder": "Nhập lệnh cần tìm...",
+    "items": {
+      "home": {
+        "title": "Về trang đầu",
+        "hint": "Quay lại phần giới thiệu"
+      },
+      "journey": {
+        "title": "Đến Learning Journey",
+        "hint": "Mở dòng thời gian học tập"
+      },
+      "projects": {
+        "title": "Đến Featured Projects",
+        "hint": "Mở danh sách dự án"
+      },
+      "github": {
+        "title": "Mở GitHub",
+        "hint": "Truy cập trang datweb07"
+      },
+      "email": {
+        "title": "Sao chép email",
+        "hint": "Sao chép email liên hệ"
+      },
+      "music": {
+        "title": "Bật/tắt nhạc",
+        "hint": "Phát hoặc tạm dừng bài hát hiện tại"
+      },
+      "theme": {
+        "title": "Đổi giao diện",
+        "hint": "Chuyển giữa chế độ sáng và tối"
+      },
+      "contact": {
+        "title": "Liên hệ với mình",
+        "hint": "Mở biểu mẫu liên hệ"
+      },
+      "terminal": {
+        "title": "Mở Terminal",
+        "hint": "Khám phá portfolio bằng lệnh"
+      },
+      "map": {
+        "title": "Mở bản đồ mini",
+        "hint": "Lái qua các khu vực của portfolio"
+      },
+      "time": {
+        "title": "Mở Time Travel",
+        "hint": "Xem tiến trình phát triển theo từng năm"
+      },
+      "ioc": {
+        "title": "Mở Control Center",
+        "hint": "Theo dõi telemetry của portfolio"
+      },
+      "skillsGraph": {
+        "title": "Mở Skill Graph",
+        "hint": "Khám phá mạng hạt công nghệ"
+      },
+      "resume": {
+        "title": "Mở Resume Board",
+        "hint": "Kéo thả thẻ vào checklist phỏng vấn"
+      },
+      "cv": {
+        "title": "Mở CV PDF",
+        "hint": "Mở CV trong cửa sổ mới"
+      }
+    }
+  },
+  "terminal": {
+    "title": "DatOS Terminal",
+    "placeholder": "gõ help",
+    "welcome": "Chào mừng đến với DatOS. Gõ help để xem các lệnh có thể dùng.",
+    "unknown": "Không nhận ra lệnh này. Gõ help để xem mình có thể làm gì.",
+    "cleared": "Đã xóa màn hình terminal.",
+    "help": "Các lệnh: help, about, skills, projects, journey, map, time, ioc, graph, resume, cv, contact, github, music, theme, lang, clear.",
+    "about": "Đạt Trương là sinh viên Công nghệ thông tin tại UEH, định hướng trở thành Software Engineer với backend C#, ASP.NET MVC, SQL Server và frontend ReactJs.",
+    "skills": "Stack chính: C#, ASP.NET MVC, SQL Server, JavaScript, HTML/CSS, ReactJs, OOP, DSA và thiết kế tương tác UI thực tế.",
+    "projects": "Dự án: Quản lý siêu thị, Mô phỏng máy tính, Ứng dụng lưu bút và portfolio My Profile này.",
+    "journey": "Dòng thời gian: THPT Đồng Phú -> Đại học UEH -> Thực tập sinh IT tại Viện Đô thị thông minh và Quản lý UEH.",
+    "contact": "Tác vụ liên hệ: mở form liên hệ và sao chép email dat82770@gmail.com.",
+    "github": "Đang mở trang GitHub...",
+    "music": "Đang bật/tắt nhạc...",
+    "theme": "Đang đổi giao diện...",
+    "lang": "Đang đổi ngôn ngữ...",
+    "ioc": "Đang mở Portfolio Control Center...",
+    "graph": "Đang mở skill graph tương tác...",
+    "resume": "Đang mở resume board...",
+    "cv": "Đang mở CV PDF..."
+  },
+  "map": {
+    "title": "Điều hướng đô thị thông minh",
+    "status": "Dùng WASD hoặc phím mũi tên để di chuyển.",
+    "visit": "Đi tới khu vực",
+    "zones": {
+      "home": "Khu giới thiệu",
+      "journey": "Dòng thời gian học tập",
+      "projects": "Trung tâm dự án",
+      "contact": "Trạm liên hệ"
+    },
+    "near": "Đang gần: {zone}. Nhấn Enter hoặc Đi tới khu vực.",
+    "empty": "Hãy lái tới một khu vực phát sáng để điều hướng."
+  },
+  "time": {
+    "title": "Time Travel",
+    "terminal": "Đang mở Time Travel...",
+    "years": {
+      "2023": {
+        "headline": "Xây nền tảng",
+        "description": "Tập trung vào nền tảng lập trình, tư duy toán học và thói quen tự học có kỷ luật.",
+        "skills": {
+          "C#": 25,
+          "SQL": 15,
+          "Frontend": 20,
+          "Problem Solving": 35
+        }
+      },
+      "2024": {
+        "headline": "Bắt đầu hành trình đại học",
+        "description": "Vào UEH và bắt đầu biến kiến thức nền tảng thành các sản phẩm nhỏ có tính thực hành.",
+        "skills": {
+          "C#": 45,
+          "SQL": 35,
+          "Frontend": 40,
+          "Problem Solving": 55
+        }
+      },
+      "2025": {
+        "headline": "Trưởng thành qua dự án",
+        "description": "Xây dựng dự án desktop và web, cải thiện tư duy UI và luyện quy trình làm việc với cơ sở dữ liệu.",
+        "skills": {
+          "C#": 65,
+          "SQL": 58,
+          "Frontend": 62,
+          "Problem Solving": 70
+        }
+      },
+      "2026": {
+        "headline": "Sẵn sàng hơn cho môi trường thực tế",
+        "description": "Có trải nghiệm thực tập, hoàn thiện portfolio, tăng khả năng kết hợp backend/frontend và UI tương tác thông minh.",
+        "skills": {
+          "C#": 78,
+          "SQL": 72,
+          "Frontend": 76,
+          "Problem Solving": 82
+        }
+      }
+    }
+  },
+  "home": {
+    "title": "Xin chào<span class=\"accent-dot\">!</span><br />Mình là Đạt <span class=\"text-light\">Trương</span>",
+    "description": "Mình hiện đang học ngành Công nghệ thông tin tại <a href=\"https://www.ueh.edu.vn/\" target=\"_blank\" class=\"chonky_underline hover-target\" style=\"--underline-color: var(--accent-color)\">Đại học UEH</a> và làm việc với vai trò Backend AI Engineering Intern. Mục tiêu nghề nghiệp của mình là trở thành Software Engineer. Mình xây dựng các dịch vụ backend mở rộng, RESTful APIs và tích hợp các mô hình AI sử dụng Python, Node.js, C#/.NET và PostgreSQL.",
+    "email": "Gửi email ↗",
+    "like": "Thích",
+    "cv": "Xem CV ↗"
+  },
+  "journey": {
+    "title": "Hành trình học tập",
+    "highschool": {
+      "name": "THPT Đồng Phú",
+      "desc": "Học tập với định hướng nổi bật về Toán học."
+    },
+    "ueh": {
+      "name": "Đại học UEH",
+      "desc": "Đang theo học chương trình Cử nhân Công nghệ thông tin.",
+      "tooltip": "Cột mốc hiện tại"
+    },
+    "intern": {
+      "name": "UEH - Viện Đô thị thông minh và Quản lý",
+      "desc": "Thực tập sinh IT"
+    }
+  },
+  "projects": {
+    "title": "Dự án nổi bật",
+    "tabs": {
+      "all": "Tất cả",
+      "backend": "Backend",
+      "frontend": "Frontend"
+    },
+    "details": "Chi tiết",
+    "supermarket": {
+      "title": "Quản lý siêu thị",
+      "desc": "Dự án WinForms mô phỏng hoạt động bán hàng trong siêu thị, tập trung mạnh vào lập trình hướng đối tượng và SQL Server.",
+      "modalDesc": "Ứng dụng desktop theo hướng OOP, có quản lý tồn kho, báo cáo bán hàng và xác thực người dùng."
+    },
+    "calculator": {
+      "title": "Mô phỏng máy tính",
+      "desc": "Triển khai cấu trúc dữ liệu Stack và thuật toán Shunting Yard để chuyển biểu thức trung tố sang hậu tố và tính toán kết quả.",
+      "modalDesc": "Máy tính biểu thức chuyển đổi trung tố sang hậu tố bằng thuật toán Shunting Yard và dùng stack để đánh giá biểu thức."
+    },
+    "guestbook": {
+      "title": "Ứng dụng lưu bút",
+      "desc": "Giao diện web cho phép người dùng xem, viết và lưu trữ lời nhắn cá nhân một cách an toàn theo thời gian thực.",
+      "modalDesc": "Bảng lời nhắn thời gian thực với xử lý đầu vào an toàn và lưu trữ dữ liệu trong cơ sở dữ liệu."
+    },
+    "myprofile": {
+      "title": "Hồ sơ cá nhân",
+      "desc": "Portfolio sáng tạo dùng để giới thiệu thông tin cá nhân, điểm mạnh và các dự án nhỏ của mình.",
+      "modalDesc": "Website portfolio này có dark mode, animation mượt, trình phát nhạc, form liên hệ và nhiều chi tiết UI tương tác."
+    }
+  },
+  "projectModal": {
+    "techStack": "Công nghệ",
+    "viewGithub": "Xem trên GitHub"
+  },
+  "footer": {
+    "credit": "Thiết kế và xây dựng bởi <strong>Đạt Trương</strong>."
+  },
+  "toast": {
+    "language": "Đã chuyển sang tiếng Việt."
+  },
+  "ioc": {
+    "title": "Portfolio Control Center",
+    "api": "Phản hồi API",
+    "visitors": "Bản đồ người xem",
+    "logs": "Luồng sự kiện realtime",
+    "events": [
+      "mở Project Hub",
+      "bật nhạc",
+      "sao chép email",
+      "ghé thăm Learning Journey",
+      "đổi màu accent",
+      "mở Smart City Navigation"
+    ]
+  },
+  "skillsGraph": {
+    "title": "Skill Particle Graph",
+    "hint": "Di chuột qua một kỹ năng. Nhấp đúp vào hạt để xem dự án liên quan.",
+    "projects": "{skill} kết nối với: {projects}"
+  },
+  "resume": {
+    "title": "Interactive Resume Board",
+    "columns": {
+      "experience": "Kinh nghiệm",
+      "skills": "Kỹ năng cần kiểm tra",
+      "interview": "Yêu cầu phỏng vấn"
+    },
+    "cards": {
+      "intern": "Thực tập sinh IT - Viện Đô thị thông minh UEH",
+      "profile": "Hệ thống portfolio tương tác",
+      "backend": "Backend: C#, ASP.NET MVC, SQL Server",
+      "frontend": "Frontend: HTML/CSS, JS, ReactJs",
+      "contact": "Liên hệ Đạt Trương"
+    },
+    "note": "Kéo thả các thẻ giữa các cột để tự tạo checklist phỏng vấn.",
+    "dropped": "Đã thêm vào {column}."
+  }
+}
