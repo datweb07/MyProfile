@@ -1208,57 +1208,6 @@ function initResumeBoard() {
   });
 }
 
-
-
-if (search) {
-  search.addEventListener('input', () => {
-    activeCommandIndex = 0;
-    renderCommandList(search.value);
-  });
-  search.addEventListener('keydown', (e) => {
-    const filtered = getFilteredCommands(search.value);
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      activeCommandIndex = (activeCommandIndex + 1) % Math.max(filtered.length, 1);
-      renderCommandList(search.value);
-    }
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      activeCommandIndex = (activeCommandIndex - 1 + Math.max(filtered.length, 1)) % Math.max(filtered.length, 1);
-      renderCommandList(search.value);
-    }
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      runCommandAtIndex(activeCommandIndex);
-    }
-  });
-}
-
-document.addEventListener('keydown', (e) => {
-  const target = e.target;
-  const isTyping = target && ['INPUT', 'TEXTAREA'].includes(target.tagName);
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-    e.preventDefault();
-    openCommandPalette();
-  } else if (e.key === 'Escape') {
-    closeCommandPalette();
-    closeTerminal();
-    closeMap();
-    closeTimeTravel();
-    closeIOC();
-    closeSkillGraph();
-    closeResumeBoard();
-    closeSecretDiary();
-  } else if (!isTyping) {
-    const match = getCommandItems().find((item) => item.shortcut.toLowerCase() === e.key.toLowerCase());
-    if (match && document.getElementById('commandPalette')?.classList.contains('show')) {
-      closeCommandPalette();
-      match.action();
-    }
-  }
-});
-
-
 document.addEventListener('DOMContentLoaded', () => {
   loadLanguage(currentLanguage);
   const languageToggle = document.getElementById('languageToggle');
