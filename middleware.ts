@@ -1,8 +1,7 @@
-import createMiddleware from 'next-intl/middleware';
-import {routing} from './lib/routing';
-
-export default createMiddleware(routing);
+export default function middleware(request: Request) {
+  return Response.redirect(new URL('/en', request.url), 307);
+}
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  matcher: ['/']
 };
