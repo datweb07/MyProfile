@@ -18,8 +18,6 @@
 
   --font-heading: 'IBM Plex Sans', sans-serif;
   --font-body: 'Barlow', sans-serif;
-  --font-logo: 'Pacifico', cursive;
-  --font-handwriting: 'Mali', cursive;
 }
 
 body.dark-mode {
@@ -147,7 +145,7 @@ body.dark-mode .header {
 }
 
 .logo {
-  font-family: var(--font-logo);
+  font-family: 'Pacifico', cursive;
   font-size: 1.8rem;
   color: var(--brand-dark);
   text-decoration: none;
@@ -1701,7 +1699,7 @@ body.dark-mode .header {
 .terminal-prompt,
 .terminal-input,
 .terminal-line {
-  font-family: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  font-family: var(--font-body);
 }
 
 .terminal-title {
@@ -2021,7 +2019,7 @@ body.dark-mode .header {
   border: 2px solid var(--text-primary);
   border-radius: 10px;
   padding: 0.75rem;
-  font-family: "Courier New", monospace;
+  font-family: var(--font-body);
   font-size: 0.9rem;
 }
 

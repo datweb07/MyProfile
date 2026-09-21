@@ -55,14 +55,13 @@ export default function EditorMenubar({editor, onImage}: {editor: Editor; onImag
 
   function applyBlockType(level: number) {
     const chain = editor.chain().focus().setTextSelection(savedSelection.current);
-    if (level === 0) chain.setParagraph().unsetFontFamily().run();
-    else chain.setHeading({level: level as 1 | 2 | 3 | 4}).unsetFontFamily().run();
+    if (level === 0) chain.setParagraph().setFontFamily('Barlow').run();
+    else chain.setHeading({level: level as 1 | 2 | 3 | 4}).setFontFamily('IBM Plex Sans').run();
   }
 
   function applyFontFamily(fontFamily: string) {
     const chain = editor.chain().focus().setTextSelection(savedSelection.current);
-    if (fontFamily) chain.setFontFamily(fontFamily).run();
-    else chain.unsetFontFamily().run();
+    chain.setFontFamily(fontFamily).run();
   }
 
   function setLink() {
@@ -104,12 +103,11 @@ export default function EditorMenubar({editor, onImage}: {editor: Editor; onImag
       <select
         className="editor-font-select"
         aria-label="Font family"
-        value={menuState.fontFamily}
+        value={menuState.fontFamily === 'IBM Plex Sans' ? 'IBM Plex Sans' : 'Barlow'}
         onPointerDown={rememberSelection}
         onFocus={rememberSelection}
         onChange={(event) => applyFontFamily(event.target.value)}
       >
-        <option value="">Default font</option>
         <option value="IBM Plex Sans">IBM Plex Sans — Title</option>
         <option value="Barlow">Barlow — Content</option>
       </select>

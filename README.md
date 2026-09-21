@@ -21,6 +21,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your-web3forms-access-key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_ORCID_URL=https://orcid.org/your-orcid-id
 ```
 
 Không commit `.env.local`. Anon key có thể xuất hiện ở browser, nhưng Supabase
@@ -35,8 +36,9 @@ Express/Nest/API riêng.
 
 1. Vào Supabase Dashboard → SQL Editor → New query.
 2. Chạy toàn bộ file
-   `supabase/migrations/202609210001_blog.sql`. Migration tạo `posts`, bảng
-   allowlist `blog_admins`, RLS policies và public bucket `blog-images`.
+   `supabase/migrations/202609210001_blog.sql`, sau đó chạy
+   `supabase/migrations/202609210002_blog_engagement.sql`. Hai migration tạo `posts`, bảng
+   allowlist `blog_admins`, view/like/comment RPC, RLS policies và public bucket `blog-images`.
 3. Vào Authentication → Users → Add user và tạo tài khoản email/password admin.
 4. Quay lại SQL Editor và chạy, với email thật của bạn:
 
@@ -69,7 +71,7 @@ git status
 1. Push repository lên GitHub.
 2. Import repository trong Vercel; framework preset chọn Next.js.
 3. Giữ Build Command và Output Directory ở chế độ mặc định của Next.js.
-4. Thêm cả bốn biến ở trên vào Production, Preview và Development. Đặt
+4. Thêm cả năm biến ở trên vào Production, Preview và Development. Đặt
    `NEXT_PUBLIC_SITE_URL` thành domain production thật.
 5. Trong Supabase Authentication → URL Configuration, đặt Site URL thành domain
    production và thêm URL preview/local cần thiết vào Redirect URLs.

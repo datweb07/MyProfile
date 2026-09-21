@@ -23,7 +23,7 @@ export default async function AdminPostsPage({searchParams}: {searchParams: Prom
   } catch (error) {
     return (
       <main className="admin-list-page">
-        <div className="admin-setup-card"><h1>Blog database is not ready</h1><p>{error instanceof Error ? error.message : 'Could not query posts.'}</p><p>Run <code>supabase/migrations/202609210001_blog.sql</code> in Supabase SQL Editor, then reload this page.</p></div>
+        <div className="admin-setup-card"><h1>Blog database is not ready</h1><p>{error instanceof Error ? error.message : 'Could not query posts.'}</p><p>Run <code>supabase/migrations/202609210001_blog.sql</code> and <code>supabase/migrations/202609210002_blog_engagement.sql</code> in Supabase SQL Editor, then reload this page.</p></div>
       </main>
     );
   }

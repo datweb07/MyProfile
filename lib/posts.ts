@@ -2,7 +2,9 @@ import 'server-only';
 
 import {createClient as createSupabaseClient} from '@supabase/supabase-js';
 import {createClient as createServerClient} from '@/lib/supabase/server';
-import type {Post, PostCard} from '@/types/blog';
+import type {BlogComment, Post, PostCard} from '@/types/blog';
+
+const POST_CARD_COLUMNS = 'id,title,slug,description,thumbnail,draft,published_at,views_count,likes_count';
 
 export const POSTS_PER_PAGE = 10;
 
@@ -21,7 +23,7 @@ export async function getPublishedPosts(page = 1, pageSize = POSTS_PER_PAGE) {
 
   const {data, count, error} = await supabase
     .from('posts')
-    .select('id,title,slug,description,thumbnail,draft,published_at', {count: 'exact'})
+    .select(POST_CARD_COLUMNS, {count: 'exact'})
     .eq('draft', false)
     .lte('published_at', new Date().toISOString())
     .order('published_at', {ascending: false})
@@ -29,6 +31,33 @@ export async function getPublishedPosts(page = 1, pageSize = POSTS_PER_PAGE) {
 
   if (error) throw new Error(error.message);
   return {posts: (data ?? []) as PostCard[], count: count ?? 0};
+}
+
+export async function getRelatedPosts(currentPostId: string, limit = 5) {
+  const supabase = createPublicClient();
+  const {data, error} = await supabase
+    .from('posts')
+    .select(POST_CARD_COLUMNS)
+    .eq('draft', false)
+    .neq('id', currentPostId)
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', {ascending: false})
+    .limit(limit);
+
+  if (error) throw new Error(error.message);
+  return (data ?? []) as PostCard[];
+}
+
+export async function getPostComments(postId: string) {
+  const supabase = createPublicClient();
+  const {data, error} = await supabase
+    .from('post_comments')
+    .select('id,post_id,name,content,likes_count,created_at')
+    .eq('post_id', postId)
+    .order('created_at', {ascending: false});
+
+  if (error) throw new Error(error.message);
+  return (data ?? []) as BlogComment[];
 }
 
 export async function getPublishedPostBySlug(slug: string) {
@@ -52,7 +81,7 @@ export async function getAdminPosts(page = 1, pageSize = POSTS_PER_PAGE) {
 
   const {data, count, error} = await supabase
     .from('posts')
-    .select('id,title,slug,description,thumbnail,draft,published_at', {count: 'exact'})
+    .select(POST_CARD_COLUMNS, {count: 'exact'})
     .order('updated_at', {ascending: false})
     .range(from, to);
 

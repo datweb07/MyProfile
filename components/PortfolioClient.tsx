@@ -21,6 +21,7 @@ declare global {
     __SUPABASE_URL__?: string;
     __SUPABASE_ANON_KEY__?: string;
     __WEB3FORMS_ACCESS_KEY__?: string;
+    __ORCID_URL__?: string;
   }
 }
 
@@ -97,6 +98,7 @@ function PortfolioRuntime({locale, messages}: {locale: string; messages: Message
     window.__SUPABASE_URL__ = process.env.NEXT_PUBLIC_SUPABASE_URL;
     window.__SUPABASE_ANON_KEY__ = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     window.__WEB3FORMS_ACCESS_KEY__ = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    window.__ORCID_URL__ = process.env.NEXT_PUBLIC_ORCID_URL;
     window.supabase = {createClient: createBrowserClient};
 
     if (!window.__portfolioRuntimeLoaded) {
@@ -120,6 +122,7 @@ function PortfolioRuntime({locale, messages}: {locale: string; messages: Message
         delete window.__SUPABASE_URL__;
         delete window.__SUPABASE_ANON_KEY__;
         delete window.__WEB3FORMS_ACCESS_KEY__;
+        delete window.__ORCID_URL__;
         delete window.__portfolioRuntimeLoaded;
         delete window.__portfolioRuntimeCleanupTimer;
       }, 0);
