@@ -305,7 +305,7 @@ body.dark-mode .huge-title {
   font-size: 1.8rem;
   color: var(--accent-color);
   margin: 1rem 0 2rem;
-  font-family: var(--font-logo);
+  font-family: var(--font-heading);
 }
 
 .description {
@@ -440,7 +440,7 @@ body.dark-mode .huge-title {
   display: inline-block;
   margin-bottom: 0.6rem;
   color: #ff6b2b;
-  font-family: var(--font-handwriting);
+  font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -516,11 +516,11 @@ body.dark-mode .huge-title {
   border: 0;
   outline: 0;
   resize: none;
-  font-family: var(--font-handwriting);
   letter-spacing: 0;
 }
 
 .secret-diary-title {
+  font-family: var(--font-heading);
   min-height: 58px;
   font-size: clamp(2.1rem, 5vw, 3.35rem);
   font-weight: 600;
@@ -528,6 +528,7 @@ body.dark-mode .huge-title {
 }
 
 .secret-diary-content {
+  font-family: var(--font-body);
   min-height: 390px;
   margin-top: 0.3rem;
   font-size: clamp(1.45rem, 2.3vw, 1.9rem);

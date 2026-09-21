@@ -79,10 +79,63 @@ function applyTranslations() {
   }
 }
 
+const portfolioSectionNames = ['home', 'journey', 'writing'];
+
+function getRouteSection() {
+  const [, locale, section] = window.location.pathname.split('/');
+  if (locale !== 'en' && locale !== 'vi') return 'home';
+  return portfolioSectionNames.includes(section) ? section : 'home';
+}
+
+function getSectionPath(section, locale = currentLanguage) {
+  const safeSection = portfolioSectionNames.includes(section) ? section : 'home';
+  return `/${locale}/${safeSection}`;
+}
+
+function syncSectionLinks() {
+  document.querySelectorAll('[data-section-route]').forEach((link) => {
+    link.setAttribute('href', getSectionPath(link.dataset.sectionRoute));
+  });
+}
+
+function scrollToSection(section, behavior = 'smooth') {
+  const target = document.getElementById(section);
+  if (!target) return;
+  target.scrollIntoView({behavior, block: 'start'});
+}
+
+function setSectionUrl(section, mode = 'replace') {
+  const nextPath = getSectionPath(section);
+  if (window.location.pathname === nextPath && !window.location.hash) return;
+  const method = mode === 'push' ? 'pushState' : 'replaceState';
+  window.history[method]({section}, '', nextPath);
+}
+
+function initSectionRouting() {
+  syncSectionLinks();
+
+  document.querySelectorAll('[data-section-route]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const section = link.dataset.sectionRoute || 'home';
+      setSectionUrl(section, 'push');
+      scrollToSection(section);
+    });
+  });
+
+  const initialSection = getRouteSection();
+  setSectionUrl(initialSection, 'replace');
+  requestAnimationFrame(() => scrollToSection(initialSection, 'auto'));
+
+  window.addEventListener('popstate', () => {
+    scrollToSection(getRouteSection(), 'auto');
+  });
+}
+
 function toggleLanguage() {
   const nextLanguage = currentLanguage === 'en' ? 'vi' : 'en';
   localStorage.setItem('language', nextLanguage);
-  window.location.assign(`/${nextLanguage}${window.location.hash}`);
+  window.location.assign(getSectionPath(getRouteSection(), nextLanguage));
 }
 
 const cursorDot = document.getElementById('cursorDot');
@@ -151,12 +204,14 @@ window.addEventListener('scroll', () => {
 });
 
 function updateSideNav() {
-  const sections = document.querySelectorAll('section[id]');
+  const sections = portfolioSectionNames
+    .map((section) => document.getElementById(section))
+    .filter(Boolean);
   const navDots = document.querySelectorAll('.side-nav-dot');
 
   let current = '';
   sections.forEach((section) => {
-    const sectionTop = section.offsetTop;
+    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
     if (window.pageYOffset >= sectionTop - 300) {
       current = section.getAttribute('id');
     }
@@ -164,10 +219,12 @@ function updateSideNav() {
 
   navDots.forEach((dot) => {
     dot.classList.remove('active');
-    if (dot.getAttribute('href') === `#${current}`) {
+    if (dot.dataset.sectionRoute === current) {
       dot.classList.add('active');
     }
   });
+
+  if (current) setSectionUrl(current, 'replace');
 }
 
 function updateBackToTop() {
@@ -181,6 +238,7 @@ function updateBackToTop() {
 }
 
 function scrollToTop() {
+  setSectionUrl('home', 'push');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1226,6 +1284,7 @@ function initResumeBoard() {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadLanguage(currentLanguage);
+  initSectionRouting();
   const languageToggle = document.getElementById('languageToggle');
   const cvTrigger = document.getElementById('cvTrigger');
   if (languageToggle) languageToggle.addEventListener('click', toggleLanguage);

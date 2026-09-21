@@ -9,7 +9,7 @@ import type {PostCard as PostCardData} from '@/types/blog';
 
 type Locale = 'en' | 'vi';
 
-function getLegacyBody() {
+function getLegacyBody(locale: Locale) {
   const source = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
   const body = source.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? '';
 
@@ -20,7 +20,8 @@ function getLegacyBody() {
     .replaceAll('./pictures/', '/pictures/')
     .replaceAll('./musics/', '/musics/')
     .replaceAll('./documents/', '/documents/')
-    .replaceAll('./messages/', '/messages/');
+    .replaceAll('./messages/', '/messages/')
+    .replace(/href="\/en\/(home|journey|writing)"(?=\s+data-section-route)/g, `href="/${locale}/$1"`);
 }
 
 export default async function LocalePortfolioPage({locale}: {locale: Locale}) {
@@ -39,7 +40,7 @@ export default async function LocalePortfolioPage({locale}: {locale: Locale}) {
   return (
     <LocaleIntlProvider locale={locale} messages={messages}>
       <PortfolioClient
-        html={getLegacyBody()}
+        html={getLegacyBody(locale)}
         locale={locale}
         messages={messages}
         posts={posts}

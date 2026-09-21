@@ -1,7 +1,7 @@
 'use client';
 
 import {useRef} from 'react';
-import type {Editor} from '@tiptap/react';
+import {useEditorState, type Editor} from '@tiptap/react';
 
 function ToolButton({
   label,
@@ -33,6 +33,37 @@ function ToolButton({
 
 export default function EditorMenubar({editor, onImage}: {editor: Editor; onImage: (file: File) => void}) {
   const imageInput = useRef<HTMLInputElement>(null);
+  const savedSelection = useRef({from: editor.state.selection.from, to: editor.state.selection.to});
+  const menuState = useEditorState({
+    editor,
+    selector: ({editor: currentEditor}) => ({
+      from: currentEditor.state.selection.from,
+      to: currentEditor.state.selection.to,
+      headingLevel: currentEditor.isActive('heading')
+        ? Number(currentEditor.getAttributes('heading').level)
+        : 0,
+      fontFamily: String(currentEditor.getAttributes('textStyle').fontFamily ?? '')
+    })
+  });
+
+  function rememberSelection() {
+    savedSelection.current = {
+      from: editor.state.selection.from,
+      to: editor.state.selection.to
+    };
+  }
+
+  function applyBlockType(level: number) {
+    const chain = editor.chain().focus().setTextSelection(savedSelection.current);
+    if (level === 0) chain.setParagraph().unsetFontFamily().run();
+    else chain.setHeading({level: level as 1 | 2 | 3 | 4}).unsetFontFamily().run();
+  }
+
+  function applyFontFamily(fontFamily: string) {
+    const chain = editor.chain().focus().setTextSelection(savedSelection.current);
+    if (fontFamily) chain.setFontFamily(fontFamily).run();
+    else chain.unsetFontFamily().run();
+  }
 
   function setLink() {
     const previous = editor.getAttributes('link').href as string | undefined;
@@ -58,18 +89,29 @@ export default function EditorMenubar({editor, onImage}: {editor: Editor; onImag
 
       <select
         aria-label="Heading level"
-        value={editor.isActive('heading') ? String(editor.getAttributes('heading').level) : '0'}
-        onChange={(event) => {
-          const level = Number(event.target.value);
-          if (!level) editor.chain().focus().setParagraph().run();
-          else editor.chain().focus().toggleHeading({level: level as 1 | 2 | 3 | 4}).run();
-        }}
+        value={String(menuState.headingLevel)}
+        onPointerDown={rememberSelection}
+        onFocus={rememberSelection}
+        onChange={(event) => applyBlockType(Number(event.target.value))}
       >
         <option value="0">Paragraph</option>
         <option value="1">Heading 1</option>
         <option value="2">Heading 2</option>
         <option value="3">Heading 3</option>
         <option value="4">Heading 4</option>
+      </select>
+
+      <select
+        className="editor-font-select"
+        aria-label="Font family"
+        value={menuState.fontFamily}
+        onPointerDown={rememberSelection}
+        onFocus={rememberSelection}
+        onChange={(event) => applyFontFamily(event.target.value)}
+      >
+        <option value="">Default font</option>
+        <option value="IBM Plex Sans">IBM Plex Sans — Title</option>
+        <option value="Barlow">Barlow — Content</option>
       </select>
 
       <div className="editor-tool-group">
