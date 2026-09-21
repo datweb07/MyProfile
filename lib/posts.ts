@@ -1,12 +1,21 @@
 import 'server-only';
 
-import {createClient} from '@/lib/supabase/server';
+import {createClient as createSupabaseClient} from '@supabase/supabase-js';
+import {createClient as createServerClient} from '@/lib/supabase/server';
 import type {Post, PostCard} from '@/types/blog';
 
 export const POSTS_PER_PAGE = 10;
 
+function createPublicClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {auth: {persistSession: false, autoRefreshToken: false}}
+  );
+}
+
 export async function getPublishedPosts(page = 1, pageSize = POSTS_PER_PAGE) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const from = Math.max(0, page - 1) * pageSize;
   const to = from + pageSize - 1;
 
@@ -23,7 +32,7 @@ export async function getPublishedPosts(page = 1, pageSize = POSTS_PER_PAGE) {
 }
 
 export async function getPublishedPostBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const {data, error} = await supabase
     .from('posts')
     .select('*')
@@ -37,7 +46,7 @@ export async function getPublishedPostBySlug(slug: string) {
 }
 
 export async function getAdminPosts(page = 1, pageSize = POSTS_PER_PAGE) {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const from = Math.max(0, page - 1) * pageSize;
   const to = from + pageSize - 1;
 
@@ -52,7 +61,7 @@ export async function getAdminPosts(page = 1, pageSize = POSTS_PER_PAGE) {
 }
 
 export async function getAdminPostById(id: string) {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const {data, error} = await supabase.from('posts').select('*').eq('id', id).maybeSingle();
   if (error) throw new Error(error.message);
   return data as Post | null;

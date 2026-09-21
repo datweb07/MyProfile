@@ -34,12 +34,12 @@ export default async function BlogPostPage({params}: {params: Promise<{slug: str
   return (
     <main className="blog-site blog-article-site">
       <header className="blog-header">
-        <Link className="blog-logo" href="/blog">DAT / BLOG</Link>
-        <nav><Link href="/blog">All articles</Link><Link href="/en">Portfolio</Link></nav>
+        <Link className="blog-logo" href="/en#writing">DAT / BLOG</Link>
+        <nav><Link href="/en">Portfolio</Link></nav>
       </header>
       <article className="blog-article">
         <header className="blog-article-header">
-          <Link href="/blog">← Back to writing</Link>
+          <Link href="/en#writing">← Back to portfolio</Link>
           <time dateTime={post.published_at}>{format(new Date(post.published_at), 'dd MMMM yyyy')}</time>
           <h1>{post.title}</h1>
           {post.description ? <p>{post.description}</p> : null}

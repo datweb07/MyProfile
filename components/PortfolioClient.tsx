@@ -5,6 +5,8 @@ import {useEffect, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {createBrowserClient} from '@supabase/ssr';
 import GlobalImageViewer from '@/components/ui/GlobalImageViewer';
+import LatestWritingSection from '@/components/blog/LatestWritingSection';
+import type {PostCard as PostCardData} from '@/types/blog';
 
 type Messages = Record<string, unknown>;
 
@@ -25,20 +27,36 @@ declare global {
 export default function PortfolioClient({
   html,
   locale,
-  messages
+  messages,
+  posts,
+  postCount
 }: {
   html: string;
   locale: string;
   messages: Messages;
+  posts: PostCardData[];
+  postCount: number;
 }) {
   return (
     <>
       <div className="portfolio-app" dangerouslySetInnerHTML={{__html: html}} />
       <ProfileImagePortal />
+      <LatestWritingPortal posts={posts} count={postCount} locale={locale} />
       <PortfolioRuntime locale={locale} messages={messages} />
       <GlobalImageViewer />
     </>
   );
+}
+
+function LatestWritingPortal({posts, count, locale}: {posts: PostCardData[]; count: number; locale: string}) {
+  const [mount, setMount] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setMount(document.getElementById('latestWritingMount'));
+  }, []);
+
+  if (!mount) return null;
+  return createPortal(<LatestWritingSection posts={posts} count={count} locale={locale} />, mount);
 }
 
 function ProfileImagePortal() {

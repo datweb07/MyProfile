@@ -41,6 +41,8 @@ export async function createPostAction(input: unknown): Promise<SaveResult> {
     if (error) throw error;
 
     revalidatePath('/blog');
+    revalidatePath('/en');
+    revalidatePath('/vi');
     revalidatePath(`/blog/${parsed.data.slug}`);
     revalidatePath('/admin/posts');
     return {ok: true, id: data.id};
@@ -68,6 +70,8 @@ export async function updatePostAction(input: unknown): Promise<SaveResult> {
     if (error) throw error;
 
     revalidatePath('/blog');
+    revalidatePath('/en');
+    revalidatePath('/vi');
     revalidatePath(`/blog/${changes.slug}`);
     revalidatePath('/admin/posts');
     revalidatePath(`/admin/posts/${id}`);
@@ -98,6 +102,8 @@ export async function deletePostAction(id: string): Promise<PostActionResult> {
     const {error} = await supabase.from('posts').delete().eq('id', id);
     if (error) throw error;
     revalidatePath('/blog');
+    revalidatePath('/en');
+    revalidatePath('/vi');
     revalidatePath('/admin/posts');
     return {ok: true};
   } catch (error) {
@@ -111,6 +117,8 @@ export async function togglePostDraftAction(id: string, draft: boolean): Promise
     const {error} = await supabase.from('posts').update({draft}).eq('id', id);
     if (error) throw error;
     revalidatePath('/blog');
+    revalidatePath('/en');
+    revalidatePath('/vi');
     revalidatePath('/admin/posts');
     return {ok: true};
   } catch (error) {

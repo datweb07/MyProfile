@@ -4,6 +4,8 @@ import PortfolioClient from '@/components/PortfolioClient';
 import LocaleIntlProvider from '@/components/LocaleIntlProvider';
 import englishMessages from '@/messages/en.json';
 import vietnameseMessages from '@/messages/vi.json';
+import {getPublishedPosts} from '@/lib/posts';
+import type {PostCard as PostCardData} from '@/types/blog';
 
 type Locale = 'en' | 'vi';
 
@@ -21,12 +23,28 @@ function getLegacyBody() {
     .replaceAll('./messages/', '/messages/');
 }
 
-export default function LocalePortfolioPage({locale}: {locale: Locale}) {
+export default async function LocalePortfolioPage({locale}: {locale: Locale}) {
   const messages = locale === 'vi' ? vietnameseMessages : englishMessages;
+  let posts: PostCardData[] = [];
+  let postCount = 0;
+
+  try {
+    const result = await getPublishedPosts(1, 3);
+    posts = result.posts;
+    postCount = result.count;
+  } catch {
+    // Keep the portfolio available while the optional blog database is offline.
+  }
 
   return (
     <LocaleIntlProvider locale={locale} messages={messages}>
-      <PortfolioClient html={getLegacyBody()} locale={locale} messages={messages} />
+      <PortfolioClient
+        html={getLegacyBody()}
+        locale={locale}
+        messages={messages}
+        posts={posts}
+        postCount={postCount}
+      />
     </LocaleIntlProvider>
   );
 }

@@ -9,7 +9,7 @@ export default async function AdminLoginPage({searchParams}: {searchParams: Prom
         <h1>Blog administration</h1>
         <p>Sign in with the single admin account configured in Supabase Auth.</p>
         <AdminLoginForm nextPath={next} />
-        <a href="/blog">← Back to blog</a>
+        <a href="/en">← Back to portfolio</a>
       </section>
     </main>
   );

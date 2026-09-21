@@ -1,8 +1,8 @@
 import type {Metadata} from 'next';
-import Link from 'next/link';
 import {createClient} from '@/lib/supabase/server';
 import {logoutAction} from '@/app/admin/actions';
 import {getBlogAdmin} from '@/lib/admin-auth';
+import AdminShell from '@/components/admin/AdminShell';
 
 export const metadata: Metadata = {
   title: 'Blog Admin — Dat Truong',
@@ -28,22 +28,5 @@ export default async function AdminLayout({children}: {children: React.ReactNode
     );
   }
 
-  return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <Link className="admin-brand" href="/admin/posts">DAT / CMS</Link>
-        <nav>
-          <Link href="/admin/posts">All posts</Link>
-          <Link href="/admin/posts/new">New post</Link>
-          <Link href="/blog" target="_blank">View blog ↗</Link>
-          <Link href="/en">Portfolio</Link>
-        </nav>
-        <div className="admin-account">
-          <small>{user.email}</small>
-          <form action={logoutAction}><button type="submit">Sign out</button></form>
-        </div>
-      </aside>
-      <div className="admin-content">{children}</div>
-    </div>
-  );
+  return <AdminShell email={user.email ?? 'Admin'}>{children}</AdminShell>;
 }
