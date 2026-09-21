@@ -10,7 +10,7 @@ npm run dev
 ```
 
 Mở `http://localhost:3000`. App Router sẽ chuyển sang route tĩnh `/en`; bản
-tiếng Việt ở `/vi`. Dự án không dùng Edge Middleware.
+tiếng Việt ở `/vi`. Blog công khai ở `/blog`, CMS ở `/admin/posts`.
 
 ## Environment
 
@@ -26,6 +26,34 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 Không commit `.env.local`. Anon key có thể xuất hiện ở browser, nhưng Supabase
 phải bật RLS và policy/RPC phù hợp cho `page_stats`, `increment_likes` và các
 RPC Secret Diary.
+
+## Thiết lập Blog trên Supabase
+
+Backend của blog nằm hoàn toàn trong Next.js (Server Components + Server
+Actions). Supabase chỉ cung cấp PostgreSQL, Auth và Storage; không có backend
+Express/Nest/API riêng.
+
+1. Vào Supabase Dashboard → SQL Editor → New query.
+2. Chạy toàn bộ file
+   `supabase/migrations/202609210001_blog.sql`. Migration tạo `posts`, bảng
+   allowlist `blog_admins`, RLS policies và public bucket `blog-images`.
+3. Vào Authentication → Users → Add user và tạo tài khoản email/password admin.
+4. Quay lại SQL Editor và chạy, với email thật của bạn:
+
+```sql
+insert into public.blog_admins (user_id)
+select id from auth.users where email = 'your-email@example.com'
+on conflict (user_id) do nothing;
+```
+
+5. Nên tắt public sign-up trong Authentication → Providers → Email vì CMS chỉ
+   dành cho một người. RLS vẫn kiểm tra allowlist UUID ngay cả khi sign-up chưa
+   được tắt.
+6. Đăng nhập tại `/admin/login`, tạo bài và kiểm tra `/blog`.
+
+Anon key không thể và không nên có quyền chạy DDL, vì vậy migration phải được
+chạy bằng SQL Editor hoặc Supabase CLI có quyền owner. Không thêm service-role
+key vào biến `NEXT_PUBLIC_*`.
 
 ## Kiểm tra trước khi commit
 
@@ -43,8 +71,10 @@ git status
 3. Giữ Build Command và Output Directory ở chế độ mặc định của Next.js.
 4. Thêm cả bốn biến ở trên vào Production, Preview và Development. Đặt
    `NEXT_PUBLIC_SITE_URL` thành domain production thật.
-5. Deploy.
-6. Nếu dùng contact form Web3Forms, thêm domain production vào danh sách domain
+5. Trong Supabase Authentication → URL Configuration, đặt Site URL thành domain
+   production và thêm URL preview/local cần thiết vào Redirect URLs.
+6. Deploy.
+7. Nếu dùng contact form Web3Forms, thêm domain production vào danh sách domain
    được phép trong Web3Forms.
 
 Không cần tạo Vercel project trước khi commit. Không cần tạo Supabase project
