@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import type {ReactNode} from 'react';
 import PortfolioClient from '@/components/PortfolioClient';
 import LocaleIntlProvider from '@/components/LocaleIntlProvider';
 import englishMessages from '@/messages/en.json';
@@ -9,11 +10,11 @@ import type {PostCard as PostCardData} from '@/types/blog';
 
 type Locale = 'en' | 'vi';
 
-function getLegacyBody(locale: Locale) {
+function getLegacyBody(locale: Locale, articleMode = false) {
   const source = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
   const body = source.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? '';
 
-  return body
+  const normalizedBody = body
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<img\s+class="profile-image"[\s\S]*?\/>/i, '<span id="profileImageMount" class="profile-image-mount"></span>')
     .replace(/\s*<div class="modal-overlay" id="imageModal">[\s\S]*?<img id="fullImage"[\s\S]*?<\/div>\s*<\/div>/i, '')
@@ -22,29 +23,41 @@ function getLegacyBody(locale: Locale) {
     .replaceAll('./documents/', '/documents/')
     .replaceAll('./messages/', '/messages/')
     .replace(/href="\/en\/(home|journey|writing)"(?=\s+data-section-route)/g, `href="/${locale}/$1"`);
+
+  if (!articleMode) return normalizedBody;
+
+  return normalizedBody
+    .replace(/\s*<div class="side-nav d-none-mobile">[\s\S]*?<\/div>/i, '')
+    .replace(
+      /<main class="main-content">[\s\S]*?<\/main>/i,
+      '<main class="main-content portfolio-blog-main"><div id="blogArticleMount"></div></main>'
+    );
 }
 
-export default async function LocalePortfolioPage({locale}: {locale: Locale}) {
+export default async function LocalePortfolioPage({locale, articleContent}: {locale: Locale; articleContent?: ReactNode}) {
   const messages = locale === 'vi' ? vietnameseMessages : englishMessages;
   let posts: PostCardData[] = [];
   let postCount = 0;
 
-  try {
-    const result = await getPublishedPosts(1, 3);
-    posts = result.posts;
-    postCount = result.count;
-  } catch {
-    // Keep the portfolio available while the optional blog database is offline.
+  if (!articleContent) {
+    try {
+      const result = await getPublishedPosts(1, 3);
+      posts = result.posts;
+      postCount = result.count;
+    } catch {
+      // Keep the portfolio available while the optional blog database is offline.
+    }
   }
 
   return (
     <LocaleIntlProvider locale={locale} messages={messages}>
       <PortfolioClient
-        html={getLegacyBody(locale)}
+        html={getLegacyBody(locale, Boolean(articleContent))}
         locale={locale}
         messages={messages}
         posts={posts}
         postCount={postCount}
+        articleContent={articleContent}
       />
     </LocaleIntlProvider>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import type {ReactNode} from 'react';
 import {useEffect, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {createBrowserClient} from '@supabase/ssr';
@@ -30,23 +31,37 @@ export default function PortfolioClient({
   locale,
   messages,
   posts,
-  postCount
+  postCount,
+  articleContent
 }: {
   html: string;
   locale: string;
   messages: Messages;
   posts: PostCardData[];
   postCount: number;
+  articleContent?: ReactNode;
 }) {
   return (
     <>
       <div className="portfolio-app" dangerouslySetInnerHTML={{__html: html}} />
-      <ProfileImagePortal />
+      <ProfileImagePortal html={html} />
       <LatestWritingPortal posts={posts} count={postCount} locale={locale} />
-      <PortfolioRuntime locale={locale} messages={messages} />
+      <ArticlePortal content={articleContent} />
+      <PortfolioRuntime locale={locale} messages={messages} layoutMode={articleContent ? 'article' : 'portfolio'} />
       <GlobalImageViewer />
     </>
   );
+}
+
+function ArticlePortal({content}: {content?: ReactNode}) {
+  const [mount, setMount] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setMount(document.getElementById('blogArticleMount'));
+  }, [content]);
+
+  if (!mount || !content) return null;
+  return createPortal(content, mount);
 }
 
 function LatestWritingPortal({posts, count, locale}: {posts: PostCardData[]; count: number; locale: string}) {
@@ -54,18 +69,18 @@ function LatestWritingPortal({posts, count, locale}: {posts: PostCardData[]; cou
 
   useEffect(() => {
     setMount(document.getElementById('latestWritingMount'));
-  }, []);
+  }, [posts, count, locale]);
 
   if (!mount) return null;
   return createPortal(<LatestWritingSection posts={posts} count={count} locale={locale} />, mount);
 }
 
-function ProfileImagePortal() {
+function ProfileImagePortal({html}: {html: string}) {
   const [imageMount, setImageMount] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     setImageMount(document.getElementById('profileImageMount'));
-  }, []);
+  }, [html]);
 
   if (!imageMount) return null;
 
@@ -83,7 +98,7 @@ function ProfileImagePortal() {
   );
 }
 
-function PortfolioRuntime({locale, messages}: {locale: string; messages: Messages}) {
+function PortfolioRuntime({locale, messages, layoutMode}: {locale: string; messages: Messages; layoutMode: 'portfolio' | 'article'}) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -127,7 +142,7 @@ function PortfolioRuntime({locale, messages}: {locale: string; messages: Message
         delete window.__portfolioRuntimeCleanupTimer;
       }, 0);
     };
-  }, [locale, messages]);
+  }, [locale, messages, layoutMode]);
 
   return null;
 }

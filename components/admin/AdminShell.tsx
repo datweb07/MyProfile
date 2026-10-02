@@ -39,7 +39,7 @@ export default function AdminShell({email, children}: {email: string; children: 
   const links: {href: string; label: string; icon: IconName; active: boolean}[] = [
     {href: '/admin/posts', label: 'All posts', icon: 'posts', active: pathname.startsWith('/admin/posts') && pathname !== '/admin/posts/new'},
     {href: '/admin/posts/new', label: 'New post', icon: 'new', active: pathname === '/admin/posts/new'},
-    {href: '/en/writing', label: 'Latest writing', icon: 'writing', active: false},
+    {href: '/en/writing', label: 'Blog', icon: 'writing', active: false},
     {href: '/en/home', label: 'Portfolio', icon: 'portfolio', active: false}
   ];
 

@@ -7,7 +7,7 @@ import type {PostCard as PostCardData} from '@/types/blog';
 export default function PostCard({post}: {post: PostCardData}) {
   return (
     <article className="blog-card">
-      <TrackedPostLink className="blog-card-image" postId={post.id} slug={post.slug} title={`${post.title} (opens in a new tab)`}>
+      <TrackedPostLink className="blog-card-image" postId={post.id} slug={post.slug} title={post.title}>
         {post.thumbnail ? <img src={post.thumbnail} alt="" loading="lazy" /> : <span>DAT / BLOG</span>}
       </TrackedPostLink>
       <div className="blog-card-body">

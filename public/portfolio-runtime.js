@@ -83,8 +83,8 @@ const portfolioSectionNames = ['home', 'journey', 'writing'];
 
 function getRouteSection() {
   const [, locale, section] = window.location.pathname.split('/');
-  if (locale !== 'en' && locale !== 'vi') return 'home';
-  return portfolioSectionNames.includes(section) ? section : 'home';
+  if (locale !== 'en' && locale !== 'vi') return null;
+  return portfolioSectionNames.includes(section) ? section : null;
 }
 
 function getSectionPath(section, locale = currentLanguage) {
@@ -114,6 +114,9 @@ function setSectionUrl(section, mode = 'replace') {
 function initSectionRouting() {
   syncSectionLinks();
 
+  const initialSection = getRouteSection();
+  if (!initialSection) return;
+
   document.querySelectorAll('[data-section-route]').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
@@ -123,7 +126,6 @@ function initSectionRouting() {
     });
   });
 
-  const initialSection = getRouteSection();
   setSectionUrl(initialSection, 'replace');
   requestAnimationFrame(() => scrollToSection(initialSection, 'auto'));
 
@@ -135,7 +137,7 @@ function initSectionRouting() {
 function toggleLanguage() {
   const nextLanguage = currentLanguage === 'en' ? 'vi' : 'en';
   localStorage.setItem('language', nextLanguage);
-  window.location.assign(getSectionPath(getRouteSection(), nextLanguage));
+  window.location.assign(getSectionPath(getRouteSection() || 'home', nextLanguage));
 }
 
 const cursorDot = document.getElementById('cursorDot');
@@ -238,7 +240,7 @@ function updateBackToTop() {
 }
 
 function scrollToTop() {
-  setSectionUrl('home', 'push');
+  if (getRouteSection()) setSectionUrl('home', 'push');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

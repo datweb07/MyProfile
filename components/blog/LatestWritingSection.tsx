@@ -13,9 +13,9 @@ export default function LatestWritingSection({
   const isVietnamese = locale === 'vi';
 
   return (
-    <section className="portfolio-writing-section" aria-labelledby="latest-writing-title">
+    <section className="portfolio-writing-section" aria-labelledby="blog-section-title">
       <div className="blog-section-heading">
-        <h2 id="latest-writing-title">{isVietnamese ? 'Bài viết mới nhất' : 'Latest writing'}</h2>
+        <h2 id="blog-section-title" className="section-title"><span className="chonky_underline">Blog</span></h2>
         <span>{count} {isVietnamese ? 'bài viết' : count === 1 ? 'article' : 'articles'}</span>
       </div>
       {posts.length ? (

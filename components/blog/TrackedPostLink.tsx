@@ -1,10 +1,9 @@
 'use client';
 
-import type {MouseEventHandler, ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import Link from 'next/link';
-import {createClient} from '@/lib/supabase/client';
 
-export default function TrackedPostLink({postId, slug, children, className, title, newTab = true}: {
+export default function TrackedPostLink({slug, children, className, title, newTab = false}: {
   postId: string;
   slug: string;
   children: ReactNode;
@@ -12,13 +11,9 @@ export default function TrackedPostLink({postId, slug, children, className, titl
   title?: string;
   newTab?: boolean;
 }) {
-  const trackView: MouseEventHandler<HTMLAnchorElement> = () => {
-    void createClient().rpc('increment_post_views', {p_post_id: postId});
-  };
-
   return (
     <Link className={className} href={`/blog/${slug}`} target={newTab ? '_blank' : undefined}
-      rel={newTab ? 'noopener noreferrer' : undefined} title={title} onClick={trackView}>
+      rel={newTab ? 'noopener noreferrer' : undefined} title={title}>
       {children}
     </Link>
   );

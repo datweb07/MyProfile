@@ -2,7 +2,7 @@
 
 import {useState, useTransition} from 'react';
 import {format} from 'date-fns';
-import {createClient} from '@/lib/supabase/client';
+import {sendEngagement} from '@/lib/engagement-client';
 import type {BlogComment} from '@/types/blog';
 
 function FacebookIcon() {
@@ -25,9 +25,12 @@ export default function BlogEngagement({postId, initialLikes, initialComments}: 
 
   function likePost() {
     startTransition(async () => {
-      const {data, error: likeError} = await createClient().rpc('increment_post_likes', {p_post_id: postId});
-      if (likeError) setError(likeError.message);
-      else setLikes(Number(data ?? likes + 1));
+      try {
+        const data = await sendEngagement({action: 'like-post', postId});
+        setLikes(Number(data ?? likes + 1));
+      } catch (likeError) {
+        setError(likeError instanceof Error ? likeError.message : 'Could not like article.');
+      }
     });
   }
 
@@ -49,24 +52,25 @@ export default function BlogEngagement({postId, initialLikes, initialComments}: 
     }
     setError('');
     startTransition(async () => {
-      const {data, error: commentError} = await createClient().rpc('create_post_comment', {p_post_id: postId, p_commenter_name: name, p_comment_content: content});
-      if (commentError) {
-        setError(commentError.message);
+      try {
+        const data = await sendEngagement({action: 'comment', postId, name, content});
+        setComments((current) => [data as BlogComment, ...current]);
+        (document.getElementById('blog-comment-form') as HTMLFormElement | null)?.reset();
+      } catch (commentError) {
+        setError(commentError instanceof Error ? commentError.message : 'Could not post comment.');
         return;
       }
-      setComments((current) => [data as BlogComment, ...current]);
-      (document.getElementById('blog-comment-form') as HTMLFormElement | null)?.reset();
     });
   }
 
   function likeComment(commentId: string) {
     startTransition(async () => {
-      const {data, error: likeError} = await createClient().rpc('increment_comment_likes', {p_comment_id: commentId});
-      if (likeError) {
-        setError(likeError.message);
-        return;
+      try {
+        const data = await sendEngagement({action: 'like-comment', commentId});
+        setComments((current) => current.map((comment) => comment.id === commentId ? {...comment, likes_count: Number(data)} : comment));
+      } catch (likeError) {
+        setError(likeError instanceof Error ? likeError.message : 'Could not like comment.');
       }
-      setComments((current) => current.map((comment) => comment.id === commentId ? {...comment, likes_count: Number(data)} : comment));
     });
   }
 

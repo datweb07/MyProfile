@@ -35,7 +35,7 @@ export default function PostsTable({posts}: {posts: PostCard[]}) {
           <tbody>
             {posts.map((post) => (
               <tr key={post.id}>
-                <td><TrackedPostLink postId={post.id} slug={post.slug} title="Open published article in a new tab">{post.title}</TrackedPostLink><small>/{post.slug}</small></td>
+                <td><TrackedPostLink postId={post.id} slug={post.slug} title="Open published article in a new tab" newTab>{post.title}</TrackedPostLink><small>/{post.slug}</small></td>
                 <td>{format(new Date(post.published_at), 'dd MMM yyyy, HH:mm')}</td>
                 <td><span className={`admin-status ${post.draft ? 'is-draft' : 'is-published'}`}>{post.draft ? 'Draft' : 'Published'}</span></td>
                 <td>
