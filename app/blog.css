@@ -106,7 +106,7 @@ body:has(.admin-login-page) {
 .blog-list-section {padding: 5rem 5vw 7rem;}
 .blog-section-heading {display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem;}
 .blog-section-heading h2 {font: 700 clamp(2rem, 4vw, 3.5rem)/1 var(--font-heading); letter-spacing: -.05em;}
-.blog-section-heading span {color: var(--blog-muted); font-weight: 600;}
+.blog-section-heading .blog-section-count {color: var(--blog-muted); font-weight: 600;}
 .blog-grid {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem;}
 
 .blog-card {
@@ -137,7 +137,12 @@ body:has(.admin-login-page) {
 .blog-pagination .is-disabled {pointer-events: none; opacity: .35;}
 
 .blog-article-layout {width: min(1280px, 92vw); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 780px) minmax(260px, 340px); justify-content: center; align-items: start; gap: clamp(3rem, 6vw, 6rem); padding: clamp(4rem, 8vw, 7rem) 0 8rem;}
-.portfolio-blog-main {min-height: calc(100vh - 180px);}
+.portfolio-blog-main {
+  min-height: 100vh;
+  margin-top: 0;
+  padding-top: 100px;
+  background: var(--bg-primary);
+}
 .portfolio-blog-article {background: var(--bg-primary); color: var(--text-primary);}
 .blog-article {width: 100%; min-width: 0; padding: 0;}
 .blog-article-header > a {color: inherit; font-weight: 700; text-underline-offset: 4px;}
@@ -186,12 +191,12 @@ body:has(.admin-login-page) {
 
 .latest-writing-mount {margin-top: clamp(4rem, 8vw, 7rem); scroll-margin-top: 110px;}
 .portfolio-writing-section {padding: 0 0 clamp(4rem, 8vw, 7rem); color: var(--text-primary);}
-.portfolio-writing-section .blog-section-heading h2 {--underline-color: var(--accent-color); font: 700 clamp(2.4rem, 5vw, 4rem)/1 var(--font-heading); margin-bottom: 0;}
+.portfolio-writing-section .blog-section-heading h2 {--underline-color: var(--accent-color); color: var(--text-primary); font: 700 clamp(2.4rem, 5vw, 4rem)/1 var(--font-heading); margin-bottom: 0;}
 .portfolio-writing-section .blog-card {background: var(--card-bg); color: var(--text-primary); border: var(--card-border); box-shadow: var(--card-shadow);}
 .portfolio-writing-section .blog-card:hover {box-shadow: 3px 3px 0 var(--brand-dark);}
 .portfolio-writing-section .blog-card p,
 .portfolio-writing-section .blog-card time,
-.portfolio-writing-section .blog-section-heading span {color: var(--text-secondary);}
+.portfolio-writing-section .blog-section-count {color: var(--text-secondary);}
 .portfolio-writing-section .blog-read-more {color: var(--text-primary);}
 .portfolio-writing-section .blog-empty {background: var(--card-bg); color: var(--text-primary); border-color: var(--text-primary);}
 

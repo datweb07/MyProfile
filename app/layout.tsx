@@ -1,29 +1,29 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
 import './blog.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-  title: 'Dat Truong — Backend AI Engineer',
+  title: 'Dat Truong Thanh',
   description: 'Portfolio of Dat Truong, an Information Technology student and Backend AI Engineering Intern.',
   icons: {
     icon: [
-      {url: '/pictures/favicon-32x32.png', sizes: '32x32', type: 'image/png'},
-      {url: '/pictures/favicon-16x16.png', sizes: '16x16', type: 'image/png'}
+      { url: '/pictures/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/pictures/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
     ],
     apple: '/pictures/apple-touch-icon.png'
   },
   manifest: '/pictures/site.webmanifest',
   openGraph: {
-    title: 'Dat Truong — Backend AI Engineer',
+    title: 'Dat Truong Thanh',
     description: 'Interactive portfolio, experience, education and projects of Dat Truong.',
     type: 'website',
-    images: [{url: '/pictures/img-main.png', alt: 'Dat Truong portrait'}]
+    images: [{ url: '/pictures/img-main.png', alt: 'Dat Truong portrait' }]
   },
-  twitter: {card: 'summary_large_image'}
+  twitter: { card: 'summary_large_image' }
 };
 
-export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

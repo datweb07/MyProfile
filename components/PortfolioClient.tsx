@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import type {ReactNode} from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {createBrowserClient} from '@supabase/ssr';
 import GlobalImageViewer from '@/components/ui/GlobalImageViewer';
 import LatestWritingSection from '@/components/blog/LatestWritingSection';
+import PortfolioMotion from '@/components/PortfolioMotion';
 import type {PostCard as PostCardData} from '@/types/blog';
 
 type Messages = Record<string, unknown>;
@@ -41,12 +42,18 @@ export default function PortfolioClient({
   postCount: number;
   articleContent?: ReactNode;
 }) {
+  const portfolioRootRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
-      <div className="portfolio-app" dangerouslySetInnerHTML={{__html: html}} />
+      <div ref={portfolioRootRef} className="portfolio-app" dangerouslySetInnerHTML={{__html: html}} />
       <ProfileImagePortal html={html} />
       <LatestWritingPortal posts={posts} count={postCount} locale={locale} />
       <ArticlePortal content={articleContent} />
+      <PortfolioMotion
+        rootRef={portfolioRootRef}
+        contentKey={`${locale}:${articleContent ? 'article' : 'portfolio'}:${posts.length}`}
+      />
       <PortfolioRuntime locale={locale} messages={messages} layoutMode={articleContent ? 'article' : 'portfolio'} />
       <GlobalImageViewer />
     </>

@@ -16,7 +16,7 @@ export default function LatestWritingSection({
     <section className="portfolio-writing-section" aria-labelledby="blog-section-title">
       <div className="blog-section-heading">
         <h2 id="blog-section-title" className="section-title"><span className="chonky_underline">Blog</span></h2>
-        <span>{count} {isVietnamese ? 'bài viết' : count === 1 ? 'article' : 'articles'}</span>
+        <span className="blog-section-count">{count} {isVietnamese ? 'bài viết' : count === 1 ? 'article' : 'articles'}</span>
       </div>
       {posts.length ? (
         <div className="blog-grid">{posts.map((post) => <PostCard key={post.id} post={post} />)}</div>

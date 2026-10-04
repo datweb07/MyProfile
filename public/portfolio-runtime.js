@@ -140,23 +140,24 @@ function toggleLanguage() {
   window.location.assign(getSectionPath(getRouteSection() || 'home', nextLanguage));
 }
 
-const cursorDot = document.getElementById('cursorDot');
-const cursorOutline = document.getElementById('cursorOutline');
+document.addEventListener('mousemove', (e) => {
+  // Next.js replaces the legacy portfolio markup during client navigation.
+  // Resolve the current cursor nodes instead of retaining stale Home nodes.
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorOutline = document.getElementById('cursorOutline');
+  if (!cursorDot || !cursorOutline) return;
 
-if (cursorDot && cursorOutline) {
-  document.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
+  const posX = e.clientX;
+  const posY = e.clientY;
 
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
+  cursorDot.style.left = `${posX}px`;
+  cursorDot.style.top = `${posY}px`;
 
-    cursorOutline.animate(
-      [{ left: `${posX}px`, top: `${posY}px` }],
-      { duration: 500, fill: 'forwards' }
-    );
-  });
-}
+  cursorOutline.animate(
+    [{ left: `${posX}px`, top: `${posY}px` }],
+    { duration: 500, fill: 'forwards' }
+  );
+});
 
 
 function toggleDarkMode() {
@@ -246,21 +247,6 @@ function scrollToTop() {
 
 
 function triggerScrollAnimation() {
-  const reveals = document.querySelectorAll('.reveal');
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
-  );
-
-  reveals.forEach((el) => observer.observe(el));
-
   const statNumbers = document.querySelectorAll('.stat-number[data-target]');
   const counterObserver = new IntersectionObserver(
     (entries) => {
