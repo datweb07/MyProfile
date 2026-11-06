@@ -36,6 +36,14 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp']
   },
   poweredByHeader: false,
+  async rewrites() {
+    return [
+      {
+        source: '/quiz',
+        destination: '/quiz/quiz.html'
+      }
+    ];
+  },
   async headers() {
     return [
       {
