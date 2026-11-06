@@ -41,6 +41,18 @@ const nextConfig: NextConfig = {
       {
         source: '/quiz',
         destination: '/quiz/quiz.html'
+      },
+      {
+        source: '/quiz-2',
+        destination: '/quiz/quiz-2.html'
+      },
+      {
+        source: '/quiz-3',
+        destination: '/quiz/quiz-3.html'
+      },
+      {
+        source: '/quiz-4',
+        destination: '/quiz/quiz-4.html'
       }
     ];
   },
