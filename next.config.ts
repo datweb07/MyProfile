@@ -1,13 +1,13 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 const securityHeaders = [
-  {key: 'X-Content-Type-Options', value: 'nosniff'},
-  {key: 'X-Frame-Options', value: 'DENY'},
-  {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
-  {key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()'},
-  {key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups'},
-  {key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload'},
-  {key: 'X-DNS-Prefetch-Control', value: 'off'}
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()' },
+  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'X-DNS-Prefetch-Control', value: 'off' }
 ];
 
 const contentSecurityPolicy = [
@@ -53,6 +53,10 @@ const nextConfig: NextConfig = {
       {
         source: '/quiz-4',
         destination: '/quiz/quiz-4.html'
+      },
+      {
+        source: '/quiz-5',
+        destination: '/quiz/quiz-5.html'
       }
     ];
   },
@@ -62,12 +66,12 @@ const nextConfig: NextConfig = {
         source: '/:path*',
         headers: [
           ...securityHeaders,
-          ...(process.env.NODE_ENV === 'production' ? [{key: 'Content-Security-Policy', value: contentSecurityPolicy}] : [])
+          ...(process.env.NODE_ENV === 'production' ? [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }] : [])
         ]
       },
       {
         source: '/admin/:path*',
-        headers: [{key: 'Cache-Control', value: 'private, no-store, max-age=0'}]
+        headers: [{ key: 'Cache-Control', value: 'private, no-store, max-age=0' }]
       }
     ];
   }
